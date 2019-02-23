@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 class UsersContainer extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class UsersContainer extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/api/v1/users.json')
+    axios.get('http://localhost:3000/api/v1/users.json')
     .then(response => {
       console.log(response)
       this.setState({users: response.data})
@@ -24,7 +25,7 @@ class UsersContainer extends Component {
         {this.state.users.map((user) => {
                 return(
                   <div className="user" key={user.id} >
-                    <h4>{user.id}</h4>
+                    <h4>{user.name}</h4>
                     <p>{user.email}</p>
                   </div>
                 )
