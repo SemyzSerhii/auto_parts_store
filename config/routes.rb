@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :users, only: %i[create update show]
+      resource :sessions, only: :create
     end
   end
 end
