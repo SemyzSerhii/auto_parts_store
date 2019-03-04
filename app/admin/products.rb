@@ -12,12 +12,27 @@ ActiveAdmin.register Product do
     actions
   end
 
+  show do
+    attributes_table do
+      row :id
+      row :mark
+      row :model
+      row :price
+      row :short_description
+      row :full_description
+      row :in_stock
+      row :created_at
+      row :updated_at
+    end
+  end
+
   form do |f|
     f.inputs 'Product Details' do
       f.input :mark
       f.input :model
       f.input :price
       f.input :short_description
+      f.input :full_description
       f.input :in_stock
     end
     f.actions
