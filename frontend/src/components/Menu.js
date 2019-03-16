@@ -27,21 +27,18 @@ class Menu extends Component {
 
     render() {
         return (
-            <div>
-                {(() => {
-
-                    return <div className='nav'>
-                        {this.state.pages.map((product) => {
-                            return(
-                                <div className="nav-link" key={product.id} >
-                                    <p>{product.title}</p>
-                                </div>
-                            )
-                        })}
-                    </div>
-
-                })()}
-            </div>
+                <nav>
+                    <a className='nav-link' href='/'>Home</a>
+                    {this.state.pages.map((page) => {
+                        return (
+                            <a
+                                className='nav-link'
+                                key={page.id}
+                                href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
+                            >{page.title}</a>
+                        )
+                    })}
+                </nav>
         )
     }
 }
