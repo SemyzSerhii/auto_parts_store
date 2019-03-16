@@ -42,6 +42,7 @@ module AutoPartsStore
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::Flash
+    config.middleware.use Rack::MethodOverride
 
   end
 end
