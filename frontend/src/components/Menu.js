@@ -27,7 +27,7 @@ class Menu extends Component {
 
     render() {
         return (
-                <nav>
+                <nav className='nav'>
                     <a className='nav-link' href='/'>Home</a>
                     {this.state.pages.map((page) => {
                         return (

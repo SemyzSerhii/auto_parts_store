@@ -107,52 +107,61 @@ class FormUser extends Component {
     render() {
         return (
             <div>
-                <h2>User form</h2>
                 <form className='user-form'>
-                    <input
-                        className='required form-control'
-                        name='name'
-                        type='text'
-                        placeholder='Name'
-                        value={this.state.user.name}
-                        onChange={this.dataChange}
-                    />
-                    <div className='error-notification'>
-                        {this.state.errors.name}
+                    <div className='form-group'>
+                        <input
+                            className='required form-control'
+                            name='name'
+                            type='text'
+                            placeholder='Name'
+                            value={this.state.user.name}
+                            onChange={this.dataChange}
+                        />
+                        <div className='text-danger'>
+                            {this.state.errors.name}
+                        </div>
                     </div>
-                    <input
-                        name='email'
-                        placeholder='Email'
-                        value={this.state.user.email}
-                        onChange={this.dataChange}
-                    />
-                    <div className='error-notification'>
-                        {this.state.errors.email}
-                    </div>
-
-                    <input
-                        name='password'
-                        placeholder='Password'
-                        value={this.state.user.password}
-                        onChange={this.dataChange}
-                    />
-                    <div className='error-notification'>
-                        {this.state.errors.password}
+                    <div className='form-group'>
+                        <input
+                            className='required form-control'
+                            name='email'
+                            placeholder='Email'
+                            value={this.state.user.email}
+                            onChange={this.dataChange}
+                        />
+                        <div className='text-danger'>
+                            {this.state.errors.email}
+                        </div>
                     </div>
 
-                    <input
-                        className='btn btn-primary'
-                        type='submit'
-                        value='Save'
-                        onClick={this.handleSubmit}
-                    />
-                    <div className='form-user-success'>
-                        {this.state.success ?
-                            (this.state.edit ?
-                                'User edited!' :
-                                'User created!') :
-                            ''
-                        }
+                    <div className='form-group'>
+                        <input
+                            className='required form-control'
+                            name='password'
+                            placeholder='Password'
+                            value={this.state.user.password}
+                            onChange={this.dataChange}
+                        />
+                        <div className='text-danger'>
+                            {this.state.errors.password}
+                        </div>
+                    </div>
+
+                    <div className='form-group text-center'>
+                        <input
+                            className='btn btn-primary'
+                            type='submit'
+                            value='Save'
+                            onClick={this.handleSubmit}
+                        />
+                        <div className='text-success'>
+                            {this.state.success ?
+                                (this.state.edit ?
+                                    'User edited!' :
+                                    'User created!') :
+                                ''
+                            }
+                        </div>
                     </div>
                 </form>
             </div>
