@@ -1,4 +1,4 @@
-class Api::V1::UsersController < ApplicationController
+class API::V1::UsersController < ApplicationController
   before_action :authenticate_request!, only: %i[show update]
   before_action :set_user, only: %i[update show]
 
