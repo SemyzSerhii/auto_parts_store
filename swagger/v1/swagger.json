@@ -28,29 +28,25 @@
                 "email": {
                   "type": "string"
                 },
-                "password_digest": {
+                "password": {
                   "type": "string"
                 }
               },
               "required": [
                 "name",
-                "email",
-                "password"
+                "email"
               ]
             }
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "user created"
-          },
-          "422": {
-            "description": "invalid request"
           }
         }
       }
     },
-    "/api/v1/users/{id}": {
+    "/admin/users/{id}": {
       "get": {
         "summary": "Retrieves user",
         "tags": [
