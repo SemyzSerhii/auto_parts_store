@@ -7,11 +7,11 @@ import NotFound from './NotFound'
 import PageUpload from './PageUpload'
 
 
-class Page extends Component {
+class Product extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            page: {},
+            product: {},
             //for check response data
             responseStatus: ''
         }
@@ -19,11 +19,11 @@ class Page extends Component {
 
 
     componentDidMount() {
-        API.get(`pages/${this.props.match.params.id}`)
+        API.get(`products/${this.props.match.params.id}`)
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        page: response.data,
+                        product: response.data,
                         responseStatus: 'true'
                     })
                 } else {
@@ -45,10 +45,12 @@ class Page extends Component {
                 {(() => {
                     switch (this.state.responseStatus) {
                         case 'true':
-                            return <div className='page'>
-                                        <h1>{this.state.page.title}</h1>
-                                        <p>{Parser(this.state.page.body)}</p>
-                                    </div>
+                            return <div className='product'>
+                                <h1>{this.state.product.model}</h1>
+                                <p>{this.state.product.mark}</p>
+                                <p>{this.state.product.price}</p>
+                                <p>{Parser(this.state.product.full_description)}</p>
+                            </div>
                         case 'null':
                             return <NotFound/>
                         default:
@@ -60,4 +62,4 @@ class Page extends Component {
     }
 }
 
-export default withRouter(Page)
+export default withRouter(Product)

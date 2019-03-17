@@ -24,7 +24,10 @@ class ProductsList extends Component {
                 {this.state.products.map((product) => {
                     return(
                         <div className="product" key={product.id} >
-                            <p>{product.model}</p>
+                            <h3>{product.model}</h3>
+                            <p>{product.mark}</p>
+                            <p>{product.price}</p>
+                            <p>{product.short_description}</p>
                         </div>
                     )
                 })}
