@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :mark, :model, :price, :short_description, :full_description, :in_stock
+  permit_params :mark, :model, :price, :short_description, :full_description, :in_stock, :image
 
   index do
     selectable_column
@@ -23,6 +23,7 @@ ActiveAdmin.register Product do
       row :in_stock
       row :created_at
       row :updated_at
+      row :image
     end
   end
 
@@ -34,8 +35,12 @@ ActiveAdmin.register Product do
       f.input :short_description
       f.input :full_description
       f.input :in_stock
+      f.inputs "Image", :multipart => true do
+        f.input :image, :as => :file, :hint => f.object.image.present? \
+    ? image_tag(f.object.image)
+          : content_tag(:span, "no cover page yet")
+      end
     end
     f.actions
   end
-
 end
