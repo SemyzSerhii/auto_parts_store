@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :mark, :model, :price, :short_description, :full_description, :in_stock, :image
+  permit_params :mark, :model, :price, :short_description, :full_description, :in_stock, :image, :company, :rating, :name
 
   scope :all
   scope :publish
@@ -28,10 +28,16 @@ ActiveAdmin.register Product do
   index do
     selectable_column
     id_column
+    column :name, sortable: :name do |product|
+      link_to product.name, admin_product_path(product)
+    end
     column :mark
+    column :company
     column :model
     column :price
-    column :short_description
+    column :short_description do |product|
+        product.short_description.html_safe
+  end
     column :in_stock
     actions
   end
@@ -39,10 +45,15 @@ ActiveAdmin.register Product do
   show do
     attributes_table do
       row :id
+      row :name
+      row :rating
+      row :company
       row :mark
       row :model
       row :price
-      row :short_description
+      row :short_description do |product|
+        product.short_description.html_safe
+      end
       row :full_description do |product|
         product.full_description.html_safe
       end
@@ -55,16 +66,16 @@ ActiveAdmin.register Product do
 
   form do |f|
     f.inputs 'Product Details' do
+      f.input :name
+      f.input :company
       f.input :mark
       f.input :model
       f.input :price
-      f.input :short_description
+      f.input :short_description, as: :trix_editor
       f.input :full_description, as: :trix_editor
       f.input :in_stock
-      f.inputs "Image", :multipart => true do
-        f.input :image, :as => :file, :hint => f.object.image.present? \
-    ? image_tag(f.object.image)
-          : content_tag(:span, "no cover page yet")
+      f.inputs "Image", multipart: true do
+        f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image) : content_tag(:span, "no cover page yet")
       end
     end
     f.actions
