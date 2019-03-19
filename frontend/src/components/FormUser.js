@@ -80,10 +80,15 @@ class FormUser extends Component {
                     email: user.email,
                     password: user.password
                 })
+                    .then(response => {
+                        if(response.status == '201') {
+                            this.state.success = true
+                        }
+                    })
                     .catch(function (error) {
                         console.log(error)
                     })
-                this.state.success = true
+
             } else {
                 API.put(`/users/${this.state.user._id}`,
                     {

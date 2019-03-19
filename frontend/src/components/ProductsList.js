@@ -11,13 +11,14 @@ class ProductsList extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         API.get('/products')
             .then(response => {
                 console.log(response)
                 this.setState({products: response.data})
             })
             .catch(error => console.log(error))
+
     }
 
     render() {
@@ -28,7 +29,7 @@ class ProductsList extends Component {
                         <div className="col-md-3 col-sm-6" key={product.id}>
                             <div className="product">
                                 <div className="product-image">
-                                    <a href={`/products/${product.id}`}>
+                                    <a className='img-link' href={`/products/${product.id}`}>
                                         <img
                                             // check if image not -> visible standard image
                                             className={product.image ? '' : 'no-image'}
@@ -62,8 +63,11 @@ class ProductsList extends Component {
                                     >{product.name} {product.model} {product.mark ? ` / ${product.mark}` : ''}
                                     </a>
 
-                                    <div>Ціна: {product.price}</div>
-                                    <div>{product.company ? `Виробник: ${product.company}` : ''}</div>
+                                    <p>Ціна: {product.price}</p>
+                                    <ul className="rating"
+                                        data-index={product.rating ? product.rating.round(0) : 0 }>
+                                    </ul>
+                                    <p>{product.company ? `Виробник: ${product.company}` : ''}</p>
                                     <div className='short-description'>{Parser(product.short_description)}</div>
                                 </div>
                             </div>

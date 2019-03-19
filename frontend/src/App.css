@@ -46,14 +46,22 @@
   overflow: hidden;
   position: relative;
   width: 100%;
-  min-height: 250px;
+  height: 250px;
   background-color: #ccc;
+  display: block;
+  font-size: 0;
+}
+
+.product .product-image .img-link {
+  display: flex;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
 }
 
 .product .product-image img {
   height: 250px;
   width: auto;
-  vertical-align: middle;
   object-fit: cover;
   transition: all .5s ease 0s;
 }
@@ -62,10 +70,7 @@
 .product .product-image .no-image {
   height: auto;
   width: auto;
-  position: center;
-  vertical-align: middle;
   object-fit: none;
-  transition: all .5s ease 0s;
 }
 
 .product:hover .product-image img {
@@ -179,6 +184,10 @@
   text-align: center;
 }
 
+.product .product-content p {
+  margin-bottom: 0;
+}
+
 .product .title {
   font-size: 17px;
   margin: 0 0 7px
@@ -198,11 +207,10 @@
 }
 
 .product .short-description div {
+  margin-top: 10px;
   color: #000;
   font-size: 12px;
   line-height: 1.1em;
-  display: block;
-  display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
