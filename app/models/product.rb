@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  mount_uploader :image, PictureUploader
 
   scope :publish, -> { where(in_stock: true) }
   scope :unpublish, -> { where(in_stock: false) }

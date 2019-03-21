@@ -3,23 +3,12 @@ class PictureUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
   #
-  CarrierWave.configure do |config|
-    config.dropbox_access_token = Rails.application.secrets[:dropbox_access_token]
-  end
-
   # Choose what kind of storage to use for this uploader:
-  storage :dropbox
-  # storage :fog
+  storage :fog
+
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
-  def filename
-    if original_filename
-      # Perform any file name manipulation on initial upload
-    elsif file
-      file.filename
-    end
-  end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url(*args)
