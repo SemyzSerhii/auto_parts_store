@@ -15,7 +15,6 @@ class ProductsList extends Component {
     componentWillMount() {
         API.get('/products')
             .then(response => {
-                console.log(response)
                 this.setState({products: response.data})
             })
             .catch(error => console.log(error))

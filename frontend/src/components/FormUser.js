@@ -80,14 +80,18 @@ class FormUser extends Component {
                     email: user.email,
                     password: user.password
                 })
-                    .then(response => {
-                        if(response.status == '201') {
-                            this.state.success = true
-                        }
-                    })
                     .catch(function (error) {
                         console.log(error)
                     })
+                // resetting data
+                this.setState({
+                    user: {
+                        name: '',
+                        email: '',
+                        password: ''
+                    },
+                    success: true
+                })
 
             } else {
                 API.put(`/users/${this.state.user._id}`,
@@ -102,9 +106,9 @@ class FormUser extends Component {
                         name: user.name,
                         email: user.email,
                         password: user.password
-                    }
+                    },
+                    success: true
                 })
-                this.state.success = true
             }
         }
     }

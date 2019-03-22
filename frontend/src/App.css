@@ -236,7 +236,6 @@
   }
 }
 
-
 /* Product */
 .product h1 {
   margin-bottom: 20px;
@@ -281,4 +280,26 @@
 
 .product .buy {
   margin-right: 10px;
+}
+
+/* modal */
+.ReactModalPortal > div {
+  z-index: 10;
+}
+
+.ReactModalPortal > div > div {
+  padding: 30px;
+}
+
+.modal-header .close {
+  padding: 0 !important;
+  font-size: 30px;
+}
+
+button.close:focus {
+  outline: none;
+}
+
+.text-success {
+  margin-top: 10px;
 }
