@@ -40,7 +40,7 @@ class Registration extends Component {
         return (
             <div>
                 <button className='nav-link btn btn-link' onClick={this.openModal}>
-                    <i className="fa fa-user-o" aria-hidden="true"></i> Registration
+                    <i className="fa fa-user-o" aria-hidden="true"></i> Реєстрація
                 </button>
 
                 <Modal
@@ -50,7 +50,7 @@ class Registration extends Component {
                     contentLabel="Registration"
                 >
                     <div className="modal-header">
-                        <h2 className="modal-title">Registration</h2>
+                        <h2 className="modal-title">Зареєструватися</h2>
                         <button type="button" className="close"
                                 data-dismiss="modal" aria-label="Close"
                                 onClick={this.closeModal}>

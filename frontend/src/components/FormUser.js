@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { BrowserRouter, withRouter } from 'react-router-dom'
+import classNames from 'classnames/bind'
+import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
 import API from '../api'
+import Login from './Login'
 
 class FormUser extends Component {
     constructor(props) {
@@ -14,9 +17,9 @@ class FormUser extends Component {
                 _id: ''
             },
             errors: {
-                name: '',
-                email: '',
-                password: ''
+                name: false,
+                email: false,
+                password: false
             },
             edit: false,
             success: false
@@ -34,7 +37,6 @@ class FormUser extends Component {
         })
     }
 
-
     handleSubmit(event) {
         event.preventDefault()
         this.setState({
@@ -46,31 +48,29 @@ class FormUser extends Component {
             },
             success: false
         })
+
         // check if 'name' is empty write error
         if (!this.state.user.name) {
-            this.state.errors.name = 'Name is required'
+            this.state.errors.name = true
         } else {
-            this.state.errors.name = ''
+            this.state.errors.name = false
         }
-        // check if 'email' is empty write error
         if (!this.state.user.email) {
-            this.state.errors.email = 'Email is required'
+            this.state.errors.email = true
         } else {
-            this.state.errors.email = ''
+            this.state.errors.email = false
         }
-
-        // check if 'email' is empty write error
         if (!this.state.user.password) {
-            this.state.errors.password = 'Password is required'
+            this.state.errors.password = true
         } else {
-            this.state.errors.password = ''
+            this.state.errors.password = false
         }
-
+        console.log (this.state.errors.name)
         const user = this.state.user
         // check errors exist
         if (this.state.errors.name ||
             this.state.errors.email ||
-            this.state.errors.password) {
+            this.state.errors.password){
             this.state.success = false
         } else {
             // check add or edit user
@@ -81,18 +81,31 @@ class FormUser extends Component {
                     password: user.password
                 })
                     .catch(function (error) {
-                        console.log(error)
+                        if (error.response.data.name.length > 0) {
+                            this.state.errors.name = true
+                        }
+                        if (error.response.data.email.length > 0) {
+                            this.state.errors.email = true
+                        }
+                        if (error.response.data.password.length > 0) {
+                            this.state.errors.password = true
+                        }
                     })
                 // resetting data
-                this.setState({
-                    user: {
-                        name: '',
-                        email: '',
-                        password: ''
-                    },
-                    success: true
-                })
-
+                if (this.state.errors.name ||
+                    this.state.errors.email ||
+                    this.state.errors.password) {
+                    this.state.success = false
+                } else {
+                    this.setState({
+                        user: {
+                            name: '',
+                            email: '',
+                            password: ''
+                        },
+                        success: true
+                    })
+                }
             } else {
                 API.put(`/users/${this.state.user._id}`,
                     {
@@ -119,55 +132,50 @@ class FormUser extends Component {
                 <form className='user-form'>
                     <div className='form-group'>
                         <input
-                            className='required form-control'
+                            className={classNames('form-control', `${this.state.errors.name ? 'error' : ''}`)}
                             name='name'
                             type='text'
                             placeholder='Name'
                             value={this.state.user.name}
                             onChange={this.dataChange}
                         />
-                        <div className='text-danger'>
-                            {this.state.errors.name}
-                        </div>
                     </div>
                     <div className='form-group'>
                         <input
-                            className='required form-control'
+                            className={classNames('form-control', `${this.state.errors.email ? 'error' : ''}`)}
                             name='email'
                             placeholder='Email'
                             value={this.state.user.email}
                             onChange={this.dataChange}
                         />
-                        <div className='text-danger'>
-                            {this.state.errors.email}
-                        </div>
                     </div>
 
-                    <div className='form-group'>
-                        <input
-                            className='required form-control'
-                            name='password'
-                            placeholder='Password'
+                    <div className='form-group password'>
+                        <PasswordMask
+                            id="password"
+                            name="password"
+                            className='input-group'
+                            inputClassName={classNames('form-control',
+                                `${this.state.errors.password ? 'error' : ''}`)}
+                            buttonClassName="btn btn-outline-primary"
+                            placeholder="Enter password"
                             value={this.state.user.password}
                             onChange={this.dataChange}
                         />
-                        <div className='text-danger'>
-                            {this.state.errors.password}
-                        </div>
                     </div>
 
                     <div className='form-group text-center'>
                         <input
                             className='btn btn-primary'
                             type='submit'
-                            value='Save'
+                            value='Реєстрація'
                             onClick={this.handleSubmit}
                         />
                         <div className='text-success'>
                             {this.state.success ?
                                 (this.state.edit ?
-                                    'User edited!' :
-                                    'User created!') :
+                                    'Дані змінено!' :
+                                    (<p>'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!</p>)) :
                                 ''
                             }
                         </div>

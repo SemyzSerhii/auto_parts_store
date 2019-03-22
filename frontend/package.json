@@ -17,6 +17,7 @@
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.8.2",
     "react-modal": "^3.8.1",
+    "react-password-mask": "^3.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8"
   },

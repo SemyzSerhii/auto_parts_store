@@ -361,3 +361,19 @@ button.close:focus {
 .text-success {
     margin-top: 10px;
 }
+
+/* Form */
+.password .input-group > .form-control:focus {
+    z-index: 0;
+}
+
+.password .btn-outline-primary {
+    border-color: #cccccc;
+    padding: 6px 10px !important;
+    margin-top: -19px !important;
+    right: 0 !important;
+}
+
+.user-form .error {
+    border-color: red;
+}

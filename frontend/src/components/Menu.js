@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import API from '../api'
 import { BrowserRouter } from 'react-router-dom'
 import Registration from './Registration'
+import Login from './Login'
 
 class Menu extends Component {
     constructor(props) {
@@ -45,6 +46,9 @@ class Menu extends Component {
                 <div className='nav-user'>
                     <BrowserRouter>
                         <Registration/>
+                    </BrowserRouter>
+                    <BrowserRouter>
+                        <Login/>
                     </BrowserRouter>
                 </div>
             </div>
