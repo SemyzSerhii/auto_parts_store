@@ -35,6 +35,7 @@ ActiveAdmin.register Product do
       f.input :short_description
       f.input :full_description
       f.input :in_stock
+      f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image) : content_tag(:span, 'no cover page yet')
     end
     f.actions
   end
