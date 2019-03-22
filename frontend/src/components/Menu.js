@@ -9,7 +9,7 @@ class Menu extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         API.get('pages')
             .then(function (response) {
                 if(response.data) {

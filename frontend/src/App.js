@@ -31,7 +31,7 @@ class App extends Component {
                 </div>
                 <div className='footer'>Copyright &#169; GeekHub 2019</div>
             </div>
-    );
+        )
     }
 }
 

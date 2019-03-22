@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classNames from 'classnames/bind'
 import API from '../api'
 import Parser from 'html-react-parser'
 import noPhoto from '../images/no_picture.gif'
@@ -25,6 +26,7 @@ class ProductsList extends Component {
         return (
             <div className="products row">
                 {this.state.products.map((product) => {
+                    var rating = Math.round(product.rating)
                     return(
                         <div className="col-md-3 col-sm-6" key={product.id}>
                             <div className="product">
@@ -64,8 +66,14 @@ class ProductsList extends Component {
                                     </a>
 
                                     <p>Ціна: {product.price}</p>
+
                                     <ul className="rating"
-                                        data-index={product.rating ? product.rating.round(0) : 0 }>
+                                        data-index={product.rating ? rating : 0 }>
+                                        <li className={classNames('fa','fa-star', `${rating === 0 ? 'disable' : ''}`)}></li>
+                                        <li className={classNames('fa','fa-star', `${rating <= 1 ? 'disable' : ''}`)}></li>
+                                        <li className={classNames('fa','fa-star', `${rating <= 2 ?' disable' : ''}`)}></li>
+                                        <li className={classNames('fa','fa-star', `${rating <= 3 ? 'disable' : ''}`)}></li>
+                                        <li className={classNames('fa','fa-star', `${rating <= 4 ? 'disable' : ''}`)}></li>
                                     </ul>
                                     <p>{product.company ? `Виробник: ${product.company}` : ''}</p>
                                     <div className='short-description'>{Parser(product.short_description)}</div>

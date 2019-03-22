@@ -18,7 +18,7 @@ class Page extends Component {
     }
 
 
-    componentDidMount() {
+    componentWillMount() {
         API.get(`pages/${this.props.match.params.id}`)
             .then(function (response) {
                 if(response.data) {
