@@ -23,7 +23,9 @@ ActiveAdmin.register Product do
       row :in_stock
       row :created_at
       row :updated_at
-      row :image
+      row :image do |instance|
+        image_tag instance.image.url
+      end
     end
   end
 
