@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import API from '../api'
+import { BrowserRouter } from 'react-router-dom'
+import Registration from './Registration'
 
 class Menu extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class Menu extends Component {
 
     render() {
         return (
+            <div className='menu'>
                 <nav className='nav'>
                     <a className='nav-link' href='/'>Home</a>
                     {this.state.pages.map((page) => {
@@ -39,6 +42,12 @@ class Menu extends Component {
                         )
                     })}
                 </nav>
+                <div className='nav-user'>
+                    <BrowserRouter>
+                        <Registration/>
+                    </BrowserRouter>
+                </div>
+            </div>
         )
     }
 }

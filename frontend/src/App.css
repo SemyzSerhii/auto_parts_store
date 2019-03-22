@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+/* Header */
 .header {
   height: 115px;
   padding-top: 20px;
@@ -14,8 +15,17 @@
   color: white;
 }
 
+.menu {
+  display: flex;
+}
+
+.nav-user {
+  margin-left: 100px;
+}
+
 .nav a {
   color: white;
+  font-size: 16px;
 }
 
 .container {
@@ -244,7 +254,7 @@
 .product-data {
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .product-data .product-img {

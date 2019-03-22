@@ -16,7 +16,6 @@ class App extends Component {
         return (
             <div className="App">
                 <div className="header">
-                    <h1>Auto Parts Store</h1>
                     <Menu/>
                 </div>
                 <div className='container'>
