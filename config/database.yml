@@ -15,4 +15,3 @@ test:
   database: auto_parts_store_test
 production:
   <<: *default
-
