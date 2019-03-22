@@ -61,7 +61,7 @@ class Product extends Component {
                                         <img
                                             // check if image not -> visible standard image
                                             className={this.state.product.image ? '' : 'no-image'}
-                                            src={this.state.product.image ? this.state.product.image : noPhoto}
+                                            src={this.state.product.image ? this.state.product.image.url : noPhoto}
                                             alt={this.state.product.name}
                                         />
                                     </div>

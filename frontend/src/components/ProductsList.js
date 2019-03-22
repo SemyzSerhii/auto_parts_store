@@ -34,7 +34,7 @@ class ProductsList extends Component {
                                         <img
                                             // check if image not -> visible standard image
                                             className={product.image ? '' : 'no-image'}
-                                            src={product.image ? product.image : noPhoto}
+                                            src={product.image ? product.image.url : noPhoto}
                                             alt={product.name}
                                         />
                                     </a>
