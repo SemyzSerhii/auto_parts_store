@@ -60,7 +60,9 @@ ActiveAdmin.register Product do
       row :in_stock
       row :created_at
       row :updated_at
-      row :image
+      row :image do |instance|
+        image_tag instance.image.url
+      end
     end
   end
 
@@ -74,9 +76,7 @@ ActiveAdmin.register Product do
       f.input :short_description, as: :trix_editor
       f.input :full_description, as: :trix_editor
       f.input :in_stock
-      f.inputs "Image", multipart: true do
-        f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image) : content_tag(:span, "no cover page yet")
-      end
+      f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image.url) : content_tag(:span, 'no cover page yet')
     end
     f.actions
   end
