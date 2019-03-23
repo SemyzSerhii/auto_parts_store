@@ -4,7 +4,6 @@ import classNames from 'classnames/bind'
 import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
 import API from '../api'
-import Login from './Login'
 
 class FormUser extends Component {
     constructor(props) {
@@ -27,6 +26,9 @@ class FormUser extends Component {
 
         this.dataChange = this.dataChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.createUser = this.createUser.bind(this)
+        this.editUser = this.editUser.bind(this)
+        this.resetData = this.resetData.bind(this)
     }
 
     dataChange({target: {value, name}}) {
@@ -65,7 +67,6 @@ class FormUser extends Component {
         } else {
             this.state.errors.password = false
         }
-        console.log (this.state.errors.name)
         const user = this.state.user
         // check errors exist
         if (this.state.errors.name ||
@@ -75,54 +76,66 @@ class FormUser extends Component {
         } else {
             // check add or edit user
             if (!this.state.edit) {
-                API.post('/users', {
-                    name: user.name,
-                    email: user.email,
-                    password: user.password
-                })
-                    .catch(function (error) {
-                        if (error.response.data.name.length > 0) {
-                            this.state.errors.name = true
-                        }
-                        if (error.response.data.email.length > 0) {
-                            this.state.errors.email = true
-                        }
-                        if (error.response.data.password.length > 0) {
-                            this.state.errors.password = true
-                        }
-                    })
-                // resetting data
-                if (this.state.errors.name ||
-                    this.state.errors.email ||
-                    this.state.errors.password) {
-                    this.state.success = false
-                } else {
-                    this.setState({
-                        user: {
-                            name: '',
-                            email: '',
-                            password: ''
-                        },
-                        success: true
-                    })
-                }
+                this.createUser(user)
             } else {
-                API.put(`/users/${this.state.user._id}`,
-                    {
-                        name: user.name,
-                        email: user.email,
-                        password: user.password
-                    })
-                    .catch(errors => console.log(errors))
-                this.setState({
-                    user: {
-                        name: user.name,
-                        email: user.email,
-                        password: user.password
-                    },
-                    success: true
-                })
+                this.editUser(user)
             }
+            this.resetData()
+        }
+    }
+
+    createUser (user) {
+        API.post('/users', {
+            name: user.name,
+            email: user.email,
+            password: user.password
+        })
+            .catch(function (error) {
+                this.state.success = false
+                if (error.response.data.name.length > 0) {
+                    this.state.errors.name = true
+                }
+                if (error.response.data.email.length > 0) {
+                    this.state.errors.email = true
+                }
+                if (error.response.data.password.length > 0) {
+                    this.state.errors.password = true
+                }
+            })
+    }
+
+    editUser(user) {
+        API.put(`/users/${this.state.user._id}`,
+            {
+                name: user.name,
+                email: user.email,
+                password: user.password
+            })
+            .catch(errors => console.log(errors))
+        this.setState({
+            user: {
+                name: user.name,
+                email: user.email,
+                password: user.password
+            },
+            success: true
+        })
+    }
+
+    resetData() {
+        if (this.state.errors.name ||
+            this.state.errors.email ||
+            this.state.errors.password) {
+            this.state.success = false
+        } else {
+            this.setState({
+                user: {
+                    name: '',
+                    email: '',
+                    password: ''
+                },
+                success: true
+            })
         }
     }
 
@@ -175,7 +188,7 @@ class FormUser extends Component {
                             {this.state.success ?
                                 (this.state.edit ?
                                     'Дані змінено!' :
-                                    (<p>'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!</p>)) :
+                                    'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!') :
                                 ''
                             }
                         </div>

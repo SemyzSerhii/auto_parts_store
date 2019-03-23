@@ -9,7 +9,7 @@ class ProductsList extends Component {
         super(props)
         this.state = {
             products: [],
-            size: 6,
+            size: 12,
             page: 1,
             currPage: null
         }
@@ -85,9 +85,9 @@ class ProductsList extends Component {
                 <div className="form-group">
                     <label htmlFor="size">Кількість: </label>
                     <select className="form-control" name="size" id="size" onChange={this.handleChange}>
-                        <option value="6">6</option>
                         <option value="12">12</option>
-                        <option value="25">25</option>
+                        <option value="28">28</option>
+                        <option value="40">40</option>
                     </select>
                 </div>
 

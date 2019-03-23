@@ -11,6 +11,7 @@ ActiveAdmin.register Page do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+  config.batch_actions = true
 
   permit_params :title, :body
 
