@@ -25,7 +25,7 @@ ActiveAdmin.register Product do
       row :created_at
       row :updated_at
       row :image do |instance|
-        image_tag instance.image.url
+        image_tag instance.image.url if instance.image.present?
       end
     end
   end
