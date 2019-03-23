@@ -26,11 +26,11 @@ ActiveAdmin.register Product do
   end
 
   index do
-    selectable_column
     id_column
     column :name, sortable: :name do |product|
       link_to product.name, admin_product_path(product)
     end
+
     column :mark
     column :company
     column :model
@@ -39,6 +39,7 @@ ActiveAdmin.register Product do
         product.short_description.html_safe
   end
     column :in_stock
+
     actions
   end
 
@@ -61,7 +62,7 @@ ActiveAdmin.register Product do
       row :created_at
       row :updated_at
       row :image do |instance|
-        image_tag instance.image.url
+        image_tag instance.image.url if instance.image.present?
       end
     end
   end
@@ -78,6 +79,7 @@ ActiveAdmin.register Product do
       f.input :in_stock
       f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image.url) : content_tag(:span, 'no cover page yet')
     end
+
     f.actions
   end
 end
