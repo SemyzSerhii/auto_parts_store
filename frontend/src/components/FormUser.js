@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
 import API from '../api'
+import $ from 'jquery'
 
 class FormUser extends Component {
     constructor(props) {
@@ -85,23 +86,14 @@ class FormUser extends Component {
     }
 
     createUser (user) {
-        API.post('/users', {
-            name: user.name,
-            email: user.email,
-            password: user.password
+        const request = {"user": {"name" : user.name, "email": user.email, "password": user.password}}
+        $.ajax({
+            url: "http://localhost:3000/api/v1/users",
+            type: "POST",
+            data: request,
+            dataType: "json"
         })
-            .catch(function (error) {
-                this.state.success = false
-                if (error.response.data.name.length > 0) {
-                    this.state.errors.name = true
-                }
-                if (error.response.data.email.length > 0) {
-                    this.state.errors.email = true
-                }
-                if (error.response.data.password.length > 0) {
-                    this.state.errors.password = true
-                }
-            })
+
     }
 
     editUser(user) {
