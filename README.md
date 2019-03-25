@@ -1,24 +1,51 @@
-# README
+# Auto parts store
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby version 2.5.1
 
-Things you may want to cover:
+Rails version 5.2.2
 
-* Ruby version
+React version 16.8.2
 
-* System dependencies
+Node version 8.15.0
 
-* Configuration
+NPM version 6.4.1
 
-* Database creation
+ ### Installation
+  
+  Clone repository. 
+  
+        $ bundle
 
-* Database initialization
+  Create .env with: 
+   * db_host = localhost
+   * db_port = 3000
+   * db_name
+   * db_username
+   * db_password
+   * S3_KEY
+   * S3_SECRET
+   * S3_REGION
+   * S3_BUCKET
+   
+#### Database creation
 
-* How to run the test suite
+      $ rake db:create
 
-* Services (job queues, cache servers, search engines, etc.)
+#### Database initialization
 
-* Deployment instructions
+      $ rake db:migrate
+      $ rake db:seed
 
-* ...
+ ### Usage
+
+      $ rails s
+      
+* Swagger http://localhost:3000/api-docs/index.html
+
+* Active admin http://localhost:3000/admin
+
+### Frontend
+
+        $ cd frontend
+        $ npm install
+        $ npm start
