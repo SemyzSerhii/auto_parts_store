@@ -19,5 +19,6 @@
 /config/master.key
 .idea
 .env
+.DS_Store
 
 public/uploads/**/*
