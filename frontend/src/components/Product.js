@@ -52,7 +52,7 @@ class Product extends Component {
                             return <div className='product'>
                                 <h1>
                                     {this.state.product.name}
-                                    {this.state.product.mark ? ` ${this.state.product.mark}` : ''}
+                                    {this.state.product.brand ? ` ${this.state.product.brand}` : ''}
                                     {this.state.product.company ? ` / ${this.state.product.company}` : ''}
                                     {this.state.product.model ? ` / ${this.state.product.model}` : ''}
                                 </h1>
@@ -60,8 +60,8 @@ class Product extends Component {
                                     <div className='product-img'>
                                         <img
                                             // check if image not -> visible standard image
-                                            className={this.state.product.image ? '' : 'no-image'}
-                                            src={this.state.product.image ? this.state.product.image.url : noPhoto}
+                                            className={this.state.product.image.url ? '' : 'no-image'}
+                                            src={this.state.product.image.url ? this.state.product.image.url : noPhoto}
                                             alt={this.state.product.name}
                                         />
                                     </div>
