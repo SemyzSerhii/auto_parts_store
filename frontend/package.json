@@ -19,7 +19,8 @@
     "react-modal": "^3.8.1",
     "react-password-mask": "^3.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^2.1.8",
+    "ts-pnp": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +36,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "raw-loader": "^2.0.0"
+  }
 }
