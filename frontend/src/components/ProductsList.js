@@ -130,22 +130,29 @@ class ProductsList extends Component {
                                         <a
                                             className='title'
                                             key={product.id}
-                                            href={`/products/${product.id}`}
-                                        >{product.name} {product.model} {product.brand ? ` / ${product.brand}` : ''}
+                                            href={`/products/${product.id}`}>
+                                            {product.name} {product.model} {product.brand ?
+                                            ` / ${product.brand}` : ''}
                                         </a>
 
                                         <p>Ціна: {product.price}</p>
 
                                         <ul className="rating"
                                             data-index={product.rating ? rating : 0 }>
-                                            <li className={classNames('fa','fa-star', `${rating === 0 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 1 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 2 ?' disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 3 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 4 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa','fa-star',
+                                                `${rating === 0 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa','fa-star',
+                                                `${rating <= 1 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa','fa-star',
+                                                `${rating <= 2 ?' disable' : ''}`)}></li>
+                                            <li className={classNames('fa','fa-star',
+                                                `${rating <= 3 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa','fa-star',
+                                                `${rating <= 4 ? 'disable' : ''}`)}></li>
                                         </ul>
                                         <p>{product.company ? `Виробник: ${product.company}` : ''}</p>
-                                        <div className='short-description'>{Parser(product.short_description)}</div>
+                                        <div className='short-description'>{product.short_description ?
+                                            Parser(product.short_description) : ''}</div>
                                     </div>
                                 </div>
                             </div>
