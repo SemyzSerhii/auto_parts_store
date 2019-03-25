@@ -14,17 +14,20 @@ class FormUser extends Component {
                 name: '',
                 email: '',
                 password: '',
+                phone: '',
                 _id: ''
             },
             errors: {
                 name: false,
                 email: false,
-                password: false
+                password: false,
+                phone: false
             },
             validation: {
                 name: '',
                 email: '',
-                password: ''
+                password: '',
+                phone: ''
             },
             edit: false,
             success: false
@@ -54,6 +57,7 @@ class FormUser extends Component {
                 name: this.state.user.name,
                 email: this.state.user.email,
                 password: this.state.user.password,
+                phone: this.state.user.phone,
                 _id: this.state.user._id
             },
             success: false
@@ -61,9 +65,8 @@ class FormUser extends Component {
         const user = this.state.user
         this.checkField()
         // check errors exist
-        if (!this.state.errors.name &&
-            !this.state.errors.email &&
-            !this.state.errors.password) {
+        if (!this.state.errors.name && !this.state.errors.email &&
+            !this.state.errors.password && !this.state.errors.phone) {
             if (!this.state.edit) {
                 this.createUser(user)
             } else {
@@ -73,35 +76,60 @@ class FormUser extends Component {
     }
 
     checkField() {
-        var email = this.state.user.email
+        var email, error_email, name, error_name, phone, error_phone, password, error_password
 
         if (this.state.user.name.length >= 3) {
-            this.state.errors.name = false
-            this.state.validation.name = ''
+            name = false
+            error_name = ''
         } else {
-            this.state.errors.name = true
-            this.state.validation.name = 'Це поле обов`язкове. Довжина не менше 3 симовлів.'
+            name = true
+            error_name = 'Довжина не менше 3 симовлів.'
         }
 
-        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
-            this.state.errors.email = false
-            this.state.validation.email = ''
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.user.email)) {
+            email = false
+            error_email = ''
         } else {
-            this.state.errors.email = true
-            this.state.validation.email = 'Це поле обов`язкове. Приклад, example@gmail.com'
+            email = true
+            error_email = 'Приклад, example@gmail.com'
         }
 
         if (this.state.user.password.length >= 6) {
-            this.state.errors.password = false
-            this.state.validation.password = ''
+            password = false
+            error_password = ''
         } else {
-            this.state.errors.password = true
-            this.state.validation.password = 'Це поле обов`язкове. Довжина не менше 6 симовлів.'
+            password = true
+            error_password = 'Довжина не менше 6 симовлів.'
         }
+
+        if (/^[0-9]{9}$/.test(this.state.user.phone)) {
+            phone = false
+            error_phone = ''
+        } else {
+            phone = true
+            error_phone = 'Не вірний номер.'
+        }
+
+        this.state.errors.name = name
+        this.state.errors.email = email
+        this.state.errors.phone = phone
+        this.state.errors.password = password
+
+        this.state.validation.name = error_name
+        this.state.validation.email = error_email
+        this.state.validation.phone = error_phone
+        this.state.validation.password = error_password
     }
 
     createUser(user) {
-        const request = {"user": {"name": user.name, "email": user.email, "password": user.password}}
+        const request = {
+            "user": {
+                "name": user.name,
+                "email": user.email,
+                "phone": user.phone,
+                "password": user.password
+            }
+        }
         $.ajax({
             url: "http://localhost:3000/api/v1/users",
             type: "POST",
@@ -125,14 +153,16 @@ class FormUser extends Component {
             {
                 name: user.name,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                phone: user.phone
             })
             .catch(errors => console.log(errors))
         this.setState({
             user: {
                 name: user.name,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                phone: user.phone
             },
             success: true
         })
@@ -142,17 +172,19 @@ class FormUser extends Component {
         var name = error.responseJSON.name ? true : false
         var email = error.responseJSON.email ? true : false
         var password = error.responseJSON.password ? true : false
+        var phone = error.responseJSON.phone ? true : false
 
         this.setState({
             errors: {
                 name: name,
                 email: email,
-                password: password
-
+                password: password,
+                phone: phone
             },
             validation: {
                 name: error.responseJSON.name,
-                email: error.responseJSON.email
+                email: error.responseJSON.email,
+                phone:  error.responseJSON.phone
             }
         })
     }
@@ -162,7 +194,8 @@ class FormUser extends Component {
             user: {
                 name: '',
                 email: '',
-                password: ''
+                password: '',
+                phone: ''
             },
             success: true
         })
@@ -200,6 +233,21 @@ class FormUser extends Component {
                         </div>
                     </div>
 
+                    <div className='form-group'>
+                        <label htmlFor="phone">+380</label>
+                        <input
+                            className={classNames('form-control', 'phone',
+                                `${this.state.errors.phone ? 'error' : ''}`)}
+                            name='phone'
+                            placeholder='Phone'
+                            value={this.state.user.phone}
+                            onChange={this.dataChange}
+                        />
+                        <div className='text-danger'>
+                            {this.state.validation.phone}
+                        </div>
+                    </div>
+
                     <div className='form-group password'>
                         <PasswordMask
                             id="password"
@@ -208,7 +256,7 @@ class FormUser extends Component {
                             inputClassName={classNames('form-control',
                                 `${this.state.errors.password ? 'error' : ''}`)}
                             buttonClassName="btn btn-outline-primary"
-                            placeholder="Enter password"
+                            placeholder="Password"
                             value={this.state.user.password}
                             onChange={this.dataChange}
                         />

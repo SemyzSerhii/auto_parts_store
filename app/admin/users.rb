@@ -1,13 +1,14 @@
 ActiveAdmin.register User do
   config.batch_actions = true
 
-  permit_params :name, :email, :password
+  permit_params :name, :email, :password, :phone
 
   index do
     selectable_column
     id_column
     column :name
     column :email
+    column :phone
     column :created_at
 
     actions
@@ -18,6 +19,7 @@ ActiveAdmin.register User do
       row :id
       row :name
       row :email
+      row :phone
       row :created_at
       row :updated_at
     end
@@ -27,6 +29,7 @@ ActiveAdmin.register User do
     f.inputs 'User Details' do
       f.input :name
       f.input :email
+      f.input :phone
       f.input :password
     end
 
