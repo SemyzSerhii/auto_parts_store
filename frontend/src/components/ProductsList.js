@@ -36,11 +36,11 @@ class ProductsList extends Component {
     }
 
     previousPage() {
-        const { page, size, products } = this.state;
+        const { page, size, products } = this.state
 
         if (page > 1) {
             const newPage = page - 1;
-            const newCurrPage = paginate(products, newPage, size);
+            const newCurrPage = paginate(products, newPage, size)
 
             this.setState({
                 ...this.state,
@@ -51,22 +51,22 @@ class ProductsList extends Component {
     }
 
     nextPage() {
-        const { currPage, page, size, products } = this.state;
+        const { currPage, page, size, products } = this.state
 
         if (page < currPage.totalPages) {
-            const newPage = page + 1;
-            const newCurrPage = paginate(products, newPage, size);
-            this.setState({ ...this.state, page: newPage, currPage: newCurrPage });
+            const newPage = page + 1
+            const newCurrPage = paginate(products, newPage, size)
+            this.setState({ ...this.state, page: newPage, currPage: newCurrPage })
         }
     }
 
     handleChange(e) {
-        const { value } = e.target;
-        const { products } = this.state;
+        const { value } = e.target
+        const { products } = this.state
 
-        const newSize = +value;
-        const newPage = 1;
-        const newCurrPage = paginate(products, newPage, newSize);
+        const newSize = +value
+        const newPage = 1
+        const newCurrPage = paginate(products, newPage, newSize)
 
         this.setState({
             ...this.state,
@@ -103,8 +103,8 @@ class ProductsList extends Component {
                                         <a className='img-link' href={`/products/${product.id}`}>
                                             <img
                                                 // check if image not -> visible standard image
-                                                className={product.image ? '' : 'no-image'}
-                                                src={product.image ? product.image.url : noPhoto}
+                                                className={product.image.url ? '' : 'no-image'}
+                                                src={product.image.url ? product.image.url : noPhoto}
                                                 alt={product.name}
                                             />
                                         </a>
@@ -131,7 +131,7 @@ class ProductsList extends Component {
                                             className='title'
                                             key={product.id}
                                             href={`/products/${product.id}`}
-                                        >{product.name} {product.model} {product.mark ? ` / ${product.mark}` : ''}
+                                        >{product.name} {product.model} {product.brand ? ` / ${product.brand}` : ''}
                                         </a>
 
                                         <p>Ціна: {product.price}</p>
