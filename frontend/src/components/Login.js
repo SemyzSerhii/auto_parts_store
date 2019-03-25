@@ -66,25 +66,11 @@ class Login extends Component {
             success: false
         })
 
-        // check if 'email' is empty write error
-        if (!this.state.user.email) {
-            this.state.errors.email = 'Email is required'
-        } else {
-            this.state.errors.email = ''
-        }
-
-        // check if 'email' is empty write error
-        if (!this.state.user.password) {
-            this.state.errors.password = 'Password is required'
-        } else {
-            this.state.errors.password = ''
-        }
-
         const user = this.state.user
         // check errors exist
         if (this.state.errors.email ||
             this.state.errors.password) {
-            this.state.success = false
+            this.setState({success: false}).bind(this)
         } else {
             API.post('/session', {
                 email: user.email,

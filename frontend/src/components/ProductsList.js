@@ -36,7 +36,7 @@ class ProductsList extends Component {
     }
 
     previousPage() {
-        const { currPage, page, size, products } = this.state;
+        const { page, size, products } = this.state;
 
         if (page > 1) {
             const newPage = page - 1;
@@ -62,7 +62,7 @@ class ProductsList extends Component {
 
     handleChange(e) {
         const { value } = e.target;
-        const { products, page } = this.state;
+        const { products } = this.state;
 
         const newSize = +value;
         const newPage = 1;
@@ -114,17 +114,17 @@ class ProductsList extends Component {
                                                 <i className="fa fa-eye"></i>
                                             </a></li>
                                             <li>
-                                                <a href="#" data-tip="В список бажань">
+                                                <a href="/" data-tip="В список бажань">
                                                     <i className="fa fa-heart"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-tip="В корзину">
+                                                <a href="/" data-tip="В корзину">
                                                     <i className="fa fa-shopping-cart"></i>
                                                 </a>
                                             </li>
                                         </ul>
-                                        <a className="add-to-cart" href="">Купити</a>
+                                        <a className="add-to-cart" href="/">Купити</a>
                                     </div>
                                     <div className="product-content">
                                         <a

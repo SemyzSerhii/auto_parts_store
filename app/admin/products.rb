@@ -1,4 +1,6 @@
 ActiveAdmin.register Product do
+  config.batch_actions = true
+
   permit_params :mark, :model, :price, :short_description, :full_description, :in_stock, :image, :company, :rating, :name
 
   scope :all
@@ -26,6 +28,7 @@ ActiveAdmin.register Product do
   end
 
   index do
+    selectable_column
     id_column
     column :name, sortable: :name do |product|
       link_to product.name, admin_product_path(product)
