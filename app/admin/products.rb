@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :mark, :model, :price, :short_description, :full_description, :in_stock, :image, :company, :rating, :name
+  permit_params :brand, :model, :price, :short_description, :full_description, :in_stock, :image, :company, :rating, :name
 
   scope :all
   scope :publish
@@ -31,12 +31,12 @@ ActiveAdmin.register Product do
       link_to product.name, admin_product_path(product)
     end
 
-    column :mark
+    column :brand
     column :company
     column :model
     column :price
     column :short_description do |product|
-        product.short_description.html_safe
+        product.short_description.html_safe if product.short_description.present?
   end
     column :in_stock
 
@@ -49,14 +49,14 @@ ActiveAdmin.register Product do
       row :name
       row :rating
       row :company
-      row :mark
+      row :brand
       row :model
       row :price
       row :short_description do |product|
-        product.short_description.html_safe
+        product.short_description.html_safe if product.short_description.present?
       end
       row :full_description do |product|
-        product.full_description.html_safe
+        product.full_description.html_safe if product.full_description.present?
       end
       row :in_stock
       row :created_at
@@ -71,7 +71,7 @@ ActiveAdmin.register Product do
     f.inputs 'Product Details' do
       f.input :name
       f.input :company
-      f.input :mark
+      f.input :brand
       f.input :model
       f.input :price
       f.input :short_description, as: :trix_editor

@@ -95,37 +95,6 @@
           }
         }
       }
-    },
-    "/api/v1/sessions": {
-      "post": {
-        "summary": "Authorization",
-        "tags": [
-          "Sessions"
-        ],
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "password",
-            "in": "path",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user authorization"
-          }
-        }
-      }
     }
   }
 }
