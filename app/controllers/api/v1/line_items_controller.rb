@@ -4,11 +4,13 @@ class Api::V1::LineItemsController < ApplicationController
   before_action :find_item, only: %i[update destroy]
 
   def create
-    @cart.add_product(@product)
+    @item = @cart.line_items.build(product: @product)
+
+    process_items_update(status: 201, response_action: :show, &:save)
   end
 
   def update
-    process_items_update do |record|
+    process_items_update(response_action: :show) do |record|
       record.update(item_params)
     end
   end
@@ -19,8 +21,8 @@ class Api::V1::LineItemsController < ApplicationController
 
   private
 
-  def process_items_update
-    yield(@item) ? render(status: :ok) : render_validation_errors(@item)
+  def process_items_update(status: :ok, response_action: action_name)
+    yield(@item) ? render(response_action, status: status) : render_validation_errors(@item)
   end
 
   def find_product
