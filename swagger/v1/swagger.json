@@ -5,6 +5,269 @@
     "version": "v1"
   },
   "paths": {
+    "/api/v1/categories": {
+      "get": {
+        "summary": "Categories",
+        "tags": [
+          "Categories"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "ancestry": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "id",
+                "title"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/categories/{category_id}": {
+      "get": {
+        "summary": "Category products",
+        "tags": [
+          "Products"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "price"
+              ]
+            }
+          },
+          "404": {
+            "description": "category not found"
+          }
+        }
+      }
+    },
+    "/api/v1/pages": {
+      "get": {
+        "summary": "Pages",
+        "tags": [
+          "Pages"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "text"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "body"
+              ]
+            }
+          },
+          "404": {
+            "description": "Page not found"
+          }
+        }
+      }
+    },
+    "/api/v1/pages/{id}": {
+      "get": {
+        "summary": "Page",
+        "tags": [
+          "Pages"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "text"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "body"
+              ]
+            }
+          },
+          "404": {
+            "description": "Pages not found"
+          }
+        }
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "summary": "Products",
+        "tags": [
+          "Products"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "price"
+              ]
+            }
+          },
+          "404": {
+            "description": "product not found"
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "summary": "Product",
+        "tags": [
+          "Product"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "name found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "price"
+              ]
+            }
+          },
+          "404": {
+            "description": "product not found"
+          }
+        }
+      }
+    },
     "/api/v1/users": {
       "post": {
         "summary": "Create user",
