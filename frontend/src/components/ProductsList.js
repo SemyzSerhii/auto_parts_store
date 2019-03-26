@@ -166,16 +166,21 @@ class ProductsList extends Component {
                         )
                     })}
                 </div>
+                } {currPage ?
+                    (currPage.data.length === size || page != 1 ? (
+                        <ul className="pagination justify-content-center">
+                            <li className={classNames('page-item', `${page <= 1 ? 'disabled' : ''}`)}>
+                                <button className="page-link" onClick={this.previousPage}>Попередня</button>
+                            </li>
+                            <li className="page-item active"><p className="page-link">{page}</p></li>
+                            <li className={classNames("page-item", `${count < size ? 'disabled' : ''}`)}>
+                                <button className="page-link" onClick={this.nextPage}>Наступна</button>
+                            </li>
+                        </ul>
+                        ) : ''
+                    ) : ''
                 }
-                    <ul className="pagination justify-content-center">
-                        <li  className={classNames('page-item',`${page  <= 1 ? 'disabled' : ''}`)}>
-                            <button className="page-link" onClick={this.previousPage}>Попередня</button>
-                        </li>
-                        <li className="page-item active"><p className="page-link">{page}</p></li>
-                        <li className={classNames("page-item", `${count < size ? 'disabled' : ''}`)}>
-                            <button className="page-link" onClick={this.nextPage}>Наступна</button>
-                        </li>
-                    </ul>
+
             </div>
         )
     }
