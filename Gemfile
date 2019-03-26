@@ -19,6 +19,7 @@ gem 'rspec-rails'
 gem 'rswag'
 gem 'sorcery'
 gem 'trix'
+gem 'ancestry'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

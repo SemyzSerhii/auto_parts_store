@@ -1,6 +1,9 @@
 ActiveAdmin.register Product do
   config.batch_actions = true
-  permit_params :brand, :model, :price, :short_description, :full_description, :in_stock, :image, :company, :rating, :name
+  permit_params :brand, :model, :price,
+                :short_description, :full_description, :in_stock,
+                :image, :company, :rating,
+                :name, :category_id
 
   scope :all
   scope :publish
@@ -35,6 +38,7 @@ ActiveAdmin.register Product do
 
     column :brand
     column :company
+    column :category
     column :model
     column :price
     column :short_description do |product|
@@ -54,6 +58,7 @@ ActiveAdmin.register Product do
       row :brand
       row :model
       row :price
+      row :category
       row :short_description do |product|
         product.short_description.html_safe if product.short_description.present?
       end
@@ -76,6 +81,7 @@ ActiveAdmin.register Product do
       f.input :brand
       f.input :model
       f.input :price
+      f.input :category_id, as: :select, collection: Category.all
       f.input :short_description, as: :trix_editor
       f.input :full_description, as: :trix_editor
       f.input :in_stock
