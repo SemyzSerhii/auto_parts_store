@@ -2,7 +2,7 @@ class API::V1::ProductsController < ApplicationController
   before_action :set_product, only: :show
 
   def index
-    @products = Product.all.publish
+    @products = Product.publish
   end
 
   private

@@ -5,13 +5,13 @@ class ApplicationController < ActionController::Base
 
   def authenticate_request!
     @current_user = User.find_by_token(request.headers['Authorization'])
-    end
+  end
 
-    def set_cart
-      @cart = Cart.find_by(id: session[:cart_id])
-      return if @cart
+  def set_cart
+    @cart = Cart.find_by(id: session[:cart_id])
+    return if @cart
 
-      @cart = Cart.create
-      session[:cart_id] = @cart.id
-    end
+    @cart = Cart.create
+    session[:cart_id] = @cart.id
+  end
 end
