@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Modal from 'react-modal'
 import { withRouter } from 'react-router-dom'
 import update from 'immutability-helper'
-import API from '../api'
+import $ from 'jquery'
 
 const customStyles = {
     content : {
@@ -72,13 +72,20 @@ class Login extends Component {
             this.state.errors.password) {
             this.setState({success: false}).bind(this)
         } else {
-            API.post('/session', {
-                email: user.email,
-                password: user.password
+            $.ajax({
+                url: "http://localhost:3000/api/v1/sessions",
+                type: "POST",
+                data: {
+                    email: user.email,
+                    password: user.password
+                },
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    localStorage.setItem("jwt", result.jwt)
+                }
             })
-                .catch(function (error) {
-                    console.log(error)
-                })
+
             // resetting data
             this.setState({
                 user: {
@@ -148,14 +155,6 @@ class Login extends Component {
                                 value='Вхід'
                                 onClick={this.handleSubmit}
                             />
-                            <div className='text-success'>
-                                {this.state.success ?
-                                    (this.state.edit ?
-                                        'User edited!' :
-                                        'User created!') :
-                                    ''
-                                }
-                            </div>
                         </div>
                     </form>
 
