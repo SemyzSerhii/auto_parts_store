@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
@@ -19,19 +20,25 @@ class ProductsList extends Component {
     }
 
     componentWillMount() {
-        fetch(`http://localhost:3000/api/v1/products`)
+        var path
+        if (this.props.location.pathname.includes("/categories/")) {
+            path = `http://localhost:3000/api/v1/products/categories/${this.props.match.params.id}`
+        } else {
+            path = `http://localhost:3000/api/v1/products`
+        }
+        fetch(path)
             .then(response => response.json())
             .then(products => {
-                const { page, size } = this.state;
+                const { page, size } = this.state
 
-                const currPage = paginate(products, page, size);
+                const currPage = paginate(products, page, size)
 
                 this.setState({
                     ...this.state,
                     products,
                     currPage
-                });
-            });
+                })
+            })
 
     }
 
@@ -39,14 +46,14 @@ class ProductsList extends Component {
         const { page, size, products } = this.state
 
         if (page > 1) {
-            const newPage = page - 1;
+            const newPage = page - 1
             const newCurrPage = paginate(products, newPage, size)
 
             this.setState({
                 ...this.state,
                 page: newPage,
                 currPage: newCurrPage
-            });
+            })
         }
     }
 
@@ -73,7 +80,7 @@ class ProductsList extends Component {
             size: newSize,
             page: newPage,
             currPage: newCurrPage
-        });
+        })
     }
 
     render() {
@@ -174,4 +181,4 @@ class ProductsList extends Component {
     }
 }
 
-export default ProductsList
+export default withRouter(ProductsList)
