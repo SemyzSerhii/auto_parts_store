@@ -34,6 +34,7 @@ class Api::V1::LineItemsController < ApplicationController
   end
 
   def item_params
+    # TODO check in details. This one is in progress
     params.require(:quantity)
     params.permit(:quantity)
   end
