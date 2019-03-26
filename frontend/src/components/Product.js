@@ -45,7 +45,7 @@ class Product extends Component {
     render() {
         var rating = Math.round(this.state.product.rating)
         return (
-            <div>
+            <div id='product'>
                 {(() => {
                     switch (this.state.responseStatus) {
                         case 'true':

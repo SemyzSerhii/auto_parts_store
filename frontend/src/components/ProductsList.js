@@ -104,7 +104,7 @@ class ProductsList extends Component {
                         var rating = Math.round(product.rating)
                         count++
                         return(
-                            <div className="col-md-3 col-sm-6" key={product.id}>
+                            <div className="col-md-4 col-sm-6" key={product.id}>
                                 <div className="product">
                                     <div className="product-image">
                                         <a className='img-link' href={`/products/${product.id}`}>
@@ -167,7 +167,7 @@ class ProductsList extends Component {
                     })}
                 </div>
                 } {currPage ?
-                    (currPage.data.length === size || page != 1 ? (
+                    (currPage.data.length === size || page !== 1 ? (
                         <ul className="pagination justify-content-center">
                             <li className={classNames('page-item', `${page <= 1 ? 'disabled' : ''}`)}>
                                 <button className="page-link" onClick={this.previousPage}>Попередня</button>

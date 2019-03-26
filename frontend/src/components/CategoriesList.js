@@ -29,17 +29,15 @@ class CategoriesList extends Component {
         return (
             <div className="col-auto" id="sidebar">
                 <ul className="list-group">
-                    <li className="list-group-item">
-                        {this.state.categories.map((category) => {
-                            return (
+                    {this.state.categories.map((category) => {
+                        return (
+                            <li className="list-group-item" key={category.id}>
                                 <a
-                                    className='nav-link'
-                                    key={category.id}
-                                    href={`/categories/${category.id}`}
-                                >{category.title}</a>
-                            )
-                        })}
-                    </li>
+                                    className={category.ancestry ? 'nested_categories' : ''}
+                                   href={`/categories/${category.id}`}>{category.title}</a>
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>
         )
