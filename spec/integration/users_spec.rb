@@ -6,19 +6,27 @@ describe 'Users API' do
 
     post 'Create user' do
       tags 'Users'
-      consumes 'application/json', 'application/xml'
+      consumes 'application/json'
       parameter name: :user, in: :body, schema: {
           type: :object,
           properties: {
               name: { type: :string },
               email: { type: :string },
-              password_digest: { type: :string }
+              password: { type: :string, format: :password },
+              phone: { type: :integer}
           },
-          required: [ 'name', 'email', 'password_digest']
+          required: %w[name email password phone]
       }
 
-      response '201', 'user created' do
-        let(:user) { { name: 'Admin', email: 'admin@gmail.com', password: '123' } }
+      response '200', 'user created' do
+        let(:user) {
+          {
+          name: 'Admin',
+          email: 'admin@gmail.com',
+          phone: 937588895,
+          password: '1234567'
+          }
+        }
         run_test!
       end
 
@@ -29,12 +37,12 @@ describe 'Users API' do
     end
   end
 
-  path '/api/v1/users/{id}' do
+  path  '/admin/users/{id}' do
 
     get 'Retrieves user' do
       tags 'Users'
       produces 'application/json', 'application/xml'
-      parameter name: :id, :in => :path, :type => :string
+      parameter name: :id, in: :path, type: :string
 
       response '200', 'name found' do
         schema type: :object,
@@ -44,7 +52,7 @@ describe 'Users API' do
                    email: { type: :string },
                    password_digest: { type: :string }
                },
-               required: [ 'id', 'name', 'email' ]
+               required: %w[id name email]
 
         let(:id) { User.create(name: 'admin', email: 'admin@gmail.com', password_digest: '123') }
         run_test!

@@ -12,8 +12,7 @@
           "Users"
         ],
         "consumes": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "parameters": [
           {
@@ -29,13 +28,18 @@
                   "type": "string"
                 },
                 "password": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "password"
+                },
+                "phone": {
+                  "type": "integer"
                 }
               },
               "required": [
                 "name",
                 "email",
-                "password"
+                "password",
+                "phone"
               ]
             }
           }
@@ -43,6 +47,9 @@
         "responses": {
           "200": {
             "description": "user created"
+          },
+          "422": {
+            "description": "invalid request"
           }
         }
       }
