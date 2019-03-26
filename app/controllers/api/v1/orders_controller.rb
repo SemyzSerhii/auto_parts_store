@@ -1,15 +1,11 @@
-class OrdersController < ApplicationController
-  before_action :set_cart, only: %i[create]
-  before_action :orders_params, only: %i[create show]
-
+class Api::V1::OrdersController < ApplicationController
   def create
     @order = Order.new(orders_params)
-    @order = add_line_items_from_cart(@cart)
 
     respond_to do |format|
       if @order.save
-        Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
+
         format.json { render action: :show, status: :created, location: @order }
       else
         @cart = current_cart

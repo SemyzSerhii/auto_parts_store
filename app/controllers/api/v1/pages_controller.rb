@@ -1,4 +1,4 @@
-class API::V1::PagesController < ApplicationController
+class Api::V1::PagesController < ApplicationController
   before_action :set_page, only: :show
 
   def index
