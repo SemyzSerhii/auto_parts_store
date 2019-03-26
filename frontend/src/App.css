@@ -57,7 +57,7 @@
     padding: 10px;
 }
 
-.products .col-md-3:hover .product {
+.products .col-md-4:hover .product {
     z-index: 3;
     -webkit-transition: all 0.35s;
     transition: all 0.35s;

@@ -34,12 +34,17 @@ class Product extends Component {
                         responseStatus: 'null'
                     })
                 }
-            }.bind(this))
-
-            .catch(function (error) {
-                    console.log('error ' + error)
+                if (response.statusCode === 404) {
+                    this.setState({responseStatus: 'null'})
                 }
-            )
+            }.bind(this), function (error) {
+                if (error.response.status === 404) {
+                    this.setState({
+                        page: {},
+                        responseStatus: 'null'
+                    })
+                }
+            }.bind(this))
     }
 
     render() {
