@@ -4,7 +4,7 @@ ActiveAdmin.register Product do
                 :image, :company, :rating,
                 :name, :category_id
 
-  scope :all
+  scope :all, default: true
   scope :publish
   scope :unpublish
 
