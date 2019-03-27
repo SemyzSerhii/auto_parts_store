@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :pages, only: %i[index show]
       resources :line_items
       resources :carts, only: %i[show destroy]
+      resources :categories, only: :index
+      get 'products/categories/:category_id' => 'products#index', as: 'category_products'
     end
   end
 end

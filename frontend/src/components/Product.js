@@ -34,18 +34,23 @@ class Product extends Component {
                         responseStatus: 'null'
                     })
                 }
-            }.bind(this))
-
-            .catch(function (error) {
-                    console.log('error ' + error)
+                if (response.statusCode === 404) {
+                    this.setState({responseStatus: 'null'})
                 }
-            )
+            }.bind(this), function (error) {
+                if (error.response.status === 404) {
+                    this.setState({
+                        page: {},
+                        responseStatus: 'null'
+                    })
+                }
+            }.bind(this))
     }
 
     render() {
         var rating = Math.round(this.state.product.rating)
         return (
-            <div>
+            <div id='product'>
                 {(() => {
                     switch (this.state.responseStatus) {
                         case 'true':
@@ -68,12 +73,17 @@ class Product extends Component {
                                     <div className='product-info'>
                                         <p className='price'>Ціна: {this.state.product.price}</p>
                                         <ul className="rating"
-                                            data-index={this.state.product.rating ? rating : 0 }>
-                                            <li className={classNames('fa','fa-star', `${rating === 0 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 1 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 2 ?' disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 3 ? 'disable' : ''}`)}></li>
-                                            <li className={classNames('fa','fa-star', `${rating <= 4 ? 'disable' : ''}`)}></li>
+                                            data-index={this.state.product.rating ? rating : 0}>
+                                            <li className={classNames('fa', 'fa-star',
+                                                `${rating === 0 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa', 'fa-star',
+                                                `${rating <= 1 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa', 'fa-star',
+                                                `${rating <= 2 ? ' disable' : ''}`)}></li>
+                                            <li className={classNames('fa', 'fa-star',
+                                                `${rating <= 3 ? 'disable' : ''}`)}></li>
+                                            <li className={classNames('fa', 'fa-star',
+                                                `${rating <= 4 ? 'disable' : ''}`)}></li>
                                         </ul>
                                         <button type="button" className="buy btn btn-primary">
                                             <i className="fa fa-shopping-cart"></i> В корзину
@@ -81,7 +91,8 @@ class Product extends Component {
                                         <button type="button" className="btn btn-primary">
                                             <i className="fa fa-heart"></i> В список бажань
                                         </button>
-                                        {Parser(this.state.product.full_description)}
+                                        {this.state.product.full_description ?
+                                            Parser(this.state.product.full_description) : ''}
                                     </div>
                                 </div>
                             </div>
