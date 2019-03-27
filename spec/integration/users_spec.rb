@@ -4,27 +4,31 @@ describe 'Users API' do
 
   path '/api/v1/users' do
 
-    post 'Create user' do
+    post :user do
       tags 'Users'
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
-          type: :object,
-          properties: {
+        type: :object,
+        properties: {
+          user: { type: :object,
+            properties: {
               name: { type: :string },
               email: { type: :string },
-              password: { type: :string, format: :password },
+              password: { type: :string },
               phone: { type: :integer}
-          },
-          required: %w[name email password phone]
-      }
+            }
+          }
+        }
+      },
+        required: %w[name email phone]
 
       response '200', 'user created' do
         let(:user) {
           {
-          name: 'Admin',
-          email: 'admin@gmail.com',
-          phone: 937588895,
-          password: '1234567'
+            name: 'Admin',
+            email: 'admin@gmail.com',
+            phone: 937588895,
+            password: '1234567'
           }
         }
         run_test!
@@ -46,13 +50,12 @@ describe 'Users API' do
 
       response '200', 'name found' do
         schema type: :object,
-               properties: {
-                   id: { type: :integer, },
-                   name: { type: :string },
-                   email: { type: :string },
-                   password_digest: { type: :string }
-               },
-               required: %w[id name email]
+          properties: {
+            id: { type: :integer, },
+            name: { type: :string },
+            email: { type: :string },
+          },
+          required: %w[id name email]
 
         let(:id) { User.create(name: 'admin', email: 'admin@gmail.com', password_digest: '123') }
         run_test!

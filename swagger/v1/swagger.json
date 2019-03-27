@@ -270,7 +270,7 @@
     },
     "/api/v1/users": {
       "post": {
-        "summary": "Create user",
+        "summary": "user",
         "tags": [
           "Users"
         ],
@@ -284,27 +284,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string",
-                  "format": "password"
-                },
-                "phone": {
-                  "type": "integer"
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "integer"
+                    }
+                  }
                 }
-              },
-              "required": [
-                "name",
-                "email",
-                "password",
-                "phone"
-              ]
-            }
+              }
+            },
+            "required": [
+              "name",
+              "email",
+              "phone"
+            ]
           }
         ],
         "responses": {
@@ -348,9 +351,6 @@
                   "type": "string"
                 },
                 "email": {
-                  "type": "string"
-                },
-                "password_digest": {
                   "type": "string"
                 }
               },
