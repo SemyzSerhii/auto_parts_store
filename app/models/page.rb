@@ -7,8 +7,4 @@ class Page < ApplicationRecord
   def to_param
     [id, title.parameterize].join("-")
   end
-
-  def change_title
-    self.title = self.title.capitalize
-  end
 end

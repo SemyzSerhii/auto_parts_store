@@ -19,24 +19,28 @@ class Page extends Component {
 
 
     componentWillMount() {
-        API.get(`pages/${this.props.match.params.id}`)
-            .then(function (response) {
-                if(response.data) {
-                    this.setState({
-                        page: response.data,
-                        responseStatus: 'true'
-                    })
-                } else {
-                    this.setState({
-                        responseStatus: 'null'
-                    })
-                }
-            }.bind(this))
+            API.get(`pages/${this.props.match.params.id}`)
+                .then(function (response) {
+                    if(response.data) {
+                        this.setState({
+                            page: response.data,
+                            responseStatus: 'true'
+                        })
+                    } else {
+                        this.setState({ responseStatus: 'null' })
+                    }
+                    if (response.statusCode === 404) {
+                        this.setState({ responseStatus: 'null' })
+                    }
+                }.bind(this), function (error) {
+                    if (error.response.status === 404) {
+                        this.setState({
+                            page: {},
+                            responseStatus: 'null'
+                        })
+                    }
+                }.bind(this))
 
-            .catch(function (error) {
-                    console.log('error ' + error)
-                }
-            )
     }
 
     render() {
