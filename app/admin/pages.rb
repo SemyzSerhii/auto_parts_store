@@ -28,7 +28,7 @@ ActiveAdmin.register Page do
   end
 
   form do |f|
-    fieldset class: 'inputs' do
+    f.inputs 'Page Details' do
       f.input :title
       f.input :body, as: :trix_editor
     end
