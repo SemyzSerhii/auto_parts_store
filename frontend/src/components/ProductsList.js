@@ -146,7 +146,10 @@ class ProductsList extends Component {
                                                 </a>
                                             </li>
                                         </ul>
-                                        <button className="add-to-cart" onClick={this.addProduct(product.id)}>Купити</button>
+                                        <button
+                                            className="add-to-cart"
+                                            onClick={() => {this.addProduct(product.id)}}
+                                        >Купити</button>
                                     </div>
                                     <div className="product-content">
                                         <a
