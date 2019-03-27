@@ -76,13 +76,14 @@ class Login extends Component {
                 url: "http://localhost:3000/api/v1/sessions",
                 type: "POST",
                 data: {
-                    email: user.email,
-                    password: user.password
+                    session: {
+                        email: user.email,
+                        password: user.password
+                    }
                 },
                 dataType: "json",
                 success: function (result) {
-                    console.log(result)
-                    localStorage.setItem("jwt", result.jwt)
+                    localStorage.setItem("jwt", result.token);
                 }
             })
 

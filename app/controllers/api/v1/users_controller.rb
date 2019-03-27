@@ -1,4 +1,4 @@
-class API::V1::UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   before_action :authenticate_request!, only: %i[show update]
   before_action :set_user, only: %i[update show]
 
@@ -6,7 +6,7 @@ class API::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created
+      render :show, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -16,7 +16,7 @@ class API::V1::UsersController < ApplicationController
     if @user.update(user_params)
       render :show, status: :ok
     else
-      render_validation_errors(current_user)
+      render_validation_errors(@user)
     end
   end
 

@@ -15,6 +15,7 @@ gem 'jwt'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.2'
+gem 'rack-cors', require: 'rack/cors'
 gem 'rspec-rails'
 gem 'rswag'
 gem 'sorcery'
@@ -34,5 +35,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem 'rack-cors', :require => 'rack/cors'

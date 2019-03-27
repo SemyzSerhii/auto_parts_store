@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, uniqueness: true, presence: true
   validates :name, presence: true, length: { minimum: 3 }, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, if: ->(record) { record.new_record? || record.password }
   validates :phone, presence: true, length: { is: 9 }
 
 
