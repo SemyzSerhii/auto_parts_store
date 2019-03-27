@@ -23,7 +23,6 @@ describe 'Users API' do
       response '200', 'login' do
         let(:session) {
           {
-
             email: 'test_user@gmail.com',
             password: 'password'
           }
