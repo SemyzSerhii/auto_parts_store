@@ -376,7 +376,7 @@
             }
           },
           "422": {
-            "description": "Validation error",
+            "description": "Validation Errors",
             "schema": {
               "type": "object",
               "properties": {
@@ -408,8 +408,50 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "User found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "404": {
-            "description": "user not found"
+            "description": "User not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -476,7 +518,23 @@
             }
           },
           "422": {
-            "description": "invalid request"
+            "description": "Validation Errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

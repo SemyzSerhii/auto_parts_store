@@ -24,8 +24,8 @@ RSpec.configure do |config|
   }
 end
 
-def validation_error_schema
-  response 422, 'Validation error' do
+def error_schema(status_code, label)
+  response status_code, label do
     schema type: :object,
       properties: {
         messages: {
