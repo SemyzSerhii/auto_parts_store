@@ -1,5 +1,4 @@
 ActiveAdmin.register Product do
-  config.batch_actions = true
   permit_params :brand, :model, :price,
                 :short_description, :full_description, :in_stock,
                 :image, :company, :rating,

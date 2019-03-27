@@ -1,6 +1,4 @@
 ActiveAdmin.register User do
-  config.batch_actions = true
-
   permit_params :name, :email, :password, :phone
 
   index do

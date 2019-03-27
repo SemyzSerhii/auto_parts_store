@@ -137,7 +137,8 @@ ActiveAdmin.setup do |config|
   # == Batch Actions
   #
   # Enable and disable Batch Actions
-  #
+  config.batch_actions = true
+
   config.comments = false
 
   # == Controller Filters

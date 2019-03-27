@@ -1,38 +1,26 @@
 ActiveAdmin.register Category do
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
-  config.batch_actions = true
   permit_params :title, :parent_id
 
   index do
     selectable_column
-    column :id
+    id_column
     column :title, sortable: :title do |category|
       link_to category.title, admin_category_path(category)
     end
     column :parent
-    column("Products") do |category|
+    column('Products') do |category|
       @children_products = 0
       category.children.each { |child| @children_products = child.products.size }
-      category.products.size + @children_products
+      category.products.count + @children_products
     end
     column :created_at
     column :updated_at
+
     actions dropdown: true
   end
 
   show do
-    panel "Category" do
+    panel 'Category' do
       attributes_table_for category do
         row :id
         row :title
