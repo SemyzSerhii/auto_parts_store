@@ -23,3 +23,21 @@ RSpec.configure do |config|
     }
   }
 end
+
+def validation_error_schema
+  response 422, 'Validation error' do
+    schema type: :object,
+      properties: {
+        messages: {
+          type: :object,
+          properties: {
+            error_key: {
+              type: :array,
+              items: { type: :string }
+            }
+          }
+        }
+      }
+    run_test!
+  end
+end

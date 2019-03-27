@@ -315,12 +315,106 @@
     "/api/v1/users": {
       "post": {
         "summary": "user",
-        "tags": [
-          "Users"
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "name",
+              "email",
+              "phone"
+            ]
+          }
         ],
-        "consumes": [
-          "application/json"
+        "responses": {
+          "201": {
+            "description": "User created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves user",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
+        "responses": {
+          "404": {
+            "description": "user not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "user",
         "parameters": [
           {
             "name": "user",
@@ -356,35 +450,7 @@
         ],
         "responses": {
           "200": {
-            "description": "user created"
-          },
-          "422": {
-            "description": "invalid request"
-          }
-        }
-      }
-    },
-    "/admin/users/{id}": {
-      "get": {
-        "summary": "Retrieves user",
-        "tags": [
-          "Users"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "name found",
+            "description": "User updated",
             "schema": {
               "type": "object",
               "properties": {
@@ -396,17 +462,21 @@
                 },
                 "email": {
                   "type": "string"
+                },
+                "phone": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
                 }
-              },
-              "required": [
-                "id",
-                "name",
-                "email"
-              ]
+              }
             }
           },
-          "404": {
-            "description": "user not found"
+          "422": {
+            "description": "invalid request"
           }
         }
       }
