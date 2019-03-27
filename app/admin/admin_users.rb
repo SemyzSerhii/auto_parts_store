@@ -18,11 +18,12 @@ ActiveAdmin.register AdminUser do
   filter :created_at
 
   form do |f|
-    f.inputs do
+    f.inputs 'Administrator Details' do
       f.input :email
       f.input :password
       f.input :password_confirmation
     end
+    f.semantic_errors
 
     f.actions
   end

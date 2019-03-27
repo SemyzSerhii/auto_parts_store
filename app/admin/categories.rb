@@ -9,9 +9,7 @@ ActiveAdmin.register Category do
     end
     column :parent
     column('Products') do |category|
-      @children_products = 0
-      category.children.each { |child| @children_products = child.products.size }
-      category.products.count + @children_products
+      category.nested_products.count
     end
     column :created_at
     column :updated_at
@@ -29,11 +27,8 @@ ActiveAdmin.register Category do
         row :updated_at
       end
 
-      @products = category.products
-      category.children.each { |child| @products += child.products }
-
-      if @products.present?
-        table_for @products do
+      panel 'Products' do
+        table_for category.nested_products do
           column :id
           column :name do |product|
             link_to product.name, admin_product_path(product)
@@ -55,12 +50,13 @@ ActiveAdmin.register Category do
   end
 
   form do |f|
-    fieldset class: 'inputs' do
-      ol do
-        li f.input :title
-        li f.input :parent_id, as: :select, collection: Category.where.not(id: category)
-      end
+    f.inputs 'Category Details' do
+      f.input :title
+      f.input :parent_id, as: :select, collection: Category.where.not(id: category)
     end
+
+    f.semantic_errors
+
     f.actions
   end
 
