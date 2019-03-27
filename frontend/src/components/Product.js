@@ -16,10 +16,24 @@ class Product extends Component {
         this.state = {
             product: {},
             //for check response data
-            responseStatus: ''
+            responseStatus: '',
+            buy: false
         }
+        this.addProduct = this.addProduct.bind(this)
     }
 
+    addProduct() {
+        API.post('line_items', {
+            product_id: this.state.product.id
+        })
+            .then(res => {
+                if(res.status === 201) {
+                    this.setState({
+                        buy: true
+                    })
+                }
+            })
+    }
 
     componentWillMount() {
         API.get(`products/${this.props.match.params.id}`)
@@ -85,12 +99,19 @@ class Product extends Component {
                                             <li className={classNames('fa', 'fa-star',
                                                 `${rating <= 4 ? 'disable' : ''}`)}></li>
                                         </ul>
-                                        <button type="button" className="buy btn btn-primary">
-                                            <i className="fa fa-shopping-cart"></i> В корзину
-                                        </button>
-                                        <button type="button" className="btn btn-primary">
-                                            <i className="fa fa-heart"></i> В список бажань
-                                        </button>
+                                        {this.state.buy ?
+                                            (<a href='/' className='link-cart'>
+                                                <i className="fa fa-cart-plus" aria-hidden="true"></i> Уже в корзині
+                                            </a>) :
+                                            (<button onClick={() => {this.addProduct()}}
+                                                     type="button" className="buy btn btn-primary">
+                                                <i className="fa fa-shopping-cart"></i> В корзину
+                                            </button>)
+                                        }
+                                            <button type="button" className="btn btn-primary">
+                                                <i className="fa fa-heart"></i> В список бажань
+                                            </button>
+
                                         {this.state.product.full_description ?
                                             Parser(this.state.product.full_description) : ''}
                                     </div>

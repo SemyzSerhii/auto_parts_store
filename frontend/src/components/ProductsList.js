@@ -13,7 +13,8 @@ class ProductsList extends Component {
             products: [],
             size: 12,
             page: 1,
-            currPage: null
+            currPage: null,
+            in_cart:[]
         }
         this.previousPage = this.previousPage.bind(this)
         this.nextPage = this.nextPage.bind(this)
@@ -90,11 +91,11 @@ class ProductsList extends Component {
             product_id: id
         })
             .then(res => {
-                console.log(res)
-
-            })
-            .catch(function (error) {
-                console.log(error)
+                if(res.status === 201) {
+                    this.setState({
+                        in_cart: this.state.in_cart.concat([id])
+                    })
+                }
             })
     }
 
@@ -141,15 +142,23 @@ class ProductsList extends Component {
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="/" data-tip="В корзину">
-                                                    <i className="fa fa-shopping-cart"></i>
-                                                </a>
+                                                {this.state.in_cart.indexOf(product.id) != -1  ?
+                                                    ('') :
+                                                    (<button onClick={() => {this.addProduct(product.id)}}
+                                                             data-tip="В корзину">
+                                                        <i className="fa fa-shopping-cart"></i>
+                                                    </button>)
+                                                }
                                             </li>
                                         </ul>
-                                        <button
+                                        {this.state.in_cart.indexOf(product.id) != -1  ?
+                                            (<a href='/' className='cart'>
+                                                <i className="fa fa-cart-plus" aria-hidden="true"></i> В корзині
+                                            </a>) :
+                                            (<button
                                             className="add-to-cart"
                                             onClick={() => {this.addProduct(product.id)}}
-                                        >Купити</button>
+                                        >Купити</button>)}
                                     </div>
                                     <div className="product-content">
                                         <a
