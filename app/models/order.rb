@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
  has_many :line_items, dependent: :destroy
 
-  validates %i[name email phone address], presence: true
+ validates_presence_of :name, :email, :phone, :address
 end
