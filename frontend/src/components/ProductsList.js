@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
 import noPhoto from '../images/no_picture.gif'
+import API from '../api'
 
 class ProductsList extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class ProductsList extends Component {
         this.previousPage = this.previousPage.bind(this)
         this.nextPage = this.nextPage.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.addProduct = this.addProduct.bind(this)
     }
 
     componentWillMount() {
@@ -83,6 +85,19 @@ class ProductsList extends Component {
         })
     }
 
+    addProduct(id) {
+        API.post('line_items', {
+            product_id: id
+        })
+            .then(res => {
+                console.log(res)
+
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
     render() {
         const { page, size, currPage } = this.state
         var count = 0
@@ -131,7 +146,7 @@ class ProductsList extends Component {
                                                 </a>
                                             </li>
                                         </ul>
-                                        <a className="add-to-cart" href="/">Купити</a>
+                                        <button className="add-to-cart" onClick={this.addProduct(product.id)}>Купити</button>
                                     </div>
                                     <div className="product-content">
                                         <a
