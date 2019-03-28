@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-PRODUCT_RESPONSE_PROPS = {
+PRODUCTS_RESPONSE_PROPS = {
     id: { type: :integer },
     name: { type: :string },
     price: { type: :decimal },
@@ -14,18 +14,18 @@ describe 'Products API' do
       parameter name: :category_id, in: :path, schema: { type: :integer },
       required: ['category_id']
 
-      success_schema(200, 'Products found', PRODUCT_RESPONSE_PROPS)
+      success_schema(200, 'Products found', PRODUCTS_RESPONSE_PROPS)
       error_schema(404, 'Products not found')
       end
     end
 
   path  '/api/v1/products/{id}' do
     get 'Find product by id' do
-      tags 'Product'
+      tags 'Products'
       parameter name: :id, in: :path, schema: { type: :integer },
       required: ['id']
 
-      success_schema(200, 'Product found', PRODUCT_RESPONSE_PROPS)
+      success_schema(200, 'Product found', PRODUCTS_RESPONSE_PROPS)
       error_schema(404, 'Products not found')
     end
   end
@@ -34,7 +34,7 @@ describe 'Products API' do
     get 'Find products' do
       tags 'Products'
 
-      success_schema(200, 'Product found', PRODUCT_RESPONSE_PROPS)
+      success_schema(200, 'Product found', PRODUCTS_RESPONSE_PROPS)
       error_schema(404, 'Products not found')
     end
   end

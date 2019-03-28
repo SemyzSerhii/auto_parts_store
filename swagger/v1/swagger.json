@@ -11,13 +11,9 @@
         "tags": [
           "Categories"
         ],
-        "produces": [
-          "application/json",
-          "application/xml"
-        ],
         "responses": {
           "200": {
-            "description": "name found",
+            "description": "Categories found",
             "schema": {
               "type": "object",
               "properties": {
@@ -29,88 +25,18 @@
                 },
                 "ancestry": {
                   "type": "integer"
-                }
-              },
-              "required": [
-                "id",
-                "title"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/products/categories/{category_id}": {
-      "get": {
-        "summary": "Find products by category",
-        "tags": [
-          "Products"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "category_id",
-            "in": "path",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "name found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
                 },
-                "name": {
+                "created_at": {
                   "type": "string"
                 },
-                "price": {
-                  "type": "decimal"
-                },
-                "short_description": {
-                  "type": "text"
-                }
-              },
-              "required": [
-                "id",
-                "name",
-                "price"
-              ]
-            }
-          },
-          "404": {
-            "description": "category not found"
-          },
-          "200": {
-            "description": "Products found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
+                "updated_at": {
                   "type": "string"
-                },
-                "price": {
-                  "type": "decimal"
-                },
-                "short_description": {
-                  "type": "text"
                 }
               }
             }
           },
           "404": {
-            "description": "Products not found",
+            "description": "Categories not found",
             "schema": {
               "type": "object",
               "properties": {
@@ -217,11 +143,70 @@
         }
       }
     },
+    "/api/v1/products/categories/{category_id}": {
+      "get": {
+        "summary": "Find products by category",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/products/{id}": {
       "get": {
         "summary": "Find product by id",
         "tags": [
-          "Product"
+          "Products"
         ],
         "parameters": [
           {
