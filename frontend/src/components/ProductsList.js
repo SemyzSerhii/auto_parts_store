@@ -14,12 +14,14 @@ class ProductsList extends Component {
             size: 12,
             page: 1,
             currPage: null,
-            in_cart:[]
+            in_cart:[],
+            order: ''
         }
         this.previousPage = this.previousPage.bind(this)
         this.nextPage = this.nextPage.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.addProduct = this.addProduct.bind(this)
+        this.orderProducts = this.orderProducts.bind(this)
     }
 
     componentWillMount() {
@@ -43,6 +45,34 @@ class ProductsList extends Component {
                 })
             })
 
+    }
+
+    orderProducts(order){
+        this.setState({
+            order: order.target.value
+        })
+        var path
+        if (order.target.value) {
+            if (this.props.location.pathname.includes("/categories/")) {
+                path = `http://localhost:3000/api/v1/products/categories/${this.props.match.params.id}/order/${order.target.value}`
+            } else {
+                path = `http://localhost:3000/api/v1/order/${order.target.value}`
+            }
+
+            fetch(path)
+                .then(response => response.json())
+                .then(products => {
+                    const { page, size } = this.state
+
+                    const currPage = paginate(products, page, size)
+
+                    this.setState({
+                        ...this.state,
+                        products,
+                        currPage
+                    })
+                })
+        }
     }
 
     previousPage() {
@@ -105,13 +135,27 @@ class ProductsList extends Component {
 
         return (
             <div className="products">
-                <div className="form-group">
+                <div className='row'>
+                <div className="form-group col">
+                    <label htmlFor="order">Сортувати: </label>
+                <select className='form-control' id='order'
+                        value={this.state.order} onChange={this.orderProducts}>
+                    <option value="hide"></option>
+                    <option value="price">Ціна за зростанням</option>
+                    <option value="price_desc">Ціна за спаданням</option>
+                    <option value="name">За назвою: A->Z</option>
+                    <option value="name_desc">За назвою: Z->A</option>
+                </select>
+                </div>
+
+                <div className="form-group col">
                     <label htmlFor="size">Кількість: </label>
                     <select className="form-control" name="size" id="size" onChange={this.handleChange}>
                         <option value="12">12</option>
                         <option value="28">28</option>
                         <option value="40">40</option>
                     </select>
+                </div>
                 </div>
 
                 {currPage &&

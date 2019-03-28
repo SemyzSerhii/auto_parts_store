@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :carts, only: %i[show destroy]
       resources :categories, only: :index
       get 'products/categories/:category_id' => 'products#index', as: 'category_products'
+      get 'products/categories/:category_id/order/:by' => 'products#index', as: 'category_order'
+      get 'order/:by' => 'products#index', as: 'order'
     end
   end
 end
