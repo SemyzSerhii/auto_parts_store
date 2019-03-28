@@ -1,57 +1,31 @@
 require 'swagger_helper'
 
+PAGES_RESPONSE_PROPS = {
+  id: { type: :integer},
+  title: {type: :string},
+  body: {type: :text},
+  created_at: {type: :string},
+  updated_at: {type: :string}
+}
+
 describe 'Pages API' do
-
   path '/api/v1/pages' do
-
     get 'Pages' do
       tags 'Pages'
-      produces 'application/json', 'application/xml'
 
-      response '200', 'name found' do
-        schema type: :object,
-               properties: {
-                   id: { type: :integer, },
-                   title: { type: :string },
-                   body: { type: :text }
-               },
-               required: %w[id title body]
-
-        let(:id) { Pages.create(title: 'About us', body: 'Bootstrap includes several predefined button styles.').id }
-        run_test!
-      end
-
-      response '404', 'Page not found' do
-        let(:id) { 'invalid' }
-        run_test!
-      end
+      success_schema(200, 'Pages found', PAGES_RESPONSE_PROPS)
+      error_schema(404, 'Pages not found')
     end
   end
 
   path  '/api/v1/pages/{id}' do
-
-    get 'Page' do
+    get 'Find page by id' do
       tags 'Pages'
-      produces 'application/json', 'application/xml'
-      parameter name: :id, in: :path, type: :string
+      parameter name: :id, in: :path, type: :string,
+      required: ['id']
 
-      response '200', 'name found' do
-        schema type: :object,
-               properties: {
-                   id: { type: :integer, },
-                   title: { type: :string },
-                   body: { type: :text }
-               },
-               required: %w[id title body]
-
-        let(:id) { Pages.create(title: 'About us', body: 'Bootstrap includes several predefined button styles.').id }
-        run_test!
-      end
-
-      response '404', 'Pages not found' do
-        let(:id) { 'invalid' }
-        run_test!
-      end
+      success_schema(200, 'Pages found', PAGES_RESPONSE_PROPS)
+      error_schema(404, 'Pages not found')
     end
   end
 end

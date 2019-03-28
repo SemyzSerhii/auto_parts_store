@@ -1,12 +1,10 @@
 require 'swagger_helper'
 
-describe 'Users API' do
+describe 'Sessions API' do
 
   path '/api/v1/sessions' do
-
-    post :session do
+    post 'Authorization' do
       tags 'Sessions'
-      consumes 'application/json'
       parameter name: :session, in: :body, schema: {
         type: :object,
         properties: {
@@ -18,22 +16,10 @@ describe 'Users API' do
           }
         }
       },
-        required: %w[token]
+        required: ['token']
 
-      response '200', 'login' do
-        let(:session) {
-          {
-            email: 'test_user@gmail.com',
-            password: 'password'
-          }
-        }
-        run_test!
-      end
-
-      response '422', 'invalid request' do
-        let(:user) { { name: 'foo' } }
-        run_test!
-      end
+      success_schema(201, 'User authorization', {token: {type: :string}})
+      error_schema(422, 'Validation Errors')
     end
   end
 end

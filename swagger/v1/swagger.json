@@ -63,13 +63,9 @@
         "tags": [
           "Pages"
         ],
-        "produces": [
-          "application/json",
-          "application/xml"
-        ],
         "responses": {
           "200": {
-            "description": "name found",
+            "description": "Pages found",
             "schema": {
               "type": "object",
               "properties": {
@@ -81,30 +77,43 @@
                 },
                 "body": {
                   "type": "text"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
                 }
-              },
-              "required": [
-                "id",
-                "title",
-                "body"
-              ]
+              }
             }
           },
           "404": {
-            "description": "Page not found"
+            "description": "Pages not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/v1/pages/{id}": {
       "get": {
-        "summary": "Page",
+        "summary": "Find page by id",
         "tags": [
           "Pages"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml"
         ],
         "parameters": [
           {
@@ -116,7 +125,7 @@
         ],
         "responses": {
           "200": {
-            "description": "name found",
+            "description": "Pages found",
             "schema": {
               "type": "object",
               "properties": {
@@ -128,17 +137,34 @@
                 },
                 "body": {
                   "type": "text"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
                 }
-              },
-              "required": [
-                "id",
-                "title",
-                "body"
-              ]
+              }
             }
           },
           "404": {
-            "description": "Pages not found"
+            "description": "Pages not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -312,12 +338,9 @@
     },
     "/api/v1/sessions": {
       "post": {
-        "summary": "session",
+        "summary": "Authorization",
         "tags": [
           "Sessions"
-        ],
-        "consumes": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -345,11 +368,35 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "login"
+          "201": {
+            "description": "User authorization",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "422": {
-            "description": "invalid request"
+            "description": "Validation Errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

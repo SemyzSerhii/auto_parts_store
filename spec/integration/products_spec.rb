@@ -5,7 +5,7 @@ PRODUCTS_RESPONSE_PROPS = {
     name: { type: :string },
     price: { type: :decimal },
     short_description: { type: :text }
-}.freeze
+}
 
 describe 'Products API' do
   path '/api/v1/products/categories/{category_id}' do
