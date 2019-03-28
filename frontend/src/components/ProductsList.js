@@ -5,6 +5,7 @@ import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
 import noPhoto from '../images/no_picture.gif'
 import API from '../api'
+import { URL_API } from '../constants'
 
 class ProductsList extends Component {
     constructor(props) {
@@ -27,9 +28,9 @@ class ProductsList extends Component {
     componentWillMount() {
         var path
         if (this.props.location.pathname.includes("/categories/")) {
-            path = `http://localhost:3000/api/v1/products/categories/${this.props.match.params.id}`
+            path = `${URL_API}/products/categories/${this.props.match.params.id}`
         } else {
-            path = `http://localhost:3000/api/v1/products`
+            path = `${URL_API}/products`
         }
         fetch(path)
             .then(response => response.json())
@@ -54,9 +55,9 @@ class ProductsList extends Component {
         var path
         if (order.target.value) {
             if (this.props.location.pathname.includes("/categories/")) {
-                path = `http://localhost:3000/api/v1/products/categories/${this.props.match.params.id}/order/${order.target.value}`
+                path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${order.target.value}`
             } else {
-                path = `http://localhost:3000/api/v1/order/${order.target.value}`
+                path = `${URL_API}/order/${order.target.value}`
             }
 
             fetch(path)

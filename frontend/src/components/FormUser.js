@@ -5,6 +5,7 @@ import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
 import API from '../api'
 import $ from 'jquery'
+import { URL_API, EMAIL_VALIDATION, PHONE_VALIDATION } from '../constants'
 
 class FormUser extends Component {
     constructor(props) {
@@ -86,7 +87,7 @@ class FormUser extends Component {
             error_name = 'Довжина не менше 3 симовлів.'
         }
 
-        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.user.email)) {
+        if (EMAIL_VALIDATION.test(this.state.user.email)) {
             email = false
             error_email = ''
         } else {
@@ -102,7 +103,7 @@ class FormUser extends Component {
             error_password = 'Довжина не менше 6 симовлів.'
         }
 
-        if (/^[0-9]{9}$/.test(this.state.user.phone)) {
+        if (PHONE_VALIDATION.test(this.state.user.phone)) {
             phone = false
             error_phone = ''
         } else {
@@ -131,7 +132,7 @@ class FormUser extends Component {
             }
         }
         $.ajax({
-            url: "http://localhost:3000/api/v1/users",
+            url: `${URL_API}/users`,
             type: "POST",
             data: request,
             dataType: "json",

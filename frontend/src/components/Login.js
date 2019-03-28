@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { withRouter } from 'react-router-dom'
 import update from 'immutability-helper'
 import $ from 'jquery'
+import { URL_API } from '../constants'
 
 const customStyles = {
     content : {
@@ -73,7 +74,7 @@ class Login extends Component {
             this.setState({success: false}).bind(this)
         } else {
             $.ajax({
-                url: "http://localhost:3000/api/v1/sessions",
+                url: `${URL_API}/sessions`,
                 type: "POST",
                 data: {
                     session: {
