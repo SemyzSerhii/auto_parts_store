@@ -34,28 +34,41 @@ end
 
 describe 'Users API' do
   path '/api/v1/users' do
-
-    post :user do
+    post 'Users create' do
+      tags 'Users'
       parameter name: :user,
         in: :body,
         schema: USER_REQUEST_SCHEMA,
-        required: %w[name email phone]
+        required: %w[name email phone password]
 
       success_schema(201, 'User created')
       error_schema(422, 'Validation Errors')
     end
 
-    get 'Retrieves user' do
+    get 'Get create'  do
+      tags 'Users'
       parameter name: :Authorization, in: :header, schema: { type: :string }
 
       success_schema(200, 'User found')
       error_schema(404, 'User not found')
     end
 
-    put :user do
+    put 'Users udate'  do
+      tags 'Users'
+      parameter name: :Authorization, in: :header, schema: { type: :string }
       parameter name: :user,
         in: :body,
-        schema: USER_REQUEST_SCHEMA,
+        schema: {type: :object,
+          properties: {
+            user: {
+              type: :object,
+              properties: {
+                change_this_string_to_the_params_you_need_to_change: {
+                  type: :string },
+              }
+            }
+          }
+        },
         required: %w[name email phone]
 
       success_schema(200, 'User updated')
