@@ -1,59 +1,41 @@
 require 'swagger_helper'
 
+PRODUCT_RESPONSE_PROPS = {
+    id: { type: :integer },
+    name: { type: :string },
+    price: { type: :decimal },
+    short_description: { type: :text }
+}.freeze
+
 describe 'Products API' do
-
-  path '/api/v1/products' do
-
-    get 'Products' do
+  path '/api/v1/products/categories/{category_id}' do
+    get 'Find products by category' do
       tags 'Products'
-      produces 'application/json', 'application/xml'
+      parameter name: :category_id, in: :path, schema: { type: :integer },
+      required: ['category_id']
 
-      response '200', 'name found' do
-        schema type: :object,
-               properties: {
-                   id: { type: :integer, },
-                   name: { type: :string },
-                   price: { type: :decimal },
-                   short_description: { type: :text }
-               },
-               required: [ 'id', 'name', 'price']
-
-        let(:id) { Product.create(name: 'Filter', category_id: 1, price: 1.1) }
-        run_test!
+      success_schema(200, 'Products found', PRODUCT_RESPONSE_PROPS)
+      error_schema(404, 'Products not found')
       end
+    end
 
-      response '404', 'product not found' do
-        let(:id) { 'invalid' }
-        run_test!
-      end
+  path  '/api/v1/products/{id}' do
+    get 'Find product by id' do
+      tags 'Product'
+      parameter name: :id, in: :path, schema: { type: :integer },
+      required: ['id']
+
+      success_schema(200, 'Product found', PRODUCT_RESPONSE_PROPS)
+      error_schema(404, 'Products not found')
     end
   end
 
-  path  '/api/v1/products/{id}' do
+  path  '/api/v1/products' do
+    get 'Find products' do
+      tags 'Products'
 
-    get 'Product' do
-      tags 'Product'
-      produces 'application/json', 'application/xml'
-      parameter name: :id, in: :path, type: :string
-
-      response '200', 'name found' do
-        schema type: :object,
-               properties: {
-                   id: { type: :integer, },
-                   name: { type: :string },
-                   price: { type: :decimal },
-                   short_description: { type: :text }
-               },
-               required: %w[id name price]
-
-        let(:id) { Product.create(name: 'Filter', category_id: 1, price: 1.1) }
-        run_test!
-      end
-
-      response '404', 'product not found' do
-        let(:id) { 'invalid' }
-        run_test!
-      end
+      success_schema(200, 'Product found', PRODUCT_RESPONSE_PROPS)
+      error_schema(404, 'Products not found')
     end
   end
 end

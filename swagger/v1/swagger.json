@@ -42,7 +42,7 @@
     },
     "/api/v1/products/categories/{category_id}": {
       "get": {
-        "summary": "Category products",
+        "summary": "Find products by category",
         "tags": [
           "Products"
         ],
@@ -54,7 +54,9 @@
           {
             "name": "category_id",
             "in": "path",
-            "type": "string",
+            "schema": {
+              "type": "integer"
+            },
             "required": true
           }
         ],
@@ -86,6 +88,45 @@
           },
           "404": {
             "description": "category not found"
+          },
+          "200": {
+            "description": "Products found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -176,69 +217,25 @@
         }
       }
     },
-    "/api/v1/products": {
-      "get": {
-        "summary": "Products",
-        "tags": [
-          "Products"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml"
-        ],
-        "responses": {
-          "200": {
-            "description": "name found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "price": {
-                  "type": "decimal"
-                },
-                "short_description": {
-                  "type": "text"
-                }
-              },
-              "required": [
-                "id",
-                "name",
-                "price"
-              ]
-            }
-          },
-          "404": {
-            "description": "product not found"
-          }
-        }
-      }
-    },
     "/api/v1/products/{id}": {
       "get": {
-        "summary": "Product",
+        "summary": "Find product by id",
         "tags": [
           "Product"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "type": "string",
+            "schema": {
+              "type": "integer"
+            },
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "name found",
+            "description": "Product found",
             "schema": {
               "type": "object",
               "properties": {
@@ -254,16 +251,76 @@
                 "short_description": {
                   "type": "text"
                 }
-              },
-              "required": [
-                "id",
-                "name",
-                "price"
-              ]
+              }
             }
           },
           "404": {
-            "description": "product not found"
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "summary": "Find products",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "Product found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

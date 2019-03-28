@@ -16,21 +16,13 @@ USER_REQUEST_SCHEMA = {
 }.freeze
 
 USER_RESPONSE_PROPS = {
-  id: { type: :integer, },
+  id: { type: :integer },
   name: { type: :string },
   email: { type: :string },
-  phone: { type: :integer, },
+  phone: { type: :integer },
   created_at: { type: :string },
   updated_at: { type: :string }
 }.freeze
-
-
-def success_schema(code, label)
-  response code, label do
-    schema type: :object, properties: USER_RESPONSE_PROPS
-    run_test!
-  end
-end
 
 describe 'Users API' do
   path '/api/v1/users' do
@@ -41,7 +33,7 @@ describe 'Users API' do
         schema: USER_REQUEST_SCHEMA,
         required: %w[name email phone password]
 
-      success_schema(201, 'User created')
+      success_schema(201, 'User created', USER_RESPONSE_PROPS)
       error_schema(422, 'Validation Errors')
     end
 
@@ -49,7 +41,7 @@ describe 'Users API' do
       tags 'Users'
       parameter name: :Authorization, in: :header, schema: { type: :string }
 
-      success_schema(200, 'User found')
+      success_schema(200, 'User found', USER_RESPONSE_PROPS)
       error_schema(404, 'User not found')
     end
 
@@ -71,7 +63,7 @@ describe 'Users API' do
         },
         required: %w[name email phone]
 
-      success_schema(200, 'User updated')
+      success_schema(200, 'User updated', USER_RESPONSE_PROPS)
       error_schema(422, 'Validation Errors')
     end
   end

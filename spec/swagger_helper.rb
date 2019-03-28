@@ -41,3 +41,11 @@ def error_schema(status_code, label)
     run_test!
   end
 end
+
+
+def success_schema(status_code, label, properties)
+  response status_code, label do
+    schema type: :object, properties: properties
+    run_test!
+  end
+end
