@@ -23,3 +23,29 @@ RSpec.configure do |config|
     }
   }
 end
+
+def error_schema(status_code, label)
+  response status_code, label do
+    schema type: :object,
+      properties: {
+        messages: {
+          type: :object,
+          properties: {
+            error_key: {
+              type: :array,
+              items: { type: :string }
+            }
+          }
+        }
+      }
+    run_test!
+  end
+end
+
+
+def success_schema(status_code, label, properties)
+  response status_code, label do
+    schema type: :object, properties: properties
+    run_test!
+  end
+end
