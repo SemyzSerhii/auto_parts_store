@@ -5,6 +5,49 @@
     "version": "v1"
   },
   "paths": {
+    "/api/v1/cart": {
+      "get": {
+        "summary": "Cart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "product_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/categories": {
       "get": {
         "summary": "Categories",
@@ -37,6 +80,207 @@
           },
           "404": {
             "description": "Categories not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/line_items": {
+      "post": {
+        "summary": "Line items create",
+        "tags": [
+          "Line items"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "product_id": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "product_id"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Line items created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "product": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/line_items/{id}": {
+      "put": {
+        "summary": "Line items update",
+        "tags": [
+          "Line items"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "product_id": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "quantity",
+              "product_id"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Line items updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "product": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Line items delete",
+        "tags": [
+          "Line items"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "product_id": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Validation Errors",
             "schema": {
               "type": "object",
               "properties": {

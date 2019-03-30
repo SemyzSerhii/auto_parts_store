@@ -11,12 +11,12 @@ class Api::V1::LineItemsController < ApplicationController
 
   def update
     process_items_update(response_action: :show) do |record|
-      record.update(item_params)
+      record.update(quantity: params.require(:line_items).permit(:quantity))
     end
   end
 
   def destroy
-    process_items_update &:destroy
+    @item.destroy
   end
 
   private
@@ -31,11 +31,5 @@ class Api::V1::LineItemsController < ApplicationController
 
   def find_item
     @item = @cart.line_items.find_by!(product: @product)
-  end
-
-  def item_params
-    # TODO check in details. This one is in progress
-    params.require(:quantity)
-    params.permit(:quantity)
   end
 end
