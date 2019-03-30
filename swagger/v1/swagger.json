@@ -108,14 +108,7 @@
         ],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "product_id",
+            "name": "Product ID",
             "in": "body",
             "schema": {
               "properties": {
@@ -169,7 +162,7 @@
         }
       }
     },
-    "/api/v1/line_items/{id}": {
+    "/api/v1/line_items/{line_item_id}": {
       "put": {
         "summary": "Line items update",
         "tags": [
@@ -177,14 +170,7 @@
         ],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "quantity",
+            "name": "Update params",
             "in": "body",
             "schema": {
               "type": "object",
@@ -196,19 +182,10 @@
             }
           },
           {
-            "name": "product_id",
-            "in": "body",
-            "schema": {
-              "properties": {
-                "product_id": {
-                  "type": "integer"
-                }
-              }
-            },
-            "required": [
-              "quantity",
-              "product_id"
-            ]
+            "name": "line_item_id",
+            "in": "path",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
@@ -257,25 +234,10 @@
         ],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "product_id",
-            "in": "body",
-            "schema": {
-              "properties": {
-                "product_id": {
-                  "type": "integer"
-                }
-              }
-            },
-            "required": [
-              "id"
-            ]
+            "name": "line_item_id",
+            "in": "path",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
@@ -734,7 +696,7 @@
         }
       },
       "get": {
-        "summary": "Get create",
+        "summary": "Get user",
         "tags": [
           "Users"
         ],
@@ -796,7 +758,7 @@
         }
       },
       "put": {
-        "summary": "Users udate",
+        "summary": "Users update",
         "tags": [
           "Users"
         ],
@@ -817,18 +779,22 @@
                 "user": {
                   "type": "object",
                   "properties": {
-                    "change_this_string_to_the_params_you_need_to_change": {
+                    "name": {
                       "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "integer"
                     }
                   }
                 }
               }
-            },
-            "required": [
-              "name",
-              "email",
-              "phone"
-            ]
+            }
           }
         ],
         "responses": {

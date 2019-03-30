@@ -1,8 +1,8 @@
 require 'swagger_helper'
 
 CART_RESPONSE_PROPS = {
-  id: { type: :integer},
-  product_id: {type: :string},
+  id: { type: :integer },
+  product_id: { type: :string },
 }
 
 describe 'Cart API' do

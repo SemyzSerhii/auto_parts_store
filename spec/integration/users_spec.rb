@@ -37,7 +37,7 @@ describe 'Users API' do
       error_schema(422, 'Validation Errors')
     end
 
-    get 'Get create'  do
+    get 'Get user' do
       tags 'Users'
       parameter name: :Authorization, in: :header, schema: { type: :string }
 
@@ -45,23 +45,12 @@ describe 'Users API' do
       error_schema(404, 'User not found')
     end
 
-    put 'Users udate'  do
+    put 'Users update' do
       tags 'Users'
       parameter name: :Authorization, in: :header, schema: { type: :string }
       parameter name: :user,
         in: :body,
-        schema: {type: :object,
-          properties: {
-            user: {
-              type: :object,
-              properties: {
-                change_this_string_to_the_params_you_need_to_change: {
-                  type: :string },
-              }
-            }
-          }
-        },
-        required: %w[name email phone]
+        schema: USER_REQUEST_SCHEMA.without(:id, :created_at, :updated_at)
 
       success_schema(200, 'User updated', USER_RESPONSE_PROPS)
       error_schema(422, 'Validation Errors')
