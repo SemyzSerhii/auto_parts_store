@@ -422,6 +422,10 @@ button.close:focus {
     width: 80%;
 }
 
+.user-profile .nav-link {
+    display: inline-block;
+}
+
 /* Categories */
 
 #sidebar {

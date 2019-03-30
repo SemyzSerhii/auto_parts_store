@@ -8,6 +8,7 @@ import '../node_modules/font-awesome/css/font-awesome.min.css'
 import Home from './components/Home'
 import Page from './components/Page'
 import Product from './components/Product'
+import UserProfile from './components/UserProfile'
 import CategoriesList from './components/CategoriesList'
 import Menu from './components/Menu'
 import NotFound from './components/NotFound'
@@ -29,6 +30,7 @@ class App extends Component {
                                     <Route path='/pages/:id' component={Page}/>
                                     <Route path='/products/:id' component={Product}/>
                                     <Route path='/categories/:id' component={Home}/>
+                                    <Route path='/user' component={UserProfile}/>
                                     <Route component={NotFound}/>
                                 </Switch>
                             </BrowserRouter>

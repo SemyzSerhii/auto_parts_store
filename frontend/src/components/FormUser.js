@@ -31,7 +31,8 @@ class FormUser extends Component {
                 phone: ''
             },
             edit: false,
-            success: false
+            success: false,
+            current_user: ''
         }
 
         this.dataChange = this.dataChange.bind(this)
@@ -41,6 +42,20 @@ class FormUser extends Component {
         this.editUser = this.editUser.bind(this)
         this.resetData = this.resetData.bind(this)
         this.validationForm = this.validationForm.bind(this)
+    }
+
+    componentWillMount() {
+        // if edit get data
+        if (this.state.current_user){
+            API.get(`users`)
+                .then(function (response) {
+                    this.setState({
+                        user: response.data,
+                        edit: true
+                    })
+
+                }.bind(this))
+        }
     }
 
     dataChange({target: {value, name}}) {
@@ -68,7 +83,7 @@ class FormUser extends Component {
         // check errors exist
         if (!this.state.errors.name && !this.state.errors.email &&
             !this.state.errors.password && !this.state.errors.phone) {
-            if (!this.state.edit) {
+            if (!this.state.current_user) {
                 this.createUser(user)
             } else {
                 this.editUser(user)
@@ -150,22 +165,29 @@ class FormUser extends Component {
     }
 
     editUser(user) {
-        API.put(`/users/${this.state.user._id}`,
-            {
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                phone: user.phone
-            })
-            .catch(errors => console.log(errors))
-        this.setState({
-            user: {
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                phone: user.phone
+        const request = {
+            "user": {
+                "name": user.name,
+                "email": user.email,
+                "phone": user.phone,
+                "password": user.password
+            }
+        }
+        $.ajax({
+            url: `${URL_API}/users`,
+            type: "PUT",
+            data: request,
+            dataType: "json",
+            context: this,
+            success: function (res) {
+                if (res) {
+                    this.setState({success: true})
+                }
             },
-            success: true
+            error: function (error) {
+                this.validationForm(error)
+            }
+
         })
     }
 
@@ -270,7 +292,7 @@ class FormUser extends Component {
                         <input
                             className='btn btn-primary'
                             type='submit'
-                            value='Реєстрація'
+                            value='Зберегти'
                             onClick={this.handleSubmit}
                         />
                         <div className='text-success'>

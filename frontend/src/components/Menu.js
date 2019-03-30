@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import API from '../api'
 import { BrowserRouter } from 'react-router-dom'
-import Registration from './Registration'
+import UserDataModal from './UserDataModal'
 import Login from './Login'
 
 class Menu extends Component {
@@ -45,7 +45,7 @@ class Menu extends Component {
                 </nav>
                 <div className='nav-user'>
                     <BrowserRouter>
-                        <Registration/>
+                        <UserDataModal/>
                     </BrowserRouter>
                     <BrowserRouter>
                         <Login/>

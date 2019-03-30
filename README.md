@@ -17,15 +17,16 @@ NPM version 6.4.1
         $ bundle
 
   Create .env with: 
-   * db_host = localhost
-   * db_port = 5432
-   * db_name
-   * db_username
-   * db_password
+   * DB_HOST=localhost
+   * DB_PORT=5432
+   * DB_NAME
+   * DB_USERNAME
+   * DB_PASSWORD
    * S3_KEY
    * S3_SECRET
    * S3_REGION
    * S3_BUCKET
+   * SECRET_KEY_BASE
    
 #### Database creation
 

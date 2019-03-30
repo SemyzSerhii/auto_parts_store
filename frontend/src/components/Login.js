@@ -72,7 +72,7 @@ class Login extends Component {
         // check fields
         if (!this.state.user.email ||
             !this.state.user.password ||
-            !this.state.user.email && !this.state.user.password) {
+            (!this.state.user.email && !this.state.user.password)) {
             this.setState({
                 errors: {
                     email: true,

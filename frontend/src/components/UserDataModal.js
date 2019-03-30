@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
 import { withRouter } from 'react-router-dom'
+import classNames from 'classnames/bind'
 
 import FormUser from './FormUser'
 
@@ -18,11 +19,12 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root')
 
-class Registration extends Component {
+class UserDataModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            modalIsOpen: false
+            modalIsOpen: false,
+            current_user: ''
         }
         this.openModal = this.openModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
@@ -40,7 +42,11 @@ class Registration extends Component {
         return (
             <div>
                 <button className='nav-link btn btn-link' onClick={this.openModal}>
-                    <i className="fa fa-user-o" aria-hidden="true"></i> Реєстрація
+                    <i className={classNames('fa',
+                        `${this.state.current_user ? 'fa-cog' : 'fa-user-o'}`)} aria-hidden="true">
+
+                    </i>
+                    {this.state.current_user ? ' Змінити дані' : ' Реєстрація'}
                 </button>
 
                 <Modal
@@ -50,7 +56,7 @@ class Registration extends Component {
                     contentLabel="Registration"
                 >
                     <div className="modal-header">
-                        <h2 className="modal-title">Зареєструватися</h2>
+                        <h2 className="modal-title"> {this.state.current_user ? 'Змінити дані' : 'Зареєструватися'}</h2>
                         <button type="button" className="close"
                                 data-dismiss="modal" aria-label="Close"
                                 onClick={this.closeModal}>
@@ -64,4 +70,4 @@ class Registration extends Component {
     }
 }
 
-export default withRouter(Registration)
+export default withRouter(UserDataModal)
