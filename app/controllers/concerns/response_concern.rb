@@ -3,15 +3,19 @@ module ResponseConcern
 
   included do
     def render_validation_errors(record)
-      render json: { messages: record.errors }, status: :unprocessable_entity
+      process_errors(:unprocessable_entity, messages: record.errors)
     end
 
     def render_exception(status, message)
-      render status: status, json: { messages: { exception: [message] } }
+      process_errors(status, exception: [message])
     end
 
     def render_success(status = :ok)
       render status: status, json: { success: true }
+    end
+
+    def process_errors(status, messages)
+      render status: status, json: { messages: messages }
     end
   end
 end
