@@ -46,6 +46,23 @@
             }
           }
         }
+      },
+      "delete": {
+        "summary": "Delete Cart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart deleted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": true
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/categories": {

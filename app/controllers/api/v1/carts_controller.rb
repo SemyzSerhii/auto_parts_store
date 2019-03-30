@@ -6,5 +6,7 @@ class Api::V1::CartsController < ApplicationController
   def destroy
     @cart.destroy
     session[:cart_id] = nil
+
+    render_success
   end
 end

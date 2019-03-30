@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
+  include ResponseConcern
   include ExceptionConcern
+
   skip_before_action :verify_authenticity_token
 
   def authenticate_request!

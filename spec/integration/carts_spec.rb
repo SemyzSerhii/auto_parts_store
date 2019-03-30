@@ -13,5 +13,10 @@ describe 'Cart API' do
       success_schema(200, 'Cart found', CART_RESPONSE_PROPS)
       error_schema(404, 'Cart not found')
     end
+
+    delete 'Delete Cart' do
+      tags 'Cart'
+      success_schema(200, 'Cart deleted', { success: true })
+    end
   end
 end

@@ -18,7 +18,7 @@ class Api::V1::LineItemsController < ApplicationController
   def destroy
     @item.destroy
 
-    render status: :ok, json: { success: true }
+    render_success
   end
 
   private
