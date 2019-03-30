@@ -83,8 +83,11 @@ class Login extends Component {
                     }
                 },
                 dataType: "json",
-                success: function (result) {
-                    localStorage.setItem("jwt", result.token);
+                context: this,
+                success: function (res) {
+                    if (res) {
+                        this.closeModal()
+                    }
                 }
             })
 

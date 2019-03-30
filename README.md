@@ -18,7 +18,7 @@ NPM version 6.4.1
 
   Create .env with: 
    * db_host = localhost
-   * db_port = 3000
+   * db_port = 5432
    * db_name
    * db_username
    * db_password
