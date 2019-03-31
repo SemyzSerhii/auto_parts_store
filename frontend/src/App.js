@@ -10,10 +10,12 @@ import Page from './components/Page'
 import Product from './components/Product'
 import UserProfile from './components/UserProfile'
 import CategoriesList from './components/CategoriesList'
+import Cart from './components/Cart'
 import Menu from './components/Menu'
 import NotFound from './components/NotFound'
 
 class App extends Component {
+
     render() {
         return (
             <div className="App">
@@ -27,10 +29,11 @@ class App extends Component {
                             <BrowserRouter>
                                 <Switch>
                                     <Route exact path='/' component={Home}/>
+                                    <Route path='/categories/:id' component={Home}/>
                                     <Route path='/pages/:id' component={Page}/>
                                     <Route path='/products/:id' component={Product}/>
-                                    <Route path='/categories/:id' component={Home}/>
                                     <Route path='/user' component={UserProfile}/>
+                                    <Route path='/cart' component={Cart}/>
                                     <Route component={NotFound}/>
                                 </Switch>
                             </BrowserRouter>
