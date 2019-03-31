@@ -13,13 +13,5 @@ module ExceptionConcern
     rescue_from ActionController::ParameterMissing do |e|
       render_exception(422, e.message)
     end
-
-    def render_validation_errors(record)
-      render json: { messages: record.errors }, status: :unprocessable_entity
-    end
-
-    def render_exception(status, message)
-      render status: status, json: { messages: { exception: [message] } }
-    end
   end
 end

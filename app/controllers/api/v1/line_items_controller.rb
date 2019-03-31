@@ -1,6 +1,6 @@
 class Api::V1::LineItemsController < ApplicationController
   before_action :initialize_cart
-  before_action :find_product
+  before_action :find_product, only: %i[create]
   before_action :find_item, only: %i[update destroy]
 
   def create
@@ -11,12 +11,14 @@ class Api::V1::LineItemsController < ApplicationController
 
   def update
     process_items_update(response_action: :show) do |record|
-      record.update(item_params)
+      record.update(quantity: params[:quantity])
     end
   end
 
   def destroy
-    process_items_update &:destroy
+    @item.destroy
+
+    render_success
   end
 
   private
@@ -29,13 +31,11 @@ class Api::V1::LineItemsController < ApplicationController
     @product = Product.find(params[:product_id])
   end
 
-  def find_item
-    @item = @cart.line_items.find_by!(product: @product)
+  def find_item_query
+    action_name == :create ? { product: @product } : { id: params[:id]}
   end
 
-  def item_params
-    # TODO check in details. This one is in progress
-    params.require(:quantity)
-    params.permit(:quantity)
+  def find_item
+    @item = @cart.line_items.find_by!(find_item_query)
   end
 end

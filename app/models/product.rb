@@ -1,7 +1,8 @@
 class Product < ApplicationRecord
+  mount_uploader :image, PictureUploader
+
   has_many :line_items
   belongs_to :category
-  mount_uploader :image, PictureUploader
 
   scope :publish, -> { where(in_stock: true) }
   scope :unpublish, -> { where(in_stock: false) }
