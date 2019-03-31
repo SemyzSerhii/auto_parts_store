@@ -19,12 +19,6 @@ class FormUser extends Component {
                 _id: ''
             },
             errors: {
-                name: false,
-                email: false,
-                password: false,
-                phone: false
-            },
-            validation: {
                 name: '',
                 email: '',
                 password: '',
@@ -75,14 +69,13 @@ class FormUser extends Component {
                 password: this.state.user.password,
                 phone: this.state.user.phone,
                 _id: this.state.user._id
-            },
-            success: false
+            }
         })
+        let error_count = this.checkField()
+
         const user = this.state.user
-        this.checkField()
         // check errors exist
-        if (!this.state.errors.name && !this.state.errors.email &&
-            !this.state.errors.password && !this.state.errors.phone) {
+        if (error_count === 0) {
             if (!this.state.current_user) {
                 this.createUser(user)
             } else {
@@ -92,49 +85,46 @@ class FormUser extends Component {
     }
 
     checkField() {
-        var email, error_email, name, error_name, phone, error_phone, password, error_password
+        var error_email, error_name, error_phone, error_password
+        var error = 0
 
         if (this.state.user.name.length >= 3) {
-            name = false
             error_name = ''
         } else {
-            name = true
             error_name = 'Довжина не менше 3 симовлів.'
+            error++
         }
 
         if (EMAIL_VALIDATION.test(this.state.user.email)) {
-            email = false
             error_email = ''
         } else {
-            email = true
             error_email = 'Приклад, example@gmail.com'
+            error++
         }
 
         if (this.state.user.password.length >= 6) {
-            password = false
             error_password = ''
         } else {
-            password = true
             error_password = 'Довжина не менше 6 симовлів.'
+            error++
         }
 
         if (PHONE_VALIDATION.test(this.state.user.phone)) {
-            phone = false
             error_phone = ''
         } else {
-            phone = true
             error_phone = 'Не вірний номер.'
+            error++
         }
+        this.setState({
+            errors: {
+                name: error_name,
+                email: error_email,
+                password: error_password,
+                phone: error_phone
+            }
+        })
 
-        this.state.errors.name = name
-        this.state.errors.email = email
-        this.state.errors.phone = phone
-        this.state.errors.password = password
-
-        this.state.validation.name = error_name
-        this.state.validation.email = error_email
-        this.state.validation.phone = error_phone
-        this.state.validation.password = error_password
+        return error
     }
 
     createUser(user) {
@@ -192,22 +182,12 @@ class FormUser extends Component {
     }
 
     validationForm(error) {
-        var name = error.responseJSON.name ? true : false
-        var email = error.responseJSON.email ? true : false
-        var password = error.responseJSON.password ? true : false
-        var phone = error.responseJSON.phone ? true : false
-
         this.setState({
             errors: {
-                name: name,
-                email: email,
-                password: password,
-                phone: phone
-            },
-            validation: {
                 name: error.responseJSON.name,
                 email: error.responseJSON.email,
-                phone:  error.responseJSON.phone
+                phone:  error.responseJSON.phone,
+                password: error.responseJSON.password
             }
         })
     }
@@ -239,7 +219,7 @@ class FormUser extends Component {
                             onChange={this.dataChange}
                         />
                         <div className='text-danger'>
-                            {this.state.validation.name}
+                            {this.state.errors.name}
                         </div>
                     </div>
                     <div className='form-group'>
@@ -252,7 +232,7 @@ class FormUser extends Component {
                             onChange={this.dataChange}
                         />
                         <div className='text-danger'>
-                            {this.state.validation.email}
+                            {this.state.errors.email}
                         </div>
                     </div>
 
@@ -267,7 +247,7 @@ class FormUser extends Component {
                             onChange={this.dataChange}
                         />
                         <div className='text-danger'>
-                            {this.state.validation.phone}
+                            {this.state.errors.phone}
                         </div>
                     </div>
 
@@ -284,7 +264,7 @@ class FormUser extends Component {
                             onChange={this.dataChange}
                         />
                         <div className='text-danger'>
-                            {this.state.validation.password}
+                            {this.state.errors.password}
                         </div>
                     </div>
 

@@ -187,7 +187,7 @@ class ProductsList extends Component {
                                                 </a>
                                             </li>
                                             <li>
-                                                {this.state.in_cart.indexOf(product.id) != -1  ?
+                                                {this.state.in_cart.indexOf(product.id) !== -1  ?
                                                     ('') :
                                                     (<button onClick={() => {this.addProduct(product.id)}}
                                                              data-tip="В корзину">
@@ -196,7 +196,7 @@ class ProductsList extends Component {
                                                 }
                                             </li>
                                         </ul>
-                                        {this.state.in_cart.indexOf(product.id) != -1  ?
+                                        {this.state.in_cart.indexOf(product.id) !== -1  ?
                                             (<a href='/' className='cart'>
                                                 <i className="fa fa-cart-plus" aria-hidden="true"></i> В корзині
                                             </a>) :
