@@ -100,7 +100,7 @@ class Product extends Component {
                                                 `${rating <= 4 ? 'disable' : ''}`)}></li>
                                         </ul>
                                         {this.state.buy ?
-                                            (<a href='/' className='link-cart'>
+                                            (<a href='/cart' className='link-cart'>
                                                 <i className="fa fa-cart-plus" aria-hidden="true"></i> Уже в корзині
                                             </a>) :
                                             (<button onClick={() => {this.addProduct()}}

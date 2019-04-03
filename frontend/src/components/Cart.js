@@ -18,10 +18,18 @@ class Cart extends Component {
             responseStatus: ''
         }
         this.deleteProduct = this.deleteProduct.bind(this)
+        this.cleanCart = this.cleanCart.bind(this)
     }
 
     deleteProduct(id) {
-        API.get(`line_items/${id}`)
+        API.delete(`line_items/${id}`)
+            .then(function () {
+                window.location.reload()
+            })
+    }
+
+    cleanCart() {
+        API.delete('cart')
             .then(function () {
                 window.location.reload()
             })
@@ -41,13 +49,11 @@ class Cart extends Component {
                 if (response.statusCode === 404) {
                     this.setState({ responseStatus: 'null' })
                 }
-            }.bind(this), function (error) {
-                if (error.response.status === 404) {
+            }.bind(this), function () {
                     this.setState({
                         cart: [],
                         responseStatus: 'null'
                     })
-                }
             }.bind(this))
     }
 
@@ -62,7 +68,7 @@ class Cart extends Component {
                 {(() => {
                     switch (this.state.responseStatus) {
                         case 'true':
-                            return <div><ReactTable
+                            return <div className='cart'><ReactTable
                                 data={this.state.cart}
                                 columns={[
                                         {
@@ -117,9 +123,17 @@ class Cart extends Component {
                                 ]}
                         pageSize={(items < 10) ? items : 10}
                         className='-striped -highlight'
-                                />
-                        <h5>Загальна вартість: {sum}</h5>
-                        </div>
+                            />
+                                {this.state.cart.length > 0 ?
+                                    (<div><h5>Загальна вартість: {sum}</h5>
+                                        <div className='row buttons'>
+                                            <button className="btn btn-primary" onClick={this.cleanCart}>Очистити
+                                            </button>
+                                            <a className="btn btn-primary" href='/order'>Оформити замовлення</a>
+                                        </div>
+                                    </div>) : ''
+                                }
+                            </div>
                         case 'null':
                             return <NotFound/>
                         default:

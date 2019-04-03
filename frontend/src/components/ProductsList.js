@@ -118,9 +118,7 @@ class ProductsList extends Component {
     }
 
     addProduct(id) {
-        API.post('line_items', {
-            product_id: id
-        })
+        API.post('line_items', {product_id: id})
             .then(res => {
                 if(res.status === 201) {
                     this.setState({
@@ -197,7 +195,7 @@ class ProductsList extends Component {
                                             </li>
                                         </ul>
                                         {this.state.in_cart.indexOf(product.id) !== -1  ?
-                                            (<a href='/' className='cart'>
+                                            (<a href='/cart' className='cart'>
                                                 <i className="fa fa-cart-plus" aria-hidden="true"></i> В корзині
                                             </a>) :
                                             (<button

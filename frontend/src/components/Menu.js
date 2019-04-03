@@ -51,6 +51,7 @@ class Menu extends Component {
                         <Login/>
                     </BrowserRouter>
                 </div>
+                <a href='/cart'>Корзина</a>
             </div>
         )
     }

@@ -462,3 +462,8 @@ button.close:focus {
         margin-bottom: 20px !important;
     }
 }
+
+/* Cart */
+.cart .buttons {
+    justify-content: space-between;
+}
