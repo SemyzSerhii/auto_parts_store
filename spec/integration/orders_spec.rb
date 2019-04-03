@@ -10,6 +10,8 @@ describe 'Order API' do
     post 'Order' do
       tags 'Order'
 
+      declare_auth_parameter
+
       parameter name: :order, in: :body,
         schema: {
           properties: {

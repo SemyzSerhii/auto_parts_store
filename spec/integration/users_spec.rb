@@ -39,7 +39,7 @@ describe 'Users API' do
 
     get 'Get user' do
       tags 'Users'
-      parameter name: :Authorization, in: :header, schema: { type: :string }
+      declare_auth_parameter
 
       success_schema(200, 'User found', USER_RESPONSE_PROPS)
       error_schema(404, 'User not found')
@@ -47,7 +47,8 @@ describe 'Users API' do
 
     put 'Users update' do
       tags 'Users'
-      parameter name: :Authorization, in: :header, schema: { type: :string }
+      declare_auth_parameter
+
       parameter name: :user,
         in: :body,
         schema: USER_REQUEST_SCHEMA.without(:id, :created_at, :updated_at)

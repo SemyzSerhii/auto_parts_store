@@ -24,6 +24,10 @@ RSpec.configure do |config|
   }
 end
 
+def declare_auth_parameter
+  parameter name: :Authorization, in: :header, schema: { type: :string }
+end
+
 def error_schema(status_code, label)
   response status_code, label do
     schema type: :object,

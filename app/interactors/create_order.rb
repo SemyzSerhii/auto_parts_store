@@ -9,6 +9,7 @@ class CreateOrder
     context.order.line_items << context.cart.line_items
     context.order.line_items.detach_all
     context.order.calculate_total_price
+    context.order.phone ||= context.user.phone
 
     if context.user.save
       context.order.reload
