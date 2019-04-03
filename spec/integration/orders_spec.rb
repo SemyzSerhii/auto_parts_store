@@ -29,13 +29,25 @@ describe 'Order API' do
             }
           }
         }
-      response 200, 'Order created' do
+      response 200, 'Order and user created ' do
         schema type: :object, properties: ORDER_RESPONSE_PROPS
+
         let(:Authorization) { nil }
         let(:order_params) { { user: { name: 'some name', email: 'email@example.com' }, order: { address: 'Some address', phone: 987654321 } } }
 
         run_test!
       end
+
+      response 200, 'Order created for user' do
+        schema type: :object, properties: ORDER_RESPONSE_PROPS
+
+        let(:user) { User.create(name: 'some uniq name', email: 'email@example.com', password: '123123123', phone: 987654321 ) }
+        let(:Authorization) { user.generate_token }
+        let(:order_params) { { order: { address: 'Some address' } } }
+
+        run_test!
+      end
+
 
       response 422, 'Validation Errors' do
         schema type: :object,
