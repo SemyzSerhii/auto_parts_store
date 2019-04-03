@@ -1,8 +1,6 @@
 require 'swagger_helper'
 
 ORDER_RESPONSE_PROPS = {
-  id: { type: :integer },
-  product_id: { type: :string },
 }
 
 describe 'Order API' do
@@ -12,7 +10,7 @@ describe 'Order API' do
 
       declare_auth_parameter
 
-      parameter name: :order, in: :body,
+      parameter name: :order_params, in: :body,
         schema: {
           properties: {
             order: {
@@ -31,12 +29,33 @@ describe 'Order API' do
             }
           }
         }
+      response 200, 'Order created' do
+        schema type: :object, properties: ORDER_RESPONSE_PROPS
+        let(:Authorization) { nil }
+        let(:order_params) { { user: { name: 'some name', email: 'email@example.com' }, order: { address: 'Some address', phone: 987654321 } } }
 
-      success_schema(200, 'Order created', ORDER_RESPONSE_PROPS) do
-        # let(:user) { { user: { name: 'some name', email: 'email@example.com' }, order: { address: 'Some address', phone: 987654321 } } }
+        run_test!
       end
 
-      error_schema(422, 'Validation Errors')
+      response 422, 'Validation Errors' do
+        schema type: :object,
+          properties: {
+            messages: {
+              type: :object,
+              properties: {
+                error_key: {
+                  type: :array,
+                  items: { type: :string }
+                }
+              }
+            }
+          }
+
+        let(:Authorization) { nil }
+        let(:order_params) { { user: { name: 'some name' }, order: { address: 'Some address', phone: 987654321 } } }
+
+        run_test!
+      end
     end
   end
 end

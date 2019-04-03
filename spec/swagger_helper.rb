@@ -19,6 +19,8 @@ RSpec.configure do |config|
         title: 'API V1',
         version: 'v1'
       },
+      consumes: ['application/json'],
+      produces: ['application/json'],
       paths: {}
     }
   }
