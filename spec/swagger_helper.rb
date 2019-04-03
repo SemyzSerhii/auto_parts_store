@@ -38,6 +38,9 @@ def error_schema(status_code, label)
           }
         }
       }
+
+    yield if block_given?
+
     run_test!
   end
 end
@@ -46,6 +49,9 @@ end
 def success_schema(status_code, label, properties)
   response status_code, label do
     schema type: :object, properties: properties
+
+    yield if block_given?
+
     run_test!
   end
 end

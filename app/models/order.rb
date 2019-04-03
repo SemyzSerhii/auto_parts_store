@@ -8,6 +8,8 @@ class Order < ApplicationRecord
   # https://docs.woocommerce.com/document/managing-orders/
   enumerize :status, in: %i[pending_payment failed processing completed on_hold cancelled refunded], default: :processing
 
+  validates_presence_of :user
+
   def calculate_total_price
     self.total_price = line_items.sum(&:total_price_product)
   end
