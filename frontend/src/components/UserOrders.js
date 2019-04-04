@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import Moment from 'react-moment'
 import API from '../api'
 import ReactTable from 'react-table'
 
@@ -7,7 +8,7 @@ class UserOrders extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            orders: [],
+            orders: []
         }
     }
 
@@ -36,6 +37,7 @@ class UserOrders extends Component {
                     {
                         Header: 'Дата',
                         accessor: 'created_at',
+                        Cell: row => (<Moment format="DD.MM.YYYY">{row.value}</Moment>)
                     },
                     {
                         Header: 'Статус',
