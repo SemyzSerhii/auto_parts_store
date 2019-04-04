@@ -15,7 +15,6 @@ import Menu from './components/Menu'
 import NotFound from './components/NotFound'
 
 class App extends Component {
-
     render() {
         return (
             <div className="App">
@@ -24,7 +23,7 @@ class App extends Component {
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        <CategoriesList/>
+                        {window.location.pathname !== '/cart' ? <CategoriesList/> : ''}
                         <div className='col container'>
                             <BrowserRouter>
                                 <Switch>
