@@ -11,6 +11,7 @@ import Product from './components/Product'
 import UserProfile from './components/UserProfile'
 import CategoriesList from './components/CategoriesList'
 import Cart from './components/Cart'
+import UserOrders from './components/UserOrders'
 import Menu from './components/Menu'
 import NotFound from './components/NotFound'
 
@@ -23,7 +24,8 @@ class App extends Component {
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        {window.location.pathname !== '/cart' ? <CategoriesList/> : ''}
+                        {(window.location.pathname !== '/cart'
+                            && window.location.pathname !== '/orders' ) ? <CategoriesList/> : ''}
                         <div className='col container'>
                             <BrowserRouter>
                                 <Switch>
@@ -33,6 +35,7 @@ class App extends Component {
                                     <Route path='/products/:id' component={Product}/>
                                     <Route path='/user' component={UserProfile}/>
                                     <Route path='/cart' component={Cart}/>
+                                    <Route path='/orders' component={UserOrders}/>
                                     <Route component={NotFound}/>
                                 </Switch>
                             </BrowserRouter>

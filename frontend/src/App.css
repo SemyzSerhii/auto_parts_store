@@ -467,3 +467,8 @@ button.close:focus {
 .cart .buttons {
     justify-content: space-between;
 }
+
+/* Orders */
+.orders .nav-link {
+    padding: 0;
+}

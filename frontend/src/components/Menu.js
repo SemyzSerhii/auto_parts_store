@@ -8,8 +8,15 @@ class Menu extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pages: []
+            pages: [],
+            current_user: {},
+            menu: false
         }
+        this.showMenu = this.showMenu.bind(this)
+    }
+
+    showMenu(){
+        this.setState({menu: !this.state.menu})
     }
 
     componentWillMount() {
@@ -44,12 +51,36 @@ class Menu extends Component {
                     })}
                 </nav>
                 <div className='nav-user'>
-                    <BrowserRouter>
-                        <UserDataModal/>
-                    </BrowserRouter>
-                    <BrowserRouter>
-                        <Login/>
-                    </BrowserRouter>
+                    {this.state.current_user.name ? (
+                        <div>
+                            <div className='nav-current-user' onClick={this.showMenu}>
+                                {this.state.current_user.name}
+                            </div>
+                            {this.state.menu ? (
+                                <ul>
+                                    <li><a href='/user'>Профіль</a></li>
+                                    <li>
+                                        <BrowserRouter>
+                                            <UserDataModal/>
+                                        </BrowserRouter>
+                                    </li>
+                                    <li><a href='/orders'>Замовлення</a></li>
+                                    <li><a href='/reviews'>Відгуки</a></li>
+                                    <li><a href='/wish_list'>Список бажань</a></li>
+                                </ul>
+                            ) : ('')}
+                        </div>
+                    ) : (
+                        <div>
+                            <BrowserRouter>
+                                <UserDataModal/>
+                            </BrowserRouter>
+                            <BrowserRouter>
+                                <Login/>
+                            </BrowserRouter>
+                        </div>
+                    )
+                    }
                 </div>
                 <a href='/cart'>Корзина</a>
             </div>
