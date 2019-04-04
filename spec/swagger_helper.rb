@@ -19,9 +19,15 @@ RSpec.configure do |config|
         title: 'API V1',
         version: 'v1'
       },
+      consumes: ['application/json'],
+      produces: ['application/json'],
       paths: {}
     }
   }
+end
+
+def declare_auth_parameter
+  parameter name: :Authorization, in: :header, schema: { type: :string }
 end
 
 def error_schema(status_code, label)
@@ -38,6 +44,9 @@ def error_schema(status_code, label)
           }
         }
       }
+
+    yield if block_given?
+
     run_test!
   end
 end
@@ -46,6 +55,9 @@ end
 def success_schema(status_code, label, properties)
   response status_code, label do
     schema type: :object, properties: properties
+
+    yield if block_given?
+
     run_test!
   end
 end

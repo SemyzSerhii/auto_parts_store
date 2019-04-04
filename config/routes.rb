@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       resources :pages, only: %i[index show]
       resources :line_items, only: %i[create update destroy]
       resources :categories, only: :index
+      resources :orders, only: %i[create index show]
+
       get 'products/categories/:category_id' => 'products#index', as: 'category_products'
       get 'products/categories/:category_id/order/:by' => 'products#index', as: 'category_order'
       get 'order/:by' => 'products#index', as: 'order'

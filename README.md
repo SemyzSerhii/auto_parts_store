@@ -37,9 +37,12 @@ NPM version 6.4.1
       $ rake db:migrate
       $ rake db:seed
 
- ### Usage
+### Usage
 
       $ rails s
+
+### Swaggerize API
+      $ rake rswag:specs:swaggerize
       
 * Swagger http://localhost:3000/api-docs/index.html
 

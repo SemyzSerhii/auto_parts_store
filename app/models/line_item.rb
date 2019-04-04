@@ -7,7 +7,7 @@ class LineItem < ApplicationRecord
   validates_numericality_of :quantity, greater_than_or_equal_to: 1, only_integer: true
 
   def self.detach_all
-    map(&:detach_from_cart)
+    all.each(&:detach_from_cart)
   end
 
   def detach

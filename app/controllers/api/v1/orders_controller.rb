@@ -4,8 +4,11 @@ class Api::V1::OrdersController < ApplicationController
 
   def create
     authenticate_request!(soft: true)
-    command = CreateOrder.call(user: current_user, cart: @cart, user_params: params[:user], order_params: params[:order])
+
+    command = CreateOrder.call(user: current_user, cart: @cart, user_params: user_params, order_params: order_params)
     if command.success?
+      @order = command.order
+
       render :show
     else
       process_errors(:unprocessable_entity, command.errors)
@@ -18,5 +21,16 @@ class Api::V1::OrdersController < ApplicationController
 
   def index
     # current_user.orders
+  end
+
+  private
+
+  def user_params
+    return if current_user
+    params.require(:user).permit(:email, :name)
+  end
+
+  def order_params
+    params.require(:order).permit(:address, :phone)
   end
 end

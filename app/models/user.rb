@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :phone, presence: true, length: { is: 9 }, uniqueness: true
 
   def self.find_by_token(token)
-    decoded_token = JWT.decodex token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' }
+    decoded_token = JWT.decode token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' }
     find(decoded_token.dig(0, 'user_id'))
   end
 
