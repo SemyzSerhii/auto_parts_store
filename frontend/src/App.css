@@ -2,17 +2,22 @@
     text-align: center;
 }
 
+.container {
+    margin-top: 30px;
+    min-height: calc(100vh - 230px);
+}
+
 /* Header */
 .header {
-    height: 115px;
-    padding: 20px;
-    background-color: #282c34;
+    padding-bottom: 5px;
+    background-color: #3498db;
     font-size: 16px;
     color: white;
-    margin-bottom: 20px;
 }
 
 .menu {
+    background-color: #282c34;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -23,9 +28,21 @@
     margin-left: 100px;
 }
 
+.nav-user .btn-link:hover,
+.nav-user .btn-link:focus,
+.nav-user .btn-link.focus,
+.cart-link:hover,
+.cart-link:focus {
+    text-decoration: none;
+}
+
 .nav a {
     color: white;
     font-size: 16px;
+}
+
+.nav a:hover {
+    color: rgba(255,255,255,.5)
 }
 
 .menu .logo img {
@@ -36,10 +53,6 @@
     .nav-user {
         margin-left: 0;
     }
-}
-
-.container {
-    min-height: calc(100vh - 200px);
 }
 
 .footer {
@@ -432,7 +445,6 @@ button.close:focus {
 /* Categories */
 
 #sidebar {
-    margin: 0 35px;
     padding: 0;
     width: 200px;
 }

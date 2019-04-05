@@ -127,7 +127,7 @@ class Login extends Component {
     render() {
         return (
             <div>
-                <button className='nav-link btn btn-link' onClick={this.openModal}>
+                <button className='btn btn-link' onClick={this.openModal}>
                     <i className="fa fa-sign-in" aria-hidden="true"></i> Вхід
                 </button>
 

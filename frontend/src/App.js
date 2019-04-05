@@ -22,24 +22,22 @@ class App extends Component {
                 <div className="header">
                     <Menu/>
                 </div>
-                <div className='container'>
-                    <div className='row'>
-                        {(window.location.pathname !== '/cart'
-                            && window.location.pathname !== '/orders' ) ? <CategoriesList/> : ''}
-                        <div className='col container'>
-                            <BrowserRouter>
-                                <Switch>
-                                    <Route exact path='/' component={Home}/>
-                                    <Route path='/categories/:id' component={Home}/>
-                                    <Route path='/pages/:id' component={Page}/>
-                                    <Route path='/products/:id' component={Product}/>
-                                    <Route path='/user' component={UserProfile}/>
-                                    <Route path='/cart' component={Cart}/>
-                                    <Route path='/orders' component={UserOrders}/>
-                                    <Route component={NotFound}/>
-                                </Switch>
-                            </BrowserRouter>
-                        </div>
+                <div className='row'>
+                    {(window.location.pathname !== '/cart'
+                        && window.location.pathname !== '/orders') ? <CategoriesList/> : ''}
+                    <div className='col container'>
+                        <BrowserRouter>
+                            <Switch>
+                                <Route exact path='/' component={Home}/>
+                                <Route path='/categories/:id' component={Home}/>
+                                <Route path='/pages/:id' component={Page}/>
+                                <Route path='/products/:id' component={Product}/>
+                                <Route path='/user' component={UserProfile}/>
+                                <Route path='/cart' component={Cart}/>
+                                <Route path='/orders' component={UserOrders}/>
+                                <Route component={NotFound}/>
+                            </Switch>
+                        </BrowserRouter>
                     </div>
                 </div>
                 <div className='footer'>Copyright &#169; GeekHub 2019</div>

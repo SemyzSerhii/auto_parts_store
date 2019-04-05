@@ -42,6 +42,7 @@ class Menu extends Component {
                 <a href="/" title="Auto parts store" className="header-img logo"><img
                     src={Logo} alt="logo"/></a>
                 <nav className='nav'>
+                    <a className='nav-link' href='/'>Головна</a>
                     {this.state.pages.map((page) => {
                         return (
                             <li className='nav-item' key={page.id}>
@@ -84,7 +85,7 @@ class Menu extends Component {
                     )
                     }
                 </div>
-                <a href='/cart'>Корзина</a>
+                <a href='/cart' className='cart-link'><i className="fa fa-shopping-cart"></i> Корзина</a>
             </div>
         )
     }

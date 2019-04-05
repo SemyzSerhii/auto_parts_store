@@ -41,7 +41,7 @@ class UserDataModal extends Component {
     render() {
         return (
             <div>
-                <button className='nav-link btn btn-link' onClick={this.openModal}>
+                <button className='btn btn-link' onClick={this.openModal}>
                     <i className={classNames('fa',
                         `${this.state.current_user ? 'fa-cog' : 'fa-user-o'}`)} aria-hidden="true">
 
