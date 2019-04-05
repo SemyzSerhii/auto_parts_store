@@ -3,6 +3,7 @@ import API from '../api'
 import { BrowserRouter } from 'react-router-dom'
 import UserDataModal from './UserDataModal'
 import Login from './Login'
+import Logo from '../images/logo.png'
 
 class Menu extends Component {
     constructor(props) {
@@ -38,15 +39,16 @@ class Menu extends Component {
     render() {
         return (
             <div className='menu'>
+                <a href="/" title="Auto parts store" className="header-img logo"><img
+                    src={Logo} alt="logo"/></a>
                 <nav className='nav'>
-                    <a className='nav-link' href='/'>Home</a>
                     {this.state.pages.map((page) => {
                         return (
-                            <a
-                                className='nav-link'
-                                key={page.id}
-                                href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
-                            >{page.title}</a>
+                            <li className='nav-item' key={page.id}>
+                                <a className='nav-link'
+                                   href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
+                                >{page.title}</a>
+                            </li>
                         )
                     })}
                 </nav>
