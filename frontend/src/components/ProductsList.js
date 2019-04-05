@@ -16,7 +16,7 @@ class ProductsList extends Component {
             page: 1,
             currPage: null,
             in_cart:[],
-            order: ''
+            sort: ''
         }
         this.previousPage = this.previousPage.bind(this)
         this.nextPage = this.nextPage.bind(this)
@@ -48,16 +48,16 @@ class ProductsList extends Component {
 
     }
 
-    orderProducts(order){
+    orderProducts(sort){
         this.setState({
-            order: order.target.value
+            sort: sort.target.value
         })
         var path
-        if (order.target.value) {
+        if (sort.target.value) {
             if (this.props.location.pathname.includes("/categories/")) {
-                path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${order.target.value}`
+                path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${sort.target.value}`
             } else {
-                path = `${URL_API}/order/${order.target.value}`
+                path = `${URL_API}/sort/${sort.target.value}`
             }
 
             fetch(path)
