@@ -28,10 +28,6 @@
     color: #3498db;
 }
 
-.nav-user {
-    margin-left: 100px;
-}
-
 .nav-user .btn-link:hover,
 .nav-user .btn-link:focus,
 .nav-user .btn-link.focus,
@@ -165,7 +161,9 @@
     margin: 0 0 10px;
     display: block;
     transform: translateX(100px);
-    transition: all .5s
+    transition: all .5s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    border-radius: 30px;
 }
 
 .product:hover .social li {
@@ -202,7 +200,6 @@
 .product .social li button:hover {
     color: #fff;
     background-color: #3498db;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5)
 }
 
 .product .social li a:after,

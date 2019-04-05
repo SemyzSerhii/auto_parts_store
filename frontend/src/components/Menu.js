@@ -14,6 +14,14 @@ class Menu extends Component {
             menu: false
         }
         this.showMenu = this.showMenu.bind(this)
+        this.logout = this.logout.bind(this)
+    }
+
+    logout() {
+        API.delete('sessions')
+            .then(function () {
+                window.location.reload()
+            })
     }
 
     showMenu(){
@@ -57,7 +65,7 @@ class Menu extends Component {
                     {this.state.current_user.name ? (
                         <div>
                             <div className='nav-current-user' onClick={this.showMenu}>
-                                {this.state.current_user.name}
+                                <i className="fa fa-user-o" aria-hidden="true"></i> {this.state.current_user.name}
                             </div>
                             {this.state.menu ? (
                                 <ul>
@@ -70,6 +78,7 @@ class Menu extends Component {
                                     <li><a href='/orders'>Замовлення</a></li>
                                     <li><a href='/reviews'>Відгуки</a></li>
                                     <li><a href='/wish_list'>Список бажань</a></li>
+                                    <li><button className='btn btn-link' onClick={this.logout}>Вийти</button></li>
                                 </ul>
                             ) : ('')}
                         </div>

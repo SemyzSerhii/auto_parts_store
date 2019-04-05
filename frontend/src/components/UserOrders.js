@@ -13,7 +13,7 @@ class UserOrders extends Component {
     }
 
     componentWillMount() {
-        API.get(`user_orders`)
+        API.get('orders')
             .then(function (response) {
                 if (response.data) {
                     this.setState({
