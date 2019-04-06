@@ -5,15 +5,17 @@ import UserDataModal from './UserDataModal'
 import Login from './Login'
 import Logo from '../images/logo.png'
 
+import $ from 'jquery'
+
 class Menu extends Component {
     constructor(props) {
         super(props)
         this.state = {
             pages: [],
-            current_user: {},
-            menu: false
+            current_user: {}
         }
-        this.showMenu = this.showMenu.bind(this)
+        this.showUserMenu = this.showUserMenu.bind(this)
+        this.showMainMenu = this.showMainMenu.bind(this)
         this.logout = this.logout.bind(this)
     }
 
@@ -24,8 +26,14 @@ class Menu extends Component {
             })
     }
 
-    showMenu(){
-        this.setState({menu: !this.state.menu})
+    showUserMenu(){
+        $('#menu-user').slideToggle('slow')
+        $('#nav-media').next().hide('slow')
+    }
+
+    showMainMenu(){
+        $('#nav-media').next().slideToggle('slow')
+        $('#menu-user').hide('slow')
     }
 
     componentWillMount() {
@@ -49,26 +57,32 @@ class Menu extends Component {
             <div className='menu'>
                 <a href="/" title="Auto parts store" className="header-img logo"><img
                     src={Logo} alt="logo"/></a>
-                <nav className='nav'>
-                    <a className='nav-link' href='/'>Головна</a>
-                    {this.state.pages.map((page) => {
-                        return (
-                            <li className='nav-item' key={page.id}>
-                                <a className='nav-link'
-                                   href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
-                                >{page.title}</a>
-                            </li>
-                        )
-                    })}
-                </nav>
+                <div className='main-nav'>
+                    <div id="nav-media" onClick={this.showMainMenu}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <nav className='nav'>
+                        <a className='nav-link' href='/'>Головна</a>
+                        {this.state.pages.map((page) => {
+                            return (
+                                <li className='nav-item' key={page.id}>
+                                    <a className='nav-link'
+                                       href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
+                                    >{page.title}</a>
+                                </li>
+                            )
+                        })}
+                    </nav>
+                </div>
                 <div className='nav-user'>
                     {this.state.current_user.name ? (
                         <div>
-                            <div className='nav-current-user' onClick={this.showMenu}>
+                            <div className='nav-current-user' onClick={this.showUserMenu}>
                                 <i className="fa fa-user-o" aria-hidden="true"></i> {this.state.current_user.name}
                             </div>
-                            {this.state.menu ? (
-                                <ul>
+                                <ul id='menu-user'>
                                     <li><a href='/user'>Профіль</a></li>
                                     <li>
                                         <BrowserRouter>
@@ -80,7 +94,6 @@ class Menu extends Component {
                                     <li><a href='/wish_list'>Список бажань</a></li>
                                     <li><button className='btn btn-link' onClick={this.logout}>Вийти</button></li>
                                 </ul>
-                            ) : ('')}
                         </div>
                     ) : (
                         <div>
