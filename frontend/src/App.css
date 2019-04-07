@@ -17,7 +17,7 @@
 
 .menu {
     background-color: #282c34;
-    padding: 20px;
+    padding: 20px 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -80,7 +80,7 @@
 }
 
 .menu .logo img {
-    width: 200px;
+    width: 100px;
 }
 
 #nav-media {
@@ -570,4 +570,9 @@ button.close:focus {
 /* Orders */
 .orders .nav-link {
     padding: 0;
+}
+
+/* Search */
+.jHDXzb {
+    display: none;
 }

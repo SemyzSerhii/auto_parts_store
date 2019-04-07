@@ -12,5 +12,10 @@ class Product < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0.01 }
   validates :in_stock, inclusion: { in: [ true, false ] }
 
+  def self.search(search)
+    Product.publish.where('name ILIKE :search OR model ILIKE :search OR brand ILIKE :search OR company ILIKE :search',
+                  search: "%#{search}%")
+  end
+
 end
 

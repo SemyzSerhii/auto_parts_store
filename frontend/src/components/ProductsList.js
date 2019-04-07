@@ -6,6 +6,7 @@ import Parser from 'html-react-parser'
 import noPhoto from '../images/no_picture.gif'
 import API from '../api'
 import { URL_API } from '../constants'
+import Search from 'react-search'
 
 class ProductsList extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class ProductsList extends Component {
     }
 
     componentWillMount() {
-        var path
+        let path
         if (this.props.location.pathname.includes("/categories/")) {
             path = `${URL_API}/products/categories/${this.props.match.params.id}`
         } else {
@@ -52,7 +53,7 @@ class ProductsList extends Component {
         this.setState({
             sort: sort.target.value
         })
-        var path
+        let path
         if (sort.target.value) {
             if (this.props.location.pathname.includes("/categories/")) {
                 path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${sort.target.value}`
@@ -74,6 +75,28 @@ class ProductsList extends Component {
                     })
                 })
         }
+    }
+
+    getItemsAsync(searchValue) {
+        let path
+        if (this.props.location.pathname.includes("/categories/")) {
+            path = `${URL_API}/products/categories/${this.props.match.params.id}?search=${searchValue}`
+        } else {
+            path = `${URL_API}/products?search=${searchValue}`
+        }
+
+        fetch(path).then(response => response.json())
+            .then(products => {
+                const { page, size } = this.state
+
+                const currPage = paginate(products, page, size)
+
+                this.setState({
+                    ...this.state,
+                    products,
+                    currPage
+                })
+            })
     }
 
     previousPage() {
@@ -156,6 +179,12 @@ class ProductsList extends Component {
                     </select>
                 </div>
                 </div>
+
+                <Search items={this.state.products}
+                        multiple={true}
+                        getItemsAsync={this.getItemsAsync.bind(this)}
+                        placeholder='Пошук'
+                        className='form-control' />
 
                 {currPage &&
                 <div className='row'>

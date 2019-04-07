@@ -2,19 +2,19 @@ class Api::V1::ProductsController < ApplicationController
   before_action :set_product, only: :show
 
   def index
+    @products = Product.publish
     if params[:category_id]
       @category = Category.find(params[:category_id])
-      @products = @category.products
-      @category.children.each do |category|
-        @products += category.products
-      end
+      @products = @category.nested_products
       if params[:by]
-        @products = @products.sort_by{|e| e[order_by]}
+        @products = @products.order(order_by)
+      elsif params[:search]
+        @products = @products.search(params[:search])
       end
     elsif params[:by]
-      @products = Product.order(order_by)
-    else
-      @products = Product.publish
+      @products = @products.publish.order(order_by)
+    elsif params[:search]
+      @products = @products.search(params[:search])
     end
   end
 
