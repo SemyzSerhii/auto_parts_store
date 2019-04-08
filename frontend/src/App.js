@@ -18,8 +18,8 @@ import NotFound from './components/NotFound'
 class App extends Component {
     render() {
         return (
-            <div className="App">
-                <div className="header">
+            <div className='App'>
+                <div className='header'>
                     <Menu/>
                 </div>
                 <div className='row'>

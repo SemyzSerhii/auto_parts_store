@@ -37,7 +37,7 @@ class UserOrders extends Component {
                     {
                         Header: 'Дата',
                         accessor: 'created_at',
-                        Cell: row => (<Moment format="DD.MM.YYYY">{row.value}</Moment>)
+                        Cell: row => (<Moment format='DD.MM.YYYY'>{row.value}</Moment>)
                     },
                     {
                         Header: 'Статус',
@@ -54,7 +54,7 @@ class UserOrders extends Component {
                                 className='nav-link btn btn-link'
                                 onClick={() => this.props.history.push(
                                     `/orders/${row.original.id}`
-                                )}><i className="fa fa-eye" aria-hidden="true"></i></button>
+                                )}><i className='fa fa-eye' aria-hidden='true'></i></button>
                         )
                     }
                 ]}

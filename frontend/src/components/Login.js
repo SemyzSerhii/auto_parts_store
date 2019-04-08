@@ -83,14 +83,14 @@ class Login extends Component {
         } else {
             $.ajax({
                 url: `${URL_API}/sessions`,
-                type: "POST",
+                type: 'POST',
                 data: {
                     session: {
                         email: user.email,
                         password: user.password
                     }
                 },
-                dataType: "json",
+                dataType: 'json',
                 context: this,
                 success: function (res) {
                     if (res) {
@@ -128,21 +128,21 @@ class Login extends Component {
         return (
             <div>
                 <button className='btn btn-link' onClick={this.openModal}>
-                    <i className="fa fa-sign-in" aria-hidden="true"></i> Вхід
+                    <i className='fa fa-sign-in' aria-hidden='true'></i> Вхід
                 </button>
 
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeModal}
                     style={customStyles}
-                    contentLabel="Login"
+                    contentLabel='Login'
                 >
-                    <div className="modal-header">
-                        <h2 className="modal-title">Вхід</h2>
-                        <button type="button" className="close"
-                                data-dismiss="modal" aria-label="Close"
+                    <div className='modal-header'>
+                        <h2 className='modal-title'>Вхід</h2>
+                        <button type='button' className='close'
+                                data-dismiss='modal' aria-label='Close'
                                 onClick={this.closeModal}>
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden='true'>&times;</span>
                         </button>
                     </div>
 

@@ -129,18 +129,18 @@ class FormUser extends Component {
 
     createUser(user) {
         const request = {
-            "user": {
-                "name": user.name,
-                "email": user.email,
-                "phone": user.phone,
-                "password": user.password
+            'user': {
+                'name': user.name,
+                'email': user.email,
+                'phone': user.phone,
+                'password': user.password
             }
         }
         $.ajax({
             url: `${URL_API}/users`,
-            type: "POST",
+            type: 'POST',
             data: request,
-            dataType: "json",
+            dataType: 'json',
             context: this,
             success: function (res) {
                 if (res) {
@@ -156,18 +156,18 @@ class FormUser extends Component {
 
     editUser(user) {
         const request = {
-            "user": {
-                "name": user.name,
-                "email": user.email,
-                "phone": user.phone,
-                "password": user.password
+            'user': {
+                'name': user.name,
+                'email': user.email,
+                'phone': user.phone,
+                'password': user.password
             }
         }
         $.ajax({
             url: `${URL_API}/users`,
-            type: "PUT",
+            type: 'PUT',
             data: request,
-            dataType: "json",
+            dataType: 'json',
             context: this,
             success: function (res) {
                 if (res) {
@@ -237,7 +237,7 @@ class FormUser extends Component {
                     </div>
 
                     <div className='form-group'>
-                        <label htmlFor="phone">+380</label>
+                        <label htmlFor='phone'>+380</label>
                         <input
                             className={classNames('form-control', 'phone',
                                 `${this.state.errors.phone ? 'error' : ''}`)}
@@ -253,13 +253,13 @@ class FormUser extends Component {
 
                     <div className='form-group password'>
                         <PasswordMask
-                            id="password"
-                            name="password"
+                            id='password'
+                            name='password'
                             className='input-group'
                             inputClassName={classNames('form-control',
                                 `${this.state.errors.password ? 'error' : ''}`)}
-                            buttonClassName="btn btn-outline-primary"
-                            placeholder="Password"
+                            buttonClassName='btn btn-outline-primary'
+                            placeholder='Password'
                             value={this.state.user.password}
                             onChange={this.dataChange}
                         />

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import UserDataModal from './UserDataModal'
 import Login from './Login'
 import Logo from '../images/logo.png'
+import Cart from '../images/cart.png'
 
 import $ from 'jquery'
 
@@ -55,10 +56,11 @@ class Menu extends Component {
     render() {
         return (
             <div className='menu'>
-                <a href="/" title="Auto parts store" className="header-img logo"><img
-                    src={Logo} alt="logo"/></a>
+                <a href='/' title='Auto parts store' className='header-img logo'>
+                    <img src={Logo} alt='logo'/>
+                </a>
                 <div className='main-nav'>
-                    <div id="nav-media" onClick={this.showMainMenu}>
+                    <div id='nav-media' onClick={this.showMainMenu}>
                         <span></span>
                         <span></span>
                         <span></span>
@@ -69,18 +71,19 @@ class Menu extends Component {
                             return (
                                 <li className='nav-item' key={page.id}>
                                     <a className='nav-link'
-                                       href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join("-")}`}
+                                       href={`/pages/${[page.id, page.title.toLowerCase().replace(/ /g, '-')].join('-')}`}
                                     >{page.title}</a>
                                 </li>
                             )
                         })}
                     </nav>
                 </div>
+                <a href='/vin' className='vin-link'>Пошук по vin-коду</a>
                 <div className='nav-user'>
                     {this.state.current_user.name ? (
                         <div>
                             <div className='nav-current-user' onClick={this.showUserMenu}>
-                                <i className="fa fa-user-o" aria-hidden="true"></i> {this.state.current_user.name}
+                                <i className='fa fa-user-o' aria-hidden='true'></i> {this.state.current_user.name}
                             </div>
                                 <ul id='menu-user'>
                                     <li><a href='/user'>Профіль</a></li>
@@ -107,7 +110,7 @@ class Menu extends Component {
                     )
                     }
                 </div>
-                <a href='/cart' className='cart-link'><i className="fa fa-shopping-cart"></i> Корзина</a>
+                <a href='/cart' className='cart-link'><img src={Cart} alt='cart'/></a>
             </div>
         )
     }

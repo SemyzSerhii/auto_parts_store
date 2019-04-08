@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, {Component} from 'react'
+import {withRouter} from 'react-router-dom'
 import classNames from 'classnames/bind'
 import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
 import noPhoto from '../images/no_picture.gif'
 import API from '../api'
-import { URL_API } from '../constants'
+import {URL_API} from '../constants'
 import Search from 'react-search'
 
 class ProductsList extends Component {
@@ -28,7 +28,7 @@ class ProductsList extends Component {
 
     componentWillMount() {
         let path
-        if (this.props.location.pathname.includes("/categories/")) {
+        if (this.props.location.pathname.includes('/categories/')) {
             path = `${URL_API}/products/categories/${this.props.match.params.id}`
         } else {
             path = `${URL_API}/products`
@@ -46,7 +46,6 @@ class ProductsList extends Component {
                     currPage
                 })
             })
-
     }
 
     orderProducts(sort){
@@ -55,7 +54,7 @@ class ProductsList extends Component {
         })
         let path
         if (sort.target.value) {
-            if (this.props.location.pathname.includes("/categories/")) {
+            if (this.props.location.pathname.includes('/categories/')) {
                 path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${sort.target.value}`
             } else {
                 path = `${URL_API}/sort/${sort.target.value}`
@@ -79,7 +78,7 @@ class ProductsList extends Component {
 
     getItemsAsync(searchValue) {
         let path
-        if (this.props.location.pathname.includes("/categories/")) {
+        if (this.props.location.pathname.includes('/categories/')) {
             path = `${URL_API}/products/categories/${this.props.match.params.id}?search=${searchValue}`
         } else {
             path = `${URL_API}/products?search=${searchValue}`
@@ -156,35 +155,43 @@ class ProductsList extends Component {
         var count = 0
 
         return (
-            <div className="products">
-                <div className='row'>
-                <div className="form-group col">
-                    <label htmlFor="order">Сортувати: </label>
-                <select className='form-control' id='order'
-                        value={this.state.order} onChange={this.orderProducts}>
-                    <option value="hide"></option>
-                    <option value="price">Ціна за зростанням</option>
-                    <option value="price_desc">Ціна за спаданням</option>
-                    <option value="name">За назвою: A->Z</option>
-                    <option value="name_desc">За назвою: Z->A</option>
-                </select>
+            <div className='products'>
+                <div className='row sort'>
+                    <div className='form-group col-auto'>
+                        <label htmlFor='order'>Сортувати: </label>
+                        <select className='form-control' id='order'
+                                value={this.state.order} onChange={this.orderProducts}>
+                            <option value='hide'></option>
+                            <option value='price'>Ціна за зростанням</option>
+                            <option value='price_desc'>Ціна за спаданням</option>
+                            <option value='name'>За назвою: A->Z</option>
+                            <option value='name_desc'>За назвою: Z->A</option>
+                        </select>
+                    </div>
+
+                    <div className='form-group col-auto'>
+                        <label htmlFor='size'>Кількість: </label>
+                        <select className='form-control' name='size' id='size' onChange={this.handleChange}>
+                            <option value='12'>12</option>
+                            <option value='28'>28</option>
+                            <option value='40'>40</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div className="form-group col">
-                    <label htmlFor="size">Кількість: </label>
-                    <select className="form-control" name="size" id="size" onChange={this.handleChange}>
-                        <option value="12">12</option>
-                        <option value="28">28</option>
-                        <option value="40">40</option>
-                    </select>
+                <div className='row search'>
+                    <div className='form-group col-auto'>
+                        <div className='form-control sample-search'>
+                            <Search items={this.state.products}
+                                    multiple={true}
+                                    getItemsAsync={this.getItemsAsync.bind(this)}
+                                    placeholder='Пошук'/>
+                        </div>
+                    </div>
+                    <div className='form-group col-auto'>
+                        <a href='/search' className='search-link'>Розширений пошук</a>
+                    </div>
                 </div>
-                </div>
-
-                <Search items={this.state.products}
-                        multiple={true}
-                        getItemsAsync={this.getItemsAsync.bind(this)}
-                        placeholder='Пошук'
-                        className='form-control' />
 
                 {currPage &&
                 <div className='row'>
@@ -192,9 +199,9 @@ class ProductsList extends Component {
                         var rating = Math.round(product.rating)
                         count++
                         return(
-                            <div className="col-md-4 col-sm-6" key={product.id}>
-                                <div className="product">
-                                    <div className="product-image">
+                            <div className='col-md-4 col-sm-6' key={product.id}>
+                                <div className='product'>
+                                    <div className='product-image'>
                                         <a className='img-link' href={`/products/${product.id}`}>
                                             <img
                                                 // check if image not -> visible standard image
@@ -203,36 +210,36 @@ class ProductsList extends Component {
                                                 alt={product.name}
                                             />
                                         </a>
-                                        <ul className="social">
+                                        <ul className='social'>
                                             <li><a href={`/products/${product.id}`}
-                                                   data-tip="Переглянути">
-                                                <i className="fa fa-eye"></i>
+                                                   data-tip='Переглянути'>
+                                                <i className='fa fa-eye'></i>
                                             </a></li>
                                             <li>
-                                                <a href="/" data-tip="В список бажань">
-                                                    <i className="fa fa-heart"></i>
+                                                <a href='/' data-tip='В список бажань'>
+                                                    <i className='fa fa-heart'></i>
                                                 </a>
                                             </li>
                                             <li>
                                                 {this.state.in_cart.indexOf(product.id) !== -1  ?
                                                     ('') :
                                                     (<button onClick={() => {this.addProduct(product.id)}}
-                                                             data-tip="В корзину">
-                                                        <i className="fa fa-shopping-cart"></i>
+                                                             data-tip='В корзину'>
+                                                        <i className='fa fa-shopping-cart'></i>
                                                     </button>)
                                                 }
                                             </li>
                                         </ul>
                                         {this.state.in_cart.indexOf(product.id) !== -1  ?
                                             (<a href='/cart' className='cart'>
-                                                <i className="fa fa-cart-plus" aria-hidden="true"></i> В корзині
+                                                <i className='fa fa-cart-plus' aria-hidden='true'></i> В корзині
                                             </a>) :
                                             (<button
-                                            className="add-to-cart"
+                                            className='add-to-cart'
                                             onClick={() => {this.addProduct(product.id)}}
                                         >Купити</button>)}
                                     </div>
-                                    <div className="product-content">
+                                    <div className='product-content'>
                                         <a
                                             className='title'
                                             key={product.id}
@@ -243,7 +250,7 @@ class ProductsList extends Component {
 
                                         <p>Ціна: {product.price}</p>
 
-                                        <ul className="rating"
+                                        <ul className='rating'
                                             data-index={product.rating ? rating : 0 }>
                                             <li className={classNames('fa','fa-star',
                                                 `${rating === 0 ? 'disable' : ''}`)}></li>
@@ -267,13 +274,13 @@ class ProductsList extends Component {
                 </div>
                 } {currPage ?
                     (currPage.data.length === size || page !== 1 ? (
-                        <ul className="pagination justify-content-center">
+                        <ul className='pagination justify-content-center'>
                             <li className={classNames('page-item', `${page <= 1 ? 'disabled' : ''}`)}>
-                                <button className="page-link" onClick={this.previousPage}>Попередня</button>
+                                <button className='page-link' onClick={this.previousPage}>Попередня</button>
                             </li>
-                            <li className="page-item active"><p className="page-link">{page}</p></li>
-                            <li className={classNames("page-item", `${count < size ? 'disabled' : ''}`)}>
-                                <button className="page-link" onClick={this.nextPage}>Наступна</button>
+                            <li className='page-item active'><p className='page-link'>{page}</p></li>
+                            <li className={classNames('page-item', `${count < size ? 'disabled' : ''}`)}>
+                                <button className='page-link' onClick={this.nextPage}>Наступна</button>
                             </li>
                         </ul>
                         ) : ''

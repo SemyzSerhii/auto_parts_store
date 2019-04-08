@@ -27,11 +27,11 @@ class CategoriesList extends Component {
 
     render() {
         return (
-            <div className="col-auto" id="sidebar">
-                <ul className="list-group">
+            <div className='col-auto' id='sidebar'>
+                <ul className='list-group'>
                     {this.state.categories.map((category) => {
                         return (
-                            <li className="list-group-item" key={category.id}>
+                            <li className='list-group-item' key={category.id}>
                                 <a
                                     className={category.ancestry ? 'nested_categories' : ''}
                                    href={`/categories/${category.id}`}>{category.title}</a>

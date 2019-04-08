@@ -43,10 +43,10 @@ class UserDataModal extends Component {
             <div>
                 <button className='btn btn-link' onClick={this.openModal}>
                     <i className={classNames('fa',
-                        `${this.state.current_user ? 'fa-cog' : 'fa-user-o'}`)} aria-hidden="true">
+                        `${this.state.current_user ? '' : 'fa-user-o'}`)} aria-hidden='true'>
 
                     </i>
-                    {this.state.current_user ? ' Змінити дані' : ' Реєстрація'}
+                    {this.state.current_user ? 'Змінити дані' : ' Реєстрація'}
                 </button>
 
                 <Modal

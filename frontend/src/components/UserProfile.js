@@ -25,7 +25,7 @@ class UserProfile extends Component {
     render() {
         return (
             <div className='user-profile'>
-            <table className="table table-striped table-bordered">
+            <table className='table table-striped table-bordered'>
                 <tbody>
                 <tr>
                     <th>Name</th>
