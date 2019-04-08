@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import API from '../api'
 import $ from 'jquery'
+import classNames from 'classnames/bind'
 
 class CategoriesList extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class CategoriesList extends Component {
         }
         this.closeSidebar = this.closeSidebar.bind(this)
         this.showSidebar = this.showSidebar.bind(this)
+        this.openSubMenu = this.openSubMenu.bind(this)
     }
 
     closeSidebar() {
@@ -20,6 +22,10 @@ class CategoriesList extends Component {
     showSidebar() {
         $('#sidebar').addClass('toggled')
         $('.sidebar-wrapper').show()
+    }
+
+    openSubMenu(id){
+        $(`#category${id}`).next().slideToggle( "slow" )
     }
 
     componentDidMount() {
@@ -56,9 +62,33 @@ class CategoriesList extends Component {
                             <ul>
                                 {this.state.categories.map((category) => {
                                     return (
-                                        <li key={category.id} className={category.children ? 'sidebar-dropdown' : ''}>
-                                            <a href={`/categories/${category.id}`}><span>{category.title}</span></a>
-                                        </li>
+                                        category.ancestry === null ? (
+                                            <li key={category.id}
+                                                className={classNames(`${
+                                                    this.state.categories.find(
+                                                        function (item) {
+                                                            return item.ancestry == category.id
+                                                        }) ? 'sidebar-dropdown' : ''}`)}>
+                                                <div onClick={() => this.openSubMenu(category.id)}
+                                                     id={`category${category.id}`}>
+                                                    <a href={`/categories/${category.id}`}>
+                                                        {category.title}
+                                                    </a>
+                                                </div>
+                                                <ul className='sidebar-submenu'>
+                                                    {this.state.categories.map((children) => {
+                                                        return (
+                                                            parseInt(children.ancestry) === category.id ? (
+                                                                <li key={children.id}>
+                                                                    <a href={`/categories/${children.id}`}>
+                                                                        {children.title}
+                                                                    </a>
+                                                                </li>
+                                                            ) : ('')
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </li>) : ('')
                                     )
                                 })}
                             </ul>
