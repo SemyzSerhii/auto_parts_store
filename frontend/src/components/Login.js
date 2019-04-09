@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import classNames from 'classnames/bind'
 import Modal from 'react-modal'
 import { withRouter } from 'react-router-dom'
 import update from 'immutability-helper'
 import $ from 'jquery'
+import { URL_API } from '../constants'
 
 const customStyles = {
     content : {
@@ -27,8 +29,8 @@ class Login extends Component {
                 password: ''
             },
             errors: {
-                email: '',
-                password: ''
+                email: false,
+                password: false
             },
             success: false,
             modalIsOpen: false
@@ -67,86 +69,105 @@ class Login extends Component {
         })
 
         const user = this.state.user
-        // check errors exist
-        if (this.state.errors.email ||
-            this.state.errors.password) {
-            this.setState({success: false}).bind(this)
+        // check fields
+        if (!this.state.user.email ||
+            !this.state.user.password ||
+            (!this.state.user.email && !this.state.user.password)) {
+            this.setState({
+                errors: {
+                    email: true,
+                    password: true
+                },
+                success: false
+            })
         } else {
             $.ajax({
-                url: "http://localhost:3000/api/v1/sessions",
-                type: "POST",
+                url: `${URL_API}/sessions`,
+                type: 'POST',
                 data: {
                     session: {
                         email: user.email,
                         password: user.password
                     }
                 },
-                dataType: "json",
-                success: function (result) {
-                    localStorage.setItem("jwt", result.token);
+                dataType: 'json',
+                context: this,
+                success: function (res) {
+                    if (res) {
+                        this.setState({
+                            errors: {
+                                email: false,
+                                password: false
+                            },
+                            success: true
+                        })
+                        this.closeModal()
+                    }
+                },
+                error: function () {
+                    this.setState({
+                        errors: {
+                            email: true,
+                            password: true
+                        },
+                        success: false
+                    })
                 }
             })
-
             // resetting data
             this.setState({
                 user: {
                     email: '',
                     password: ''
-                },
-                success: true
+                }
             })
-
         }
     }
 
     render() {
         return (
             <div>
-                <button className='nav-link btn btn-link' onClick={this.openModal}>
-                    <i className="fa fa-sign-in" aria-hidden="true"></i> Вхід
+                <button className='btn btn-link' onClick={this.openModal}>
+                    <i className='fa fa-sign-in' aria-hidden='true'></i> Вхід
                 </button>
 
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeModal}
                     style={customStyles}
-                    contentLabel="Login"
+                    contentLabel='Login'
                 >
-                    <div className="modal-header">
-                        <h2 className="modal-title">Вхід</h2>
-                        <button type="button" className="close"
-                                data-dismiss="modal" aria-label="Close"
+                    <div className='modal-header'>
+                        <h2 className='modal-title'>Вхід</h2>
+                        <button type='button' className='close'
+                                data-dismiss='modal' aria-label='Close'
                                 onClick={this.closeModal}>
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden='true'>&times;</span>
                         </button>
                     </div>
 
                     <form className='user-form'>
                         <div className='form-group'>
                             <input
-                                className='required form-control'
+                                className={classNames('required', 'form-control',
+                                    `${this.state.errors.email ? 'error' : ''}`)}
                                 name='email'
                                 placeholder='Email'
                                 value={this.state.user.email}
                                 onChange={this.dataChange}
                             />
-                            <div className='text-danger'>
-                                {this.state.errors.email}
-                            </div>
                         </div>
 
                         <div className='form-group password'>
                             <input
-                                className='required form-control'
+                                className={classNames('required', 'form-control',
+                                    `${this.state.errors.password ? 'error' : ''}`)}
                                 name='password'
                                 placeholder='Password'
                                 type='password'
                                 value={this.state.user.password}
                                 onChange={this.dataChange}
                             />
-                            <div className='text-danger'>
-                                {this.state.errors.password}
-                            </div>
                         </div>
 
                         <div className='form-group text-center'>

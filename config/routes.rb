@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       resources :orders, only: %i[create index show]
 
       get 'products/categories/:category_id' => 'products#index', as: 'category_products'
+      get 'products/categories/:category_id/order/:by' => 'products#index', as: 'category_order'
+      get 'sort/:by' => 'products#index', as: 'sort'
     end
   end
 end
