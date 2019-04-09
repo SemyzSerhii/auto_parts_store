@@ -248,7 +248,7 @@ class ProductsList extends Component {
                                             ` / ${product.brand}` : ''}
                                         </a>
 
-                                        <p>Ціна: {product.price}</p>
+                                        <p>Ціна: {product.price} грн</p>
 
                                         <ul className='rating'
                                             data-index={product.rating ? rating : 0 }>

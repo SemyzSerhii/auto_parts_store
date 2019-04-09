@@ -24,7 +24,8 @@ class Product extends Component {
 
     addProduct() {
         API.post('line_items', {
-            product_id: this.state.product.id
+            product_id: this.state.product.id,
+            cart_id: localStorage.getItem('cart_id')
         })
             .then(res => {
                 if(res.status === 201) {
@@ -85,7 +86,7 @@ class Product extends Component {
                                         />
                                     </div>
                                     <div className='product-info'>
-                                        <p className='price'>Ціна: {this.state.product.price}</p>
+                                        <p className='price'>Ціна: {this.state.product.price} грн</p>
                                         <ul className="rating"
                                             data-index={this.state.product.rating ? rating : 0}>
                                             <li className={classNames('fa', 'fa-star',

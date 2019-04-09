@@ -34,14 +34,18 @@ class Cart extends Component {
 
     changeQuantity(id, quantity, change) {
         let new_quantity = change ? quantity + 1 : quantity - 1
-        API.put(`line_items/${id}`,
-            {
-                quantity: new_quantity,
-                cart_id: localStorage.getItem('cart_id')
-            })
-            .then(function () {
-                window.location.reload()
-            })
+        if (new_quantity === 0) {
+            this.deleteProduct(id)
+        } else {
+            API.put(`line_items/${id}`,
+                {
+                    quantity: new_quantity,
+                    cart_id: localStorage.getItem('cart_id')
+                })
+                .then(function () {
+                    window.location.reload()
+                })
+        }
     }
 
     cleanCart() {
@@ -66,8 +70,7 @@ class Cart extends Component {
                         cart: response.data,
                         responseStatus: 'true'
                     })
-                    let cart_id = response.data.id ? response.data.id : response.data[0].cart_id
-                    localStorage.setItem('cart_id', cart_id)
+                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
                 } else {
                     this.setState({ responseStatus: 'null' })
                 }
@@ -104,13 +107,17 @@ class Cart extends Component {
                                                 className='nav-link btn btn-link'
                                                 onClick={() => this.props.history.push(
                                                     `/products/${row.value.id}`
-                                                )}>{row.value.name}</button>
+                                                )}>{row.value.name}
+                                                {row.value.model ? ` / ${row.value.model}` : ''}
+                                                {row.value.company ? ` / ${row.value.company}` : ''}
+                                                {row.value.brand ? ` / ${row.value.brand}` : ''}</button>
                                         )
 
                                     },
                                     {
-                                        Header: 'Image',
+                                        Header: '',
                                         accessor: 'product',
+                                        width: 120,
                                         Cell: row => (
                                             <img
                                                 width='75px'
@@ -122,9 +129,9 @@ class Cart extends Component {
                                     },
                                     {
                                         Header: '',
-                                        width: 50,
+                                        width: 30,
                                         Cell: row => (
-                                            <button className='btn btn-link'
+                                            <button className='btn btn-link padding-0'
                                                     onClick={() => {
                                                         this.changeQuantity(row.original.id, row.original.quantity, true)
                                                     }
@@ -135,13 +142,14 @@ class Cart extends Component {
                                     },
                                     {
                                         Header: 'Кількість',
-                                        accessor: 'quantity'
+                                        accessor: 'quantity',
+                                        width: 120
                                     },
                                     {
                                         Header: '',
-                                        width: 50,
+                                        width: 30,
                                         Cell: row => (
-                                            <button className='btn btn-link'
+                                            <button className='btn btn-link padding-0'
                                                     onClick={() => {
                                                         this.changeQuantity(row.original.id, row.original.quantity, false)
                                                     }
@@ -152,18 +160,21 @@ class Cart extends Component {
                                     },
                                     {
                                         Header: 'Ціна',
-                                        accessor: 'product.price'
+                                        accessor: 'product.price',
+                                        width: 120,
+                                        Cell: row => (`${row.value} грн`)
                                     },
                                     {
                                         Header: 'Разом',
                                         accessor: 'product',
-                                        Cell: row => (row.original.quantity * row.value.price)
+                                        width: 120,
+                                        Cell: row => (`${row.original.quantity * row.value.price} грн`)
                                     },
                                     {
                                         Header: '',
-                                        width: 50,
+                                        width: 30,
                                         Cell: row => (
-                                            <button className='btn btn-link'
+                                            <button className='btn btn-link padding-0'
                                                     onClick={() => {
                                                         this.deleteProduct(row.original.id)
                                                     }
@@ -177,7 +188,7 @@ class Cart extends Component {
                                 className='-striped -highlight'
                             />
                                 {this.state.cart.length > 0 ?
-                                    (<div><h5>Загальна вартість: {sum}</h5>
+                                    (<div className='total-price'><h5>Загальна вартість: {sum} грн</h5>
                                         <div className='row buttons'>
                                             <button className='btn btn-primary' onClick={this.cleanCart}>Очистити
                                             </button>
