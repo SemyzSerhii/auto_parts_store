@@ -23,7 +23,10 @@ class Cart extends Component {
     }
 
     deleteProduct(id) {
-        API.delete(`line_items/${id}`)
+        API.delete(`line_items/${id}`, {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
             .then(function () {
                 window.location.reload()
             })
@@ -33,7 +36,8 @@ class Cart extends Component {
         let new_quantity = change ? quantity + 1 : quantity - 1
         API.put(`line_items/${id}`,
             {
-                "quantity": new_quantity
+                quantity: new_quantity,
+                cart_id: localStorage.getItem('cart_id')
             })
             .then(function () {
                 window.location.reload()
@@ -41,20 +45,29 @@ class Cart extends Component {
     }
 
     cleanCart() {
-        API.delete('cart')
+        API.delete('cart', {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
             .then(function () {
+                localStorage.removeItem('cart_id')
                 window.location.reload()
             })
     }
 
     componentWillMount() {
-        API.get('cart')
+        API.get('cart', {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
             .then(function (response) {
                 if(response.data) {
                     this.setState({
                         cart: response.data,
                         responseStatus: 'true'
                     })
+                    let cart_id = response.data.id ? response.data.id : response.data[0].cart_id
+                    localStorage.setItem('cart_id', cart_id)
                 } else {
                     this.setState({ responseStatus: 'null' })
                 }
@@ -71,7 +84,7 @@ class Cart extends Component {
 
     render() {
         let sum = 0
-        let items = this.state.cart.length
+        let items = !this.state.cart.id ? this.state.cart.length : 0
         for (let i = 0; i < items; i++) {
             sum += this.state.cart[i.toString()].quantity * this.state.cart[i.toString()].product.price
         }
@@ -81,7 +94,7 @@ class Cart extends Component {
                     switch (this.state.responseStatus) {
                         case 'true':
                             return <div className='cart'><ReactTable
-                                data={this.state.cart}
+                                data={!this.state.cart.id ? this.state.cart : []}
                                 columns={[
                                     {
                                         Header: 'Назва',
@@ -116,7 +129,7 @@ class Cart extends Component {
                                                         this.changeQuantity(row.original.id, row.original.quantity, true)
                                                     }
                                                     }>
-                                                <i className="fa fa-plus"></i>
+                                                <i className='fa fa-plus'></i>
                                             </button>
                                         ),
                                     },
@@ -133,7 +146,7 @@ class Cart extends Component {
                                                         this.changeQuantity(row.original.id, row.original.quantity, false)
                                                     }
                                                     }>
-                                                <i className="fa fa-minus"></i>
+                                                <i className='fa fa-minus'></i>
                                             </button>
                                         ),
                                     },
@@ -155,7 +168,7 @@ class Cart extends Component {
                                                         this.deleteProduct(row.original.id)
                                                     }
                                                     }>
-                                                <i className="fa fa-times"></i>
+                                                <i className='fa fa-times'></i>
                                             </button>
                                         ),
                                     }
@@ -166,9 +179,9 @@ class Cart extends Component {
                                 {this.state.cart.length > 0 ?
                                     (<div><h5>Загальна вартість: {sum}</h5>
                                         <div className='row buttons'>
-                                            <button className="btn btn-primary" onClick={this.cleanCart}>Очистити
+                                            <button className='btn btn-primary' onClick={this.cleanCart}>Очистити
                                             </button>
-                                            <a className="btn btn-primary" href='/order'>Оформити замовлення</a>
+                                            <a className='btn btn-primary' href='/order'>Оформити замовлення</a>
                                         </div>
                                     </div>) : ''
                                 }

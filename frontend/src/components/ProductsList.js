@@ -140,7 +140,7 @@ class ProductsList extends Component {
     }
 
     addProduct(id) {
-        API.post('line_items', {product_id: id})
+        API.post('line_items', {product_id: id, cart_id: localStorage.getItem('cart_id')})
             .then(res => {
                 if(res.status === 201) {
                     this.setState({
