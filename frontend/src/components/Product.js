@@ -37,7 +37,8 @@ class Product extends Component {
     }
 
     componentWillMount() {
-        API.get(`products/${this.props.match.params.id}`)
+        let id = this.props.match.params.id
+        API.get(`products/${id}`)
             .then(function (response) {
                 if(response.data) {
                     this.setState({
@@ -58,6 +59,24 @@ class Product extends Component {
                         page: {},
                         responseStatus: 'null'
                     })
+                }
+            }.bind(this))
+
+        API.get('cart', {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
+            .then(function (response) {
+                if(response.data) {
+                    if (response.data.find(
+                        function (item) {
+                            return item.product.id == id
+                        })) {
+                        this.setState({
+                            buy: true
+                        })
+                    }
+                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
                 }
             }.bind(this))
     }
