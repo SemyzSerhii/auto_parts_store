@@ -13,6 +13,7 @@ class Menu extends Component {
         super(props)
         this.state = {
             pages: [],
+            cart: [],
             current_user: {}
         }
         this.showUserMenu = this.showUserMenu.bind(this)
@@ -51,6 +52,23 @@ class Menu extends Component {
                     console.log('error ' + error)
                 }
             )
+
+        API.get('cart', {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
+            .then(function (response) {
+                if(response.data) {
+                    this.setState({
+                        cart: response.data
+                    })
+                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                }
+            }.bind(this), function () {
+                this.setState({
+                    cart: []
+                })
+            }.bind(this))
     }
 
     render() {
@@ -110,7 +128,12 @@ class Menu extends Component {
                     )
                     }
                 </div>
-                <a href='/cart' className='cart-link'><img src={Cart} alt='cart'/></a>
+                <a href='/cart' className='cart-link'>
+                    <img src={Cart} alt='cart'/>
+                    <span>{!this.state.cart.id ? this.state.cart.reduce(function (sum, current) {
+                        return sum + current.quantity
+                    }, 0) : 0}</span>
+                </a>
             </div>
         )
     }

@@ -21,11 +21,11 @@ class CategoriesList extends Component {
 
     showSidebar() {
         $('#sidebar').addClass('toggled')
-        $('.sidebar-wrapper').show()
+        $('.sidebar-wrapper').show('slow')
     }
 
     openSubMenu(id){
-        $(`#category${id}`).next().slideToggle( "slow" )
+        $(`#category${id}`).next().slideToggle('slow')
     }
 
     componentDidMount() {

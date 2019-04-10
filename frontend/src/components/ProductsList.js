@@ -46,6 +46,23 @@ class ProductsList extends Component {
                     currPage
                 })
             })
+
+        API.get('cart', {
+            params: {
+                cart_id: localStorage.getItem('cart_id')
+            }})
+            .then(function (response) {
+                if(response.data) {
+                    this.setState({
+                        in_cart: response.data
+                    })
+                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                }
+            }.bind(this), function () {
+                this.setState({
+                    in_cart: []
+                })
+            }.bind(this))
     }
 
     orderProducts(sort){
@@ -140,7 +157,7 @@ class ProductsList extends Component {
     }
 
     addProduct(id) {
-        API.post('line_items', {product_id: id})
+        API.post('line_items', {product_id: id, cart_id: localStorage.getItem('cart_id')})
             .then(res => {
                 if(res.status === 201) {
                     this.setState({
@@ -148,6 +165,14 @@ class ProductsList extends Component {
                     })
                 }
             })
+    }
+
+    checkInCart(id) {
+        return (this.state.in_cart.indexOf(id) !== -1 ||
+            this.state.in_cart.find(
+                function (item) {
+                    return item.product.id == parseInt(id)
+                }))
     }
 
     render() {
@@ -221,7 +246,7 @@ class ProductsList extends Component {
                                                 </a>
                                             </li>
                                             <li>
-                                                {this.state.in_cart.indexOf(product.id) !== -1  ?
+                                                {this.checkInCart(product.id)  ?
                                                     ('') :
                                                     (<button onClick={() => {this.addProduct(product.id)}}
                                                              data-tip='В корзину'>
@@ -230,14 +255,14 @@ class ProductsList extends Component {
                                                 }
                                             </li>
                                         </ul>
-                                        {this.state.in_cart.indexOf(product.id) !== -1  ?
+                                        {this.checkInCart(product.id) ?
                                             (<a href='/cart' className='cart'>
                                                 <i className='fa fa-cart-plus' aria-hidden='true'></i> В корзині
                                             </a>) :
                                             (<button
-                                            className='add-to-cart'
-                                            onClick={() => {this.addProduct(product.id)}}
-                                        >Купити</button>)}
+                                                className='add-to-cart'
+                                                onClick={() => {this.addProduct(product.id)}}
+                                            >Купити</button>)}
                                     </div>
                                     <div className='product-content'>
                                         <a
@@ -248,7 +273,7 @@ class ProductsList extends Component {
                                             ` / ${product.brand}` : ''}
                                         </a>
 
-                                        <p>Ціна: {product.price}</p>
+                                        <p>Ціна: {product.price} грн</p>
 
                                         <ul className='rating'
                                             data-index={product.rating ? rating : 0 }>
