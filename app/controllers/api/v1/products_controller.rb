@@ -7,14 +7,14 @@ class Api::V1::ProductsController < ApplicationController
       @category = Category.find(params[:category_id])
       @products = @category.nested_products
       if params[:by]
-        @products = @products.order(order_by)
+        sort_products
       elsif params[:search]
-        @products = @products.search(params[:search])
+        search_products
       end
     elsif params[:by]
-      @products = @products.publish.order(order_by)
+      sort_products
     elsif params[:search]
-      @products = @products.search(params[:search])
+      search_products
     end
   end
 
@@ -22,6 +22,14 @@ class Api::V1::ProductsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_product
     @product = Product.find(params[:id])
+  end
+
+  def sort_products
+    @products = @products.order(order_by)
+  end
+
+  def search_products
+    @products = @products.search(params[:search])
   end
 
   def order_by

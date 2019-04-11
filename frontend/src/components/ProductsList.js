@@ -73,7 +73,7 @@ class ProductsList extends Component {
         let path
         if (sort.target.value) {
             if (this.props.location.pathname.includes('/categories/')) {
-                path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${sort.target.value}`
+                path = `${URL_API}/products/categories/${this.props.match.params.id}/sort/${sort.target.value}`
             } else {
                 path = `${URL_API}/sort/${sort.target.value}`
             }
