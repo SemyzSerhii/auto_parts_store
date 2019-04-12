@@ -10,11 +10,11 @@ import Page from './components/Page'
 import Product from './components/Product'
 import UserProfile from './components/UserProfile'
 import CategoriesList from './components/CategoriesList'
-import Cart from './components/cart/Cart'
+import Cart from './components/Cart'
 import UserOrders from './components/UserOrders'
 import OrderShow from './components/OrderShow'
 import OrderCreate from './components/OrderCreate'
-import Menu from './components/menu/Menu'
+import Menu from './components/Menu'
 import NotFound from './components/NotFound'
 
 class App extends Component {

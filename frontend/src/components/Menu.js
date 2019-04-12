@@ -52,7 +52,6 @@ class Menu extends Component {
                     console.log('error ' + error)
                 }
             )
-
         API.get('cart', {
             params: {
                 cart_id: localStorage.getItem('cart_id')
@@ -69,7 +68,6 @@ class Menu extends Component {
                     cart: []
                 })
             }.bind(this))
-        this.props.receiveCart('cart', this.state.cart)
     }
 
     render() {
