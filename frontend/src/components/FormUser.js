@@ -3,7 +3,6 @@ import {withRouter} from 'react-router-dom'
 import classNames from 'classnames/bind'
 import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
-import API from '../api'
 import $ from 'jquery'
 import { URL_API, EMAIL_VALIDATION, PHONE_VALIDATION } from '../constants'
 
@@ -11,13 +10,7 @@ class FormUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: {
-                name: '',
-                email: '',
-                password: '',
-                phone: '',
-                _id: ''
-            },
+            user: {},
             errors: {
                 name: '',
                 email: '',
@@ -25,8 +18,7 @@ class FormUser extends Component {
                 phone: ''
             },
             edit: false,
-            success: false,
-            current_user: ''
+            success: false
         }
 
         this.dataChange = this.dataChange.bind(this)

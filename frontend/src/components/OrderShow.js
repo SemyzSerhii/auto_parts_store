@@ -20,7 +20,9 @@ class Page extends Component {
 
 
     componentWillMount() {
-            API.get(`orders/${this.props.match.params.id}`)
+            API.get(`orders/${this.props.match.params.id}`, {
+                headers: {'Authorization': localStorage.getItem('auth_token')}
+            })
                 .then(function (response) {
                     if(response.data) {
                         this.setState({
@@ -44,7 +46,7 @@ class Page extends Component {
     }
 
     render() {
-        let items = this.state.order.line_items.length
+        let items = this.state.order.line_items
         return (
             <div>
                 {(() => {
@@ -120,7 +122,7 @@ class Page extends Component {
                                             Cell: row => (`${row.original.quantity * row.value.price} грн`)
                                         }
                                     ]}
-                                    pageSize={(items < 10) ? items : 10}
+                                    pageSize={(items.length < 10) ? items.length : 10}
                                     className='-striped -highlight'
                                 />
                             </div>

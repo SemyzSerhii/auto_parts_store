@@ -13,7 +13,9 @@ class UserOrders extends Component {
     }
 
     componentWillMount() {
-        API.get('orders')
+        API.get('orders', {
+            headers: {'Authorization': localStorage.getItem('auth_token')}
+        })
             .then(function (response) {
                 if (response.data) {
                     this.setState({

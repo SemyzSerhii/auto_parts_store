@@ -12,7 +12,9 @@ class UserProfile extends Component {
     }
 
     componentWillMount() {
-        API.get(`users`)
+        API.get(`users`, {
+            headers: {'Authorization': localStorage.getItem('auth_token')}
+        })
             .then(function (response) {
                 if (response.data) {
                     this.setState({
@@ -43,7 +45,7 @@ class UserProfile extends Component {
             </table>
                 <BrowserRouter>
                     <div className=''>
-                        <UserDataModal/>
+                        <UserDataModal user={this.state.user}/>
                     </div>
                 </BrowserRouter>
             </div>

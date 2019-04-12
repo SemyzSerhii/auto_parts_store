@@ -20,8 +20,8 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 class UserDataModal extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             modalIsOpen: false,
             current_user: ''
