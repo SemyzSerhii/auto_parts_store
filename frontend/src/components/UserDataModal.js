@@ -31,9 +31,11 @@ class UserDataModal extends Component {
     }
 
     componentWillMount() {
-        this.setState({
-            current_user: this.props.user
-        })
+        if (this.props.user) {
+            this.setState({
+                current_user: this.props.user
+            })
+        }
     }
 
     openModal() {

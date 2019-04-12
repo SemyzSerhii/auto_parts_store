@@ -102,7 +102,7 @@ class Login extends Component {
                             },
                             success: true
                         })
-                        this.closeModal()
+                        window.location.reload()
                     }
                 },
                 error: function () {

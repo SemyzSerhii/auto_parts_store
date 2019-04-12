@@ -121,7 +121,7 @@ class Menu extends Component {
                 <a href='/vin' className='vin-link'>Пошук по vin-коду</a>
                 <div className='nav-user'>
                     {this.state.load_user ? (
-                        this.state.current_user ? (
+                        this.state.current_user.name ? (
                         <div>
                             <div className='nav-current-user' onClick={this.showUserMenu}>
                                 <i className='fa fa-user-o' aria-hidden='true'></i> {this.state.current_user.name}
