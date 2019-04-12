@@ -3,8 +3,7 @@ class Api::V1::SessionsController < ApplicationController
     user = User.authenticate(session_params[:email], session_params[:password])
 
     if user.present?
-      response.headers['Authorization'] = user.generate_token
-      render json: {message: ['Login successful!']}
+      render status: :ok, json: { token: user.generate_token }
     else
       raise ActiveRecord::RecordNotFound, 'invalid email or password'
     end

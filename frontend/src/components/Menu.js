@@ -24,6 +24,7 @@ class Menu extends Component {
     logout() {
         API.delete('sessions')
             .then(function () {
+                localStorage.removeItem('auth_token')
                 window.location.reload()
             })
     }
@@ -68,6 +69,23 @@ class Menu extends Component {
                     cart: []
                 })
             }.bind(this))
+
+        if (localStorage.getItem('auth_token')) {
+            API.get('users', {
+                headers: {'Authorization': localStorage.getItem('auth_token')}
+            })
+                .then(function (response) {
+                    if(response.data) {
+                        this.setState({
+                            current_user: response.data
+                        })
+                    }
+                }.bind(this), function () {
+                    this.setState({
+                        current_user: {}
+                    })
+                }.bind(this))
+        }
     }
 
     render() {

@@ -94,6 +94,7 @@ class Login extends Component {
                 context: this,
                 success: function (res) {
                     if (res) {
+                        localStorage.setItem('auth_token', res.token)
                         this.setState({
                             errors: {
                                 email: false,
