@@ -20,7 +20,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def index
-    # current_user.orders
+    @orders = Order.where(user_id: @current_user.id)
   end
 
   private

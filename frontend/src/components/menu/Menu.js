@@ -69,6 +69,7 @@ class Menu extends Component {
                     cart: []
                 })
             }.bind(this))
+        this.props.receiveCart('cart', this.state.cart)
     }
 
     render() {

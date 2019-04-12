@@ -10,9 +10,10 @@ import Page from './components/Page'
 import Product from './components/Product'
 import UserProfile from './components/UserProfile'
 import CategoriesList from './components/CategoriesList'
-import Cart from './components/Cart'
+import Cart from './components/cart/Cart'
 import UserOrders from './components/UserOrders'
-import Menu from './components/Menu'
+import OrderShow from './components/OrderShow'
+import Menu from './components/menu/Menu'
 import NotFound from './components/NotFound'
 
 class App extends Component {
@@ -35,6 +36,7 @@ class App extends Component {
                                 <Route path='/user' component={UserProfile}/>
                                 <Route path='/cart' component={Cart}/>
                                 <Route path='/orders' component={UserOrders}/>
+                                <Route path='/order/:id' component={OrderShow}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </BrowserRouter>
