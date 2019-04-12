@@ -16,7 +16,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def show
-
+    @order = Order.find(params[:id])
   end
 
   def index

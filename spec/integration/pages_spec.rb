@@ -24,8 +24,8 @@ describe 'Pages API' do
       parameter name: :id, in: :path, type: :string,
       required: ['id']
 
-      success_schema(200, 'Pages found', PAGES_RESPONSE_PROPS)
-      error_schema(404, 'Pages not found')
+      success_schema(200, 'Page found', PAGES_RESPONSE_PROPS)
+      error_schema(404, 'Page not found')
     end
   end
 end

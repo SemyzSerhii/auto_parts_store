@@ -366,6 +366,102 @@
             }
           }
         }
+      },
+      "get": {
+        "summary": "User orders",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders found",
+            "schema": {
+              "type": "object",
+              "properties": {
+              }
+            }
+          },
+          "404": {
+            "description": "Orders not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "summary": "Find user order by id",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order found",
+            "schema": {
+              "type": "object",
+              "properties": {
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/pages": {
@@ -436,7 +532,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Pages found",
+            "description": "Page found",
             "schema": {
               "type": "object",
               "properties": {
@@ -459,7 +555,7 @@
             }
           },
           "404": {
-            "description": "Pages not found",
+            "description": "Page not found",
             "schema": {
               "type": "object",
               "properties": {
