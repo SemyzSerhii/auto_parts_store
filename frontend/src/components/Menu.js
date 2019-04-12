@@ -14,7 +14,8 @@ class Menu extends Component {
         this.state = {
             pages: [],
             cart: [],
-            current_user: {}
+            current_user: {},
+            load_user: false
         }
         this.showUserMenu = this.showUserMenu.bind(this)
         this.showMainMenu = this.showMainMenu.bind(this)
@@ -28,7 +29,9 @@ class Menu extends Component {
 
     showUserMenu(){
         $('#menu-user').slideToggle('slow')
-        $('#nav-media').next().hide('slow')
+        if (window.innerWidth <= 900) {
+            $('#nav-media').next().hide('slow')
+        }
     }
 
     showMainMenu(){
@@ -74,7 +77,8 @@ class Menu extends Component {
                 .then(function (response) {
                     if(response.data) {
                         this.setState({
-                            current_user: response.data
+                            current_user: response.data,
+                            load_user: true
                         })
                     }
                 }.bind(this), function () {
@@ -82,6 +86,10 @@ class Menu extends Component {
                         current_user: {}
                     })
                 }.bind(this))
+        } else {
+            this.setState({
+                load_user: true
+            })
         }
     }
 
@@ -112,7 +120,8 @@ class Menu extends Component {
                 </div>
                 <a href='/vin' className='vin-link'>Пошук по vin-коду</a>
                 <div className='nav-user'>
-                    {this.state.current_user.name ? (
+                    {this.state.load_user ? (
+                        this.state.current_user ? (
                         <div>
                             <div className='nav-current-user' onClick={this.showUserMenu}>
                                 <i className='fa fa-user-o' aria-hidden='true'></i> {this.state.current_user.name}
@@ -139,8 +148,7 @@ class Menu extends Component {
                                 <Login/>
                             </BrowserRouter>
                         </div>
-                    )
-                    }
+                    )) : ('')}
                 </div>
                 <a href='/cart' className='cart-link'>
                     <img src={Cart} alt='cart'/>
