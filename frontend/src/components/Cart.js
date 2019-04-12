@@ -192,7 +192,7 @@ class Cart extends Component {
                                         <div className='row buttons'>
                                             <button className='btn btn-primary' onClick={this.cleanCart}>Очистити
                                             </button>
-                                            <a className='btn btn-primary' href='/order'>Оформити замовлення</a>
+                                            <a className='btn btn-primary' href='/order_create'>Оформити замовлення</a>
                                         </div>
                                     </div>) : ''
                                 }

@@ -236,7 +236,8 @@ button.close:focus {
     right: 0 !important;
 }
 
-.user-form .error {
+.user-form .error,
+.order-form .error{
     border-color: red;
 }
 
