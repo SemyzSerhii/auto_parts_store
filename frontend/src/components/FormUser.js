@@ -10,14 +10,19 @@ class FormUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: {},
+            user: {
+                name: '',
+                email: '',
+                password: '',
+                phone: ''
+            },
             errors: {
                 name: '',
                 email: '',
                 password: '',
                 phone: ''
             },
-            edit: false,
+            edit: !!this.props.user,
             success: false
         }
 
@@ -32,11 +37,21 @@ class FormUser extends Component {
 
     componentWillMount() {
         // if edit get data
-        if (this.props.user) {
+        if (this.state.edit) {
             this.setState({
-                user: this.props.user,
-                edit: true
+                user: {
+                    name: this.props.user.name,
+                    email: this.props.user.email,
+                    password: '',
+                    phone: this.props.user.phone
+                }
             })
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.edit && this.state.success) {
+            setTimeout(window.location.reload(), 3000)
         }
     }
 
@@ -64,7 +79,7 @@ class FormUser extends Component {
         const user = this.state.user
         // check errors exist
         if (error_count === 0) {
-            if (!this.state.current_user) {
+            if (!this.state.edit) {
                 this.createUser(user)
             } else {
                 this.editUser(user)
@@ -155,6 +170,7 @@ class FormUser extends Component {
             url: `${URL_API}/users`,
             type: 'PUT',
             data: request,
+            headers: {'Authorization': localStorage.getItem('auth_token')},
             dataType: 'json',
             context: this,
             success: function (res) {
@@ -267,8 +283,7 @@ class FormUser extends Component {
                             {this.state.success ?
                                 (this.state.edit ?
                                     'Дані змінено!' :
-                                    'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!') :
-                                ''
+                                    'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!') : ''
                             }
                         </div>
                     </div>
