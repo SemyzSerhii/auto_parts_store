@@ -73,7 +73,7 @@ describe 'Order API' do
 
   path '/api/v1/orders' do
     get 'User orders' do
-      tags 'Orders'
+      tags 'Order'
       declare_auth_parameter
 
       success_schema(200, 'Orders found', ORDER_RESPONSE_PROPS)
@@ -83,7 +83,7 @@ describe 'Order API' do
 
   path  '/api/v1/orders/{id}' do
     get 'Find user order by id' do
-      tags 'Orders'
+      tags 'Order'
       declare_auth_parameter
       parameter name: :id, in: :path, type: :string,
                 required: ['id']

@@ -370,7 +370,7 @@
       "get": {
         "summary": "User orders",
         "tags": [
-          "Orders"
+          "Order"
         ],
         "parameters": [
           {
@@ -416,7 +416,7 @@
       "get": {
         "summary": "Find user order by id",
         "tags": [
-          "Orders"
+          "Order"
         ],
         "parameters": [
           {
