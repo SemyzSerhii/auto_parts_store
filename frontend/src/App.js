@@ -13,12 +13,12 @@ import CategoriesList from './components/CategoriesList'
 import Cart from './components/Cart'
 import UserOrders from './components/UserOrders'
 import OrderShow from './components/OrderShow'
-import OrderCreate from './components/OrderCreate'
+import CreateOrder from './components/CreateOrder'
 import Menu from './components/Menu'
 import NotFound from './components/NotFound'
 
 class App extends Component {
-    render() {
+       render() {
         return (
             <div className='App'>
                 <div className='header'>
@@ -38,7 +38,7 @@ class App extends Component {
                                 <Route path='/cart' component={Cart}/>
                                 <Route path='/orders' component={UserOrders}/>
                                 <Route path='/order/:id' component={OrderShow}/>
-                                <Route path='/order_create' component={OrderCreate}/>
+                                <Route path='/order_create' component={CreateOrder}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </BrowserRouter>

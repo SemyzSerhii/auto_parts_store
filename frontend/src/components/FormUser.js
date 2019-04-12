@@ -40,15 +40,11 @@ class FormUser extends Component {
 
     componentWillMount() {
         // if edit get data
-        if (this.state.current_user){
-            API.get(`users`)
-                .then(function (response) {
-                    this.setState({
-                        user: response.data,
-                        edit: true
-                    })
-
-                }.bind(this))
+        if (this.props.user) {
+            this.setState({
+                user: this.props.user,
+                edit: true
+            })
         }
     }
 

@@ -22,11 +22,8 @@ class Menu extends Component {
     }
 
     logout() {
-        API.delete('sessions')
-            .then(function () {
-                localStorage.removeItem('auth_token')
-                window.location.reload()
-            })
+        localStorage.removeItem('auth_token')
+        window.location.reload()
     }
 
     showUserMenu(){
@@ -124,7 +121,7 @@ class Menu extends Component {
                                     <li><a href='/user'>Профіль</a></li>
                                     <li>
                                         <BrowserRouter>
-                                            <UserDataModal/>
+                                            <UserDataModal user={this.state.current_user}/>
                                         </BrowserRouter>
                                     </li>
                                     <li><a href='/orders'>Замовлення</a></li>

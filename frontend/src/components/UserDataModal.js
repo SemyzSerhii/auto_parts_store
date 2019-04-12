@@ -20,14 +20,20 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 class UserDataModal extends Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {
             modalIsOpen: false,
             current_user: ''
         }
         this.openModal = this.openModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
+    }
+
+    componentWillMount() {
+        this.setState({
+            current_user: this.props.user
+        })
     }
 
     openModal() {
@@ -63,7 +69,7 @@ class UserDataModal extends Component {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <FormUser/>
+                    <FormUser user={this.state.current_user}/>
                 </Modal>
             </div>
         )
