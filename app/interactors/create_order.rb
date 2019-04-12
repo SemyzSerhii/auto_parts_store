@@ -7,8 +7,8 @@ class CreateOrder
     context.order = context.user.orders.build(context.order_params)
 
     context.order.line_items << context.cart.line_items
-    context.order.line_items.each {|l| l.update(cart_id: nil)}
     context.order.calculate_total_price
+    context.order.line_items.each {|l| l.update(cart_id: nil)}
     context.order.phone ||= context.user.phone
 
     if context.user.save
