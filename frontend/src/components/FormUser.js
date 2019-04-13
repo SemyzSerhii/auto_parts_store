@@ -3,7 +3,6 @@ import {withRouter} from 'react-router-dom'
 import classNames from 'classnames/bind'
 import PasswordMask from 'react-password-mask'
 import update from 'immutability-helper'
-import API from '../api'
 import $ from 'jquery'
 import { URL_API, EMAIL_VALIDATION, PHONE_VALIDATION } from '../constants'
 
@@ -15,8 +14,7 @@ class FormUser extends Component {
                 name: '',
                 email: '',
                 password: '',
-                phone: '',
-                _id: ''
+                phone: ''
             },
             errors: {
                 name: '',
@@ -24,9 +22,8 @@ class FormUser extends Component {
                 password: '',
                 phone: ''
             },
-            edit: false,
-            success: false,
-            current_user: ''
+            edit: !!this.props.user,
+            success: false
         }
 
         this.dataChange = this.dataChange.bind(this)
@@ -40,15 +37,21 @@ class FormUser extends Component {
 
     componentWillMount() {
         // if edit get data
-        if (this.state.current_user){
-            API.get(`users`)
-                .then(function (response) {
-                    this.setState({
-                        user: response.data,
-                        edit: true
-                    })
+        if (this.state.edit) {
+            this.setState({
+                user: {
+                    name: this.props.user.name,
+                    email: this.props.user.email,
+                    password: '',
+                    phone: this.props.user.phone
+                }
+            })
+        }
+    }
 
-                }.bind(this))
+    componentDidUpdate() {
+        if (this.state.edit && this.state.success) {
+            setTimeout(window.location.reload(), 3000)
         }
     }
 
@@ -76,7 +79,7 @@ class FormUser extends Component {
         const user = this.state.user
         // check errors exist
         if (error_count === 0) {
-            if (!this.state.current_user) {
+            if (!this.state.edit) {
                 this.createUser(user)
             } else {
                 this.editUser(user)
@@ -167,6 +170,7 @@ class FormUser extends Component {
             url: `${URL_API}/users`,
             type: 'PUT',
             data: request,
+            headers: {'Authorization': localStorage.getItem('auth_token')},
             dataType: 'json',
             context: this,
             success: function (res) {
@@ -279,8 +283,7 @@ class FormUser extends Component {
                             {this.state.success ?
                                 (this.state.edit ?
                                     'Дані змінено!' :
-                                    'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!') :
-                                ''
+                                    'Реєстрація пройшла успішно. Ви можете ввійти в особистий кабінет!') : ''
                             }
                         </div>
                     </div>

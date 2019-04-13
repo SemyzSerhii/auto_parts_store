@@ -13,7 +13,9 @@ class UserOrders extends Component {
     }
 
     componentWillMount() {
-        API.get('orders')
+        API.get('orders', {
+            headers: {'Authorization': localStorage.getItem('auth_token')}
+        })
             .then(function (response) {
                 if (response.data) {
                     this.setState({
@@ -46,6 +48,7 @@ class UserOrders extends Component {
                     {
                         Header: 'Вартість',
                         accessor: 'total_price',
+                        Cell: row => (`${row.value} грн`)
                     },
                     {
                         Header: '',
@@ -53,7 +56,7 @@ class UserOrders extends Component {
                             <button
                                 className='nav-link btn btn-link'
                                 onClick={() => this.props.history.push(
-                                    `/orders/${row.original.id}`
+                                    `/order/${row.original.id}`
                                 )}><i className='fa fa-eye' aria-hidden='true'></i></button>
                         )
                     }

@@ -4,23 +4,26 @@ class Api::V1::OrdersController < ApplicationController
 
   def create
     authenticate_request!(soft: true)
+    if @cart.line_items.present?
+      command = CreateOrder.call(user: current_user, cart: @cart, user_params: user_params, order_params: order_params)
+      if command.success?
+        @order = command.order
 
-    command = CreateOrder.call(user: current_user, cart: @cart, user_params: user_params, order_params: order_params)
-    if command.success?
-      @order = command.order
-
-      render :show
+        render :show
+      else
+        render json: command.errors, status: :unprocessable_entity
+      end
     else
-      process_errors(:unprocessable_entity, command.errors)
+      render json: 'Cart empty!', status: :unprocessable_entity
     end
   end
 
   def show
-
+    @order = Order.find(params[:id])
   end
 
   def index
-    # current_user.orders
+    @orders = Order.where(user_id: @current_user.id)
   end
 
   private

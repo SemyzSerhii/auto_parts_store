@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import { withRouter } from 'react-router-dom'
 import update from 'immutability-helper'
 import $ from 'jquery'
-import { URL_API } from '../constants'
+import {EMAIL_VALIDATION, URL_API} from '../constants'
 
 const customStyles = {
     content : {
@@ -29,8 +29,8 @@ class Login extends Component {
                 password: ''
             },
             errors: {
-                email: false,
-                password: false
+                email: '',
+                password: ''
             },
             success: false,
             modalIsOpen: false
@@ -39,6 +39,7 @@ class Login extends Component {
         this.closeModal = this.closeModal.bind(this)
         this.dataChange = this.dataChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.checkField = this.checkField.bind(this)
     }
 
     openModal() {
@@ -57,6 +58,33 @@ class Login extends Component {
         })
     }
 
+    checkField() {
+        let error_email, error_password
+        let error = 0
+
+        if (EMAIL_VALIDATION.test(this.state.user.email)) {
+            error_email = ''
+        } else {
+            error_email = 'Приклад, example@gmail.com'
+            error++
+        }
+
+        if (this.state.user.password.length >= 6) {
+            error_password = ''
+        } else {
+            error_password = 'Довжина не менше 6 симовлів.'
+            error++
+        }
+
+        this.setState({
+            errors: {
+                email: error_email,
+                password: error_password
+            }
+        })
+
+        return error
+    }
 
     handleSubmit(event) {
         event.preventDefault()
@@ -67,20 +95,10 @@ class Login extends Component {
             },
             success: false
         })
-
+        let error_count = this.checkField()
         const user = this.state.user
-        // check fields
-        if (!this.state.user.email ||
-            !this.state.user.password ||
-            (!this.state.user.email && !this.state.user.password)) {
-            this.setState({
-                errors: {
-                    email: true,
-                    password: true
-                },
-                success: false
-            })
-        } else {
+
+        if (error_count === 0) {
             $.ajax({
                 url: `${URL_API}/sessions`,
                 type: 'POST',
@@ -94,6 +112,7 @@ class Login extends Component {
                 context: this,
                 success: function (res) {
                     if (res) {
+                        localStorage.setItem('auth_token', res.token)
                         this.setState({
                             errors: {
                                 email: false,
@@ -101,14 +120,14 @@ class Login extends Component {
                             },
                             success: true
                         })
-                        this.closeModal()
+                        window.location.reload()
                     }
                 },
-                error: function () {
+                error: function (error) {
                     this.setState({
                         errors: {
                             email: true,
-                            password: true
+                            password: error.responseJSON.messages.exception
                         },
                         success: false
                     })
@@ -156,6 +175,9 @@ class Login extends Component {
                                 value={this.state.user.email}
                                 onChange={this.dataChange}
                             />
+                            <div className='text-danger'>
+                                {this.state.errors.email}
+                            </div>
                         </div>
 
                         <div className='form-group password'>
@@ -168,6 +190,9 @@ class Login extends Component {
                                 value={this.state.user.password}
                                 onChange={this.dataChange}
                             />
+                            <div className='text-danger'>
+                                {this.state.errors.password}
+                            </div>
                         </div>
 
                         <div className='form-group text-center'>

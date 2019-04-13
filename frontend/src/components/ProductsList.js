@@ -17,6 +17,7 @@ class ProductsList extends Component {
             page: 1,
             currPage: null,
             in_cart:[],
+            cart: [],
             sort: ''
         }
         this.previousPage = this.previousPage.bind(this)
@@ -54,13 +55,13 @@ class ProductsList extends Component {
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        in_cart: response.data
+                        cart: response.data
                     })
                     if (response.data.id) localStorage.setItem('cart_id', response.data.id)
                 }
             }.bind(this), function () {
                 this.setState({
-                    in_cart: []
+                    cart: []
                 })
             }.bind(this))
     }
@@ -72,7 +73,7 @@ class ProductsList extends Component {
         let path
         if (sort.target.value) {
             if (this.props.location.pathname.includes('/categories/')) {
-                path = `${URL_API}/products/categories/${this.props.match.params.id}/order/${sort.target.value}`
+                path = `${URL_API}/products/categories/${this.props.match.params.id}/sort/${sort.target.value}`
             } else {
                 path = `${URL_API}/sort/${sort.target.value}`
             }
@@ -168,11 +169,11 @@ class ProductsList extends Component {
     }
 
     checkInCart(id) {
-        return (this.state.in_cart.indexOf(id) !== -1 ||
-            this.state.in_cart.find(
+        return ((this.state.in_cart.length !== 0 && this.state.in_cart.indexOf(id) !== -1) ||
+            (!this.state.cart.id && this.state.cart.find(
                 function (item) {
-                    return item.product.id == parseInt(id)
-                }))
+                    return item.product.id === parseInt(id)
+                })))
     }
 
     render() {
