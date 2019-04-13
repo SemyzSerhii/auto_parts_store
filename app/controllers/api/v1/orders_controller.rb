@@ -11,10 +11,10 @@ class Api::V1::OrdersController < ApplicationController
 
         render :show
       else
-        process_errors(:unprocessable_entity, command.errors)
+        render json: command.errors, status: :unprocessable_entity
       end
     else
-      process_errors(:unprocessable_entity, 'Cart empty!')
+      render json: 'Cart empty!', status: :unprocessable_entity
     end
   end
 

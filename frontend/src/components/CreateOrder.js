@@ -156,11 +156,7 @@ class CreateOrder extends Component {
         if (localStorage.getItem('auth_token')) {
             return {
                 order: {
-                    address: order.address
-                },
-                user: {
-                    name: this.state.user.name,
-                    email: this.state.user.email,
+                    address: order.address,
                     phone: this.state.user.phone
                 },
                 cart_id: localStorage.getItem('cart_id')
@@ -181,15 +177,23 @@ class CreateOrder extends Component {
     }
 
     validationForm(error) {
-        this.setState({
-            errors: {
-                name: error.responseJSON.messages.name,
-                email: error.responseJSON.messages.email,
-                phone:  error.responseJSON.messages.phone,
-                address: error.responseJSON.messages.address,
-                other_error: error.responseJSON.messages
-            }
-        })
+        if(error.responseJSON) {
+            this.setState({
+                errors: {
+                    name: error.responseJSON.name,
+                    email: error.responseJSON.email,
+                    phone:  error.responseJSON.phone,
+                    address: error.responseJSON.address
+                }
+            })
+        } else {
+            this.setState({
+                errors: {
+                    other_error: error.responseText
+                }
+            })
+        }
+
     }
 
     resetData() {
