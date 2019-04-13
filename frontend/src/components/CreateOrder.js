@@ -22,7 +22,6 @@ class CreateOrder extends Component {
                 address: '',
                 phone: ''
             },
-            user: {},
             success: false
         }
 
@@ -33,27 +32,6 @@ class CreateOrder extends Component {
         this.resetData = this.resetData.bind(this)
         this.validationForm = this.validationForm.bind(this)
         this.getReq = this.getReq.bind(this)
-    }
-
-    componentWillMount() {
-        if (localStorage.getItem('auth_token')) {
-            API.get(`users`, {
-                headers: {'Authorization': localStorage.getItem('auth_token')}
-            })
-                .then(function (response) {
-                    if (response.data) {
-                        this.setState({
-                            user: response.data
-                        })
-                    }
-                }.bind(this), function (error) {
-                    if (error.response.status === 404) {
-                        this.setState({
-                            user: {}
-                        })
-                    }
-                }.bind(this))
-        }
     }
 
     dataChange({target: {value, name}}) {
@@ -131,7 +109,7 @@ class CreateOrder extends Component {
     createOrder(order) {
         const request = this.getReq(order)
 
-        const headers = this.state.user.name ? {'Authorization': localStorage.getItem('auth_token')} : {}
+        const headers = localStorage.getItem('auth_token') ? {'Authorization': localStorage.getItem('auth_token')} : {}
 
         $.ajax({
             url: `${URL_API}/orders`,
@@ -156,8 +134,7 @@ class CreateOrder extends Component {
         if (localStorage.getItem('auth_token')) {
             return {
                 order: {
-                    address: order.address,
-                    phone: this.state.user.phone
+                    address: order.address
                 },
                 cart_id: localStorage.getItem('cart_id')
             }

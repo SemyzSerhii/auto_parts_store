@@ -5,7 +5,7 @@ class Api::V1::OrdersController < ApplicationController
   def create
     authenticate_request!(soft: true)
     if @cart.line_items.present?
-      command = CreateOrder.call(user: current_user, cart: @cart, user_params: user_params, order_params: order_params)
+      command = CreateOrder.call(user: @current_user, cart: @cart, user_params: user_params, order_params: order_params)
       if command.success?
         @order = command.order
 
