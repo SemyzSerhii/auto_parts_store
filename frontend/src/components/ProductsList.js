@@ -1,12 +1,15 @@
-import React, {Component} from 'react'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
-import noPhoto from '../images/no_picture.gif'
+import $ from 'jquery'
+
 import API from '../api'
 import {URL_API} from '../constants'
+import noPhoto from '../images/no_picture.gif'
 import Search from 'react-search'
+import AdvancedSearch from './AdvancedSearch'
 
 class ProductsList extends Component {
     constructor(props) {
@@ -178,6 +181,12 @@ class ProductsList extends Component {
                 })))
     }
 
+    showAdvancedSearch() {
+        $('.search').hide()
+        $('.sort').hide()
+        $('.advanced-search').show()
+    }
+
     render() {
         const { page, size, currPage } = this.state
         var count = 0
@@ -188,7 +197,7 @@ class ProductsList extends Component {
                     <div className='form-group col-auto'>
                         <label htmlFor='order'>Сортувати: </label>
                         <select className='form-control' id='order'
-                                value={this.state.order} onChange={this.orderProducts}>
+                                value={this.state.sort} onChange={this.orderProducts}>
                             <option value='hide'></option>
                             <option value='price'>Ціна за зростанням</option>
                             <option value='price_desc'>Ціна за спаданням</option>
@@ -217,9 +226,10 @@ class ProductsList extends Component {
                         </div>
                     </div>
                     <div className='form-group col-auto'>
-                        <a href='/search' className='search-link'>Розширений пошук</a>
+                        <button onClick={this.showAdvancedSearch} className='btn btn-link'>Розширений пошук</button>
                     </div>
                 </div>
+                <div className='advanced-search'><AdvancedSearch/></div>
 
                 {currPage &&
                 <div className='row'>

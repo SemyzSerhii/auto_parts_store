@@ -292,3 +292,11 @@ button.close:focus {
 .LBGII {
     font-size: 1rem !important;
 }
+
+.advanced-search {
+    display: none;
+}
+
+.advanced-search .jHDXzb {
+    display: block;
+}
