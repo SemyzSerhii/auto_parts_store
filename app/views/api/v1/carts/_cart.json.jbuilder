@@ -1,7 +1,7 @@
-if cart.line_items.present?
-  json.array! cart.line_items do |item|
+json.line_items do
+  cart.line_items.each do |item|
     json.partial! 'api/v1/line_items/line_item', item: item
   end
-else
-  json.extract! cart,:id
 end
+json.extract! cart, :id
+json.cart_token cart.generate_cart_token
