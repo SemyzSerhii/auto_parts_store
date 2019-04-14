@@ -12,4 +12,14 @@ class Cart < ApplicationRecord
   def total_quantity_cart
     line_items.sum(:quantity)
   end
+
+  def self.find_by_cart_token(token)
+    decoded_token = JWT.decode token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' }
+    find(decoded_token.dig(0, 'cart_id'))
+  end
+
+  def generate_cart_token
+    payload = { cart_id: id }
+    JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
+  end
 end

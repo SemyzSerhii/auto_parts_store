@@ -53,16 +53,15 @@ class Menu extends Component {
                     console.log('error ' + error)
                 }
             )
-        API.get('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+
+        let headerCart = localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
+        API.get('cart', {headers: headerCart})
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        cart: response.data
+                        cart: response.data.cart
                     })
-                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 }
             }.bind(this), function () {
                 this.setState({

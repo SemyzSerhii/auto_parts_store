@@ -10,7 +10,11 @@ class ApplicationController < ActionController::Base
   end
 
   def initialize_cart
-    @cart = Cart.find_or_create(session[:cart_id] || params[:cart_id])
+    @cart = Cart.find_or_create(session[:cart_id] || cart_by_token)
     session[:cart_id] = @cart.id
+  end
+
+  def cart_by_token
+    Cart.find_by_cart_token(request.headers['Cart']) if request.headers['Cart']
   end
 end
