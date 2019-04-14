@@ -13,7 +13,7 @@
 
 .container {
     margin: 30px 0;
-    min-height: calc(100vh - 235px);
+    min-height: calc(100vh - 234px);
     flex-flow: row wrap;
 }
 
@@ -138,10 +138,14 @@
     width: 40px;
 }
 @media screen and (max-width: 900px) {
-    .menu .vin-link {
-        flex: none;
-    }
 
+#nav-media {
+    box-sizing: unset;
+}
+    .nav-user #menu-user {
+        width: auto;
+        text-align: left;
+    }
     .main-nav #nav-media {
         display: block;
         margin: auto;
@@ -166,22 +170,23 @@
         padding: 10px 20px;
     }
 
-    .nav-user {
-        padding-right: 10px;
-    }
-
+    .nav-user,
+    .cart-link,
     .main-nav {
-        margin-left: 10px;
+        padding: 0 5px;
+        margin: 0;
     }
 }
 
 @media screen and (max-width: 400px) {
     .menu {
-        padding: 10px;
+        padding: 0px;
     }
 
     .vin-link,
-    .nav-user button {
+    .nav-user button,
+    .nav-user,
+    .main-nav .nav a {
         font-size: 12px;
     }
 
@@ -241,10 +246,13 @@ button.close:focus {
     border-color: red;
 }
 
-.form-group .phone {
-    display: inline-block;
-    margin-left: 18px;
-    width: 80%;
+.form-group.phone {
+    display: flex;
+    align-items: baseline;
+}
+
+.phone label {
+    padding-right: 10px;
 }
 
 .user-profile .nav-link {

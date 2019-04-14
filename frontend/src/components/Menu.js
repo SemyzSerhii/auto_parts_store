@@ -92,7 +92,7 @@ class Menu extends Component {
     render() {
         return (
             <div className='menu'>
-                <a href='/' title='Auto parts store' className='header-img logo'>
+                <a href='/' title='Auto parts store' className='logo'>
                     <img src={Logo} alt='logo'/>
                 </a>
                 <div className='main-nav'>
