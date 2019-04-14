@@ -68,9 +68,9 @@ class Product extends Component {
             }})
             .then(function (response) {
                 if(response.data) {
-                    if (response.data.find(
+                    if (!response.data.id && response.data.find(
                         function (item) {
-                            return item.product.id == id
+                            return item.product.id === parseInt(id)
                         })) {
                         this.setState({
                             buy: true

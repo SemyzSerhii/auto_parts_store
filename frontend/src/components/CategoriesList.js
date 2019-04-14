@@ -67,7 +67,7 @@ class CategoriesList extends Component {
                                                 className={classNames(`${
                                                     this.state.categories.find(
                                                         function (item) {
-                                                            return item.ancestry == category.id
+                                                            return parseInt(item.ancestry) === category.id
                                                         }) ? 'sidebar-dropdown' : ''}`)}>
                                                 <div onClick={() => this.openSubMenu(category.id)}
                                                      id={`category${category.id}`}>

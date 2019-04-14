@@ -26,7 +26,7 @@ describe 'Products API' do
       required: ['id']
 
       success_schema(200, 'Product found', PRODUCTS_RESPONSE_PROPS)
-      error_schema(404, 'Products not found')
+      error_schema(404, 'Product not found')
     end
   end
 
@@ -34,7 +34,49 @@ describe 'Products API' do
     get 'Find products' do
       tags 'Products'
 
-      success_schema(200, 'Product found', PRODUCTS_RESPONSE_PROPS)
+      success_schema(200, 'Products found', PRODUCTS_RESPONSE_PROPS)
+      error_schema(404, 'Products not found')
+    end
+  end
+
+  path  '/api/v1/sort/{sort_by}' do
+    get 'Sort products (price_desc, price, name_desc, name)' do
+      tags 'Products'
+      parameter name: :sort_by, in: :path, schema: { type: :string }, required: ['sort_by']
+
+      success_schema(200, 'Products sort', PRODUCTS_RESPONSE_PROPS)
+      error_schema(404, 'Products not sort')
+    end
+  end
+
+  path '/api/v1/products/categories/{category_id}/sort/{sort_by}' do
+    get 'Sort products in category (price_desc, price, name_desc, name)' do
+      tags 'Products'
+      parameter name: :category_id, in: :path, schema: { type: :integer }, required: ['category_id']
+      parameter name: :sort_by, in: :path, schema: { type: :string }, required: ['sort_by']
+
+      success_schema(200, 'Products sorted', PRODUCTS_RESPONSE_PROPS)
+      error_schema(404, 'Products not sorted')
+    end
+  end
+
+  path  '/api/v1/products?search={search}' do
+    get 'Search products by name, model, company, brand' do
+      tags 'Products'
+      parameter name: :search, in: :path, schema: { type: :string }, required: ['search']
+
+      success_schema(200, 'Products found', PRODUCTS_RESPONSE_PROPS)
+      error_schema(404, 'Products not found')
+    end
+  end
+
+  path '/api/v1/products/categories/{category_id}?search={search}' do
+    get 'Search products in category by name, model, company, brand' do
+      tags 'Products'
+      parameter name: :category_id, in: :path, schema: { type: :integer }, required: ['category_id']
+      parameter name: :search, in: :path, schema: { type: :string }, required: ['search']
+
+      success_schema(200, 'Products found', PRODUCTS_RESPONSE_PROPS)
       error_schema(404, 'Products not found')
     end
   end

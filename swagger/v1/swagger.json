@@ -4,6 +4,12 @@
     "title": "API V1",
     "version": "v1"
   },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/api/v1/cart": {
       "get": {
@@ -360,6 +366,102 @@
             }
           }
         }
+      },
+      "get": {
+        "summary": "User orders",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders found",
+            "schema": {
+              "type": "object",
+              "properties": {
+              }
+            }
+          },
+          "404": {
+            "description": "Orders not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "summary": "Find user order by id",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order found",
+            "schema": {
+              "type": "object",
+              "properties": {
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/pages": {
@@ -430,7 +532,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Pages found",
+            "description": "Page found",
             "schema": {
               "type": "object",
               "properties": {
@@ -453,7 +555,7 @@
             }
           },
           "404": {
-            "description": "Pages not found",
+            "description": "Page not found",
             "schema": {
               "type": "object",
               "properties": {
@@ -571,7 +673,7 @@
             }
           },
           "404": {
-            "description": "Products not found",
+            "description": "Product not found",
             "schema": {
               "type": "object",
               "properties": {
@@ -600,7 +702,259 @@
         ],
         "responses": {
           "200": {
-            "description": "Product found",
+            "description": "Products found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sort/{sort_by}": {
+      "get": {
+        "summary": "Sort products (price_desc, price, name_desc, name)",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "sort_by",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products sort",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not sort",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/categories/{category_id}/sort/{sort_by}": {
+      "get": {
+        "summary": "Sort products in category (price_desc, price, name_desc, name)",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "sort_by",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products sorted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not sorted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products?search={search}": {
+      "get": {
+        "summary": "Search products by name, model, company, brand",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "decimal"
+                },
+                "short_description": {
+                  "type": "text"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Products not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "object",
+                  "properties": {
+                    "error_key": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/categories/{category_id}?search={search}": {
+      "get": {
+        "summary": "Search products in category by name, model, company, brand",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "search",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products found",
             "schema": {
               "type": "object",
               "properties": {

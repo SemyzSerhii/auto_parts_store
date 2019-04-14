@@ -30,6 +30,14 @@ class UserDataModal extends Component {
         this.closeModal = this.closeModal.bind(this)
     }
 
+    componentWillMount() {
+        if (this.props.user) {
+            this.setState({
+                current_user: this.props.user
+            })
+        }
+    }
+
     openModal() {
         this.setState({modalIsOpen: true})
     }
@@ -63,7 +71,7 @@ class UserDataModal extends Component {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <FormUser/>
+                    <FormUser user={this.state.current_user}/>
                 </Modal>
             </div>
         )

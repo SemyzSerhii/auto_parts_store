@@ -70,4 +70,26 @@ describe 'Order API' do
       end
     end
   end
+
+  path '/api/v1/orders' do
+    get 'User orders' do
+      tags 'Order'
+      declare_auth_parameter
+
+      success_schema(200, 'Orders found', ORDER_RESPONSE_PROPS)
+      error_schema(404, 'Orders not found')
+    end
+  end
+
+  path  '/api/v1/orders/{id}' do
+    get 'Find user order by id' do
+      tags 'Order'
+      declare_auth_parameter
+      parameter name: :id, in: :path, type: :string,
+                required: ['id']
+
+      success_schema(200, 'Order found', ORDER_RESPONSE_PROPS)
+      error_schema(404, 'Order not found')
+    end
+  end
 end
