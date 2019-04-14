@@ -24,10 +24,10 @@ class Product < ApplicationRecord
 
   def self.decode_vds(vin_code)
     # VDS (Vehicle Description Section) from 4th to 9th symbols of code
-    vds = vin_code[3..9]
+    vds = vin_code[3..8]
 
     # VIS (Vehicle Identification Section) Model year part from 10th to 12th symbols of VIN-code
-    vis_year = vin_code[10..11]
+    vis_year = vin_code[9..10]
 
     "#{vds}#{vis_year}"
   end
