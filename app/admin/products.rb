@@ -2,7 +2,7 @@ ActiveAdmin.register Product do
   permit_params :brand, :model, :price,
                 :short_description, :full_description, :in_stock,
                 :image, :company, :rating,
-                :name, :category_id
+                :name, :category_id, :year
 
   scope :all, default: true
   scope :publish
@@ -40,6 +40,7 @@ ActiveAdmin.register Product do
     column :category
     column :model
     column :price
+    column :year
     column :short_description do |product|
         product.short_description.html_safe if product.short_description.present?
   end
@@ -57,6 +58,7 @@ ActiveAdmin.register Product do
       row :brand
       row :model
       row :price
+      row :year
       row :category
       row :short_description do |product|
         product.short_description.html_safe if product.short_description.present?
@@ -80,6 +82,7 @@ ActiveAdmin.register Product do
       f.input :brand
       f.input :model
       f.input :price
+      f.input :year
       f.input :category_id, as: :select, collection: Category.all
       f.input :short_description, as: :trix_editor
       f.input :full_description, as: :trix_editor

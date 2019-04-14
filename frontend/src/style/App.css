@@ -138,10 +138,13 @@
     width: 40px;
 }
 @media screen and (max-width: 900px) {
+    h1{
+        font-size: 1.7rem !important;
+    }
 
-#nav-media {
-    box-sizing: unset;
-}
+    #nav-media {
+        box-sizing: unset;
+    }
     .nav-user #menu-user {
         width: auto;
         text-align: left;

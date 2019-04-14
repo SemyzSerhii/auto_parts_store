@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_13_130449) do
+ActiveRecord::Schema.define(version: 2019_04_14_155250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2019_04_13_130449) do
     t.string "company"
     t.float "rating", default: 0.0
     t.bigint "category_id"
+    t.integer "year"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

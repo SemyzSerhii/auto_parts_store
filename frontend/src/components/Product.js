@@ -105,6 +105,7 @@ class Product extends Component {
                                     </div>
                                     <div className='product-info'>
                                         <p className='price'>Ціна: {this.state.product.price} грн</p>
+                                        {this.state.product.year ? <p>Рік: {this.state.product.year}</p> : ''}
                                         <ul className="rating"
                                             data-index={this.state.product.rating ? rating : 0}>
                                             <li className={classNames('fa', 'fa-star',
