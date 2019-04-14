@@ -30,7 +30,6 @@ class CreateOrder extends Component {
         this.createOrder = this.createOrder.bind(this)
         this.resetData = this.resetData.bind(this)
         this.validationForm = this.validationForm.bind(this)
-        this.getReq = this.getReq.bind(this)
     }
 
     dataChange({target: {value, name}}) {
@@ -107,9 +106,7 @@ class CreateOrder extends Component {
 
     createOrder(order) {
         const request = this.getReq(order)
-
-        const headers = localStorage.getItem('auth_token') ? {'Authorization': localStorage.getItem('auth_token')} : {}
-
+        const headers = this.getHeaders()
         $.ajax({
             url: `${URL_API}/orders`,
             type: 'POST',
@@ -129,13 +126,19 @@ class CreateOrder extends Component {
         })
     }
 
+    getHeaders() {
+        let headers = {}
+        if (localStorage.getItem('auth_token')) headers['Authorization'] = localStorage.getItem('auth_token')
+        if (localStorage.getItem('cart_token')) headers['Cart'] = localStorage.getItem('cart_token')
+        return headers
+    }
+
     getReq(order) {
         if (localStorage.getItem('auth_token')) {
             return {
                 order: {
                     address: order.address
-                },
-                cart_id: localStorage.getItem('cart_id')
+                }
             }
         } else {
             return {
@@ -146,8 +149,7 @@ class CreateOrder extends Component {
                 user: {
                     name: order.name,
                     email: order.email
-                },
-                cart_id: localStorage.getItem('cart_id')
+                }
             }
         }
     }
@@ -263,9 +265,7 @@ class CreateOrder extends Component {
                 </div>
             </form>)
         } else {
-            return <div className='text-success'>
-                Замовлення оформлено, даталі на Вашому email!
-            </div>
+            return <div className='text-success'>Замовлення оформлено, даталі на Вашому email!</div>
         }
     }
 }

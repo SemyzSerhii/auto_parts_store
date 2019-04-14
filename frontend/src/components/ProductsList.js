@@ -27,6 +27,10 @@ class ProductsList extends Component {
         this.orderProducts = this.orderProducts.bind(this)
     }
 
+    headerCart() {
+        return localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
+    }
+
     componentWillMount() {
         let path
         if (this.props.location.pathname.includes('/categories/')) {
@@ -48,16 +52,13 @@ class ProductsList extends Component {
                 })
             })
 
-        API.get('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+        API.get('cart', {headers: this.headerCart()})
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        cart: response.data
+                        cart: response.data.line_items
                     })
-                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 }
             }.bind(this), function () {
                 this.setState({
@@ -158,8 +159,9 @@ class ProductsList extends Component {
     }
 
     addProduct(id) {
-        API.post('line_items', {product_id: id, cart_id: localStorage.getItem('cart_id')})
+        API.post('line_items', {product_id: id}, {headers: this.headerCart()})
             .then(res => {
+                if (res.data.cart_token) localStorage.setItem('cart_token', res.data.cart_token)
                 if(res.status === 201) {
                     this.setState({
                         in_cart: this.state.in_cart.concat([id])

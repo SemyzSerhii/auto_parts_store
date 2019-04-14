@@ -17,9 +17,6 @@ class Menu extends Component {
             current_user: {},
             load_user: false
         }
-        this.showUserMenu = this.showUserMenu.bind(this)
-        this.showMainMenu = this.showMainMenu.bind(this)
-        this.logout = this.logout.bind(this)
     }
 
     logout() {
@@ -59,7 +56,7 @@ class Menu extends Component {
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        cart: response.data.cart
+                        cart: response.data.line_items
                     })
                     if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 }
@@ -151,7 +148,7 @@ class Menu extends Component {
                 </div>
                 <a href='/cart' className='cart-link'>
                     <img src={Cart} alt='cart'/>
-                    <span>{!this.state.cart.id ? this.state.cart.reduce(function (sum, current) {
+                    <span>{this.state.cart ? this.state.cart.reduce(function (sum, current) {
                         return sum + current.quantity
                     }, 0) : 0}</span>
                 </a>
