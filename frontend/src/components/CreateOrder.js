@@ -89,7 +89,7 @@ class CreateOrder extends Component {
         if (this.state.order.address.length >= 6) {
             error_address = ''
         } else {
-            error_address = 'Введіть буль ласка повну адресу доставки.'
+            error_address = 'Введіть будь ласка повну адресу доставки.'
             error++
         }
 
@@ -153,13 +153,16 @@ class CreateOrder extends Component {
     }
 
     validationForm(error) {
+        let auth_error = error.responseJSON.messages.exception ? 'Ввійдіть будь ласка в свій акуан і повторіть спробу' : ''
+        let address_error = error.responseJSON.messages.orders ? 'Введіть будь ласка повну адресу доставки.' : ''
         if(error.responseJSON) {
             this.setState({
                 errors: {
-                    name: error.responseJSON.name,
-                    email: error.responseJSON.email,
-                    phone:  error.responseJSON.phone,
-                    address: error.responseJSON.address
+                    name: error.responseJSON.messages.name,
+                    email: error.responseJSON.messages.email,
+                    phone:  error.responseJSON.messages.phone,
+                    address: error.responseJSON.messages.address || address_error,
+                    other_error: auth_error
                 }
             })
         } else {
