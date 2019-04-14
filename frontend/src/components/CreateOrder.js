@@ -4,7 +4,6 @@ import classNames from 'classnames/bind'
 import update from 'immutability-helper'
 import $ from 'jquery'
 import {EMAIL_VALIDATION, PHONE_VALIDATION, URL_API} from '../constants'
-import API from "../api";
 
 class CreateOrder extends Component {
     constructor(props) {

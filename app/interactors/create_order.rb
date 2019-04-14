@@ -3,9 +3,9 @@ class CreateOrder
 
   def call
     context.user ||= User.new(user_params)
-    if context.user.save
-      context.order = context.user.orders.build(context.order_params)
 
+    context.order = context.user.orders.build(context.order_params)
+    if context.user.save
       context.order.line_items << context.cart.line_items
       context.order.calculate_total_price
       context.order.line_items.each {|l| l.update(cart_id: nil)}
