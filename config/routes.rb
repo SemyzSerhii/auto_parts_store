@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get 'products/categories/:category_id' => 'products#index', as: 'category_products'
       get 'products/categories/:category_id/sort/:by' => 'products#index', as: 'category_order'
       get 'sort/:by' => 'products#index', as: 'sort'
+      post 'reset_passwords/forgot', to: 'reset_passwords#forgot'
+      post 'reset_passwords/reset', to: 'reset_passwords#reset'
     end
   end
 end

@@ -17,4 +17,29 @@ class User < ApplicationRecord
     payload = { user_id: id }
     JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
   end
+
+  def generate_password_token!
+    self.reset_password_token = generate_token_password
+    self.reset_password_sent_at = Time.now.utc
+    save!
+  end
+
+  def password_token_valid?
+    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    self.reset_password_token = nil
+    self.password = password
+    save!
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(id).deliver_now
+  end
+
+  private
+  def generate_token_password
+    SecureRandom.hex(10)
+  end
 end
