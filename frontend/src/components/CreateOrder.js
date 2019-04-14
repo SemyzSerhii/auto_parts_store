@@ -185,56 +185,55 @@ class CreateOrder extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <form className='order-form'>
-                    {!localStorage.getItem('auth_token') ? (
-                        <div>
-                            <div className='form-group'>
-                                <input
-                                    className={classNames('form-control',
-                                        `${this.state.errors.name ? 'error' : ''}`)}
-                                    name='name'
-                                    type='text'
-                                    placeholder='Name'
-                                    value={this.state.order.name}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.name}
-                                </div>
-                            </div>
-                            <div className='form-group'>
-                                <input
-                                    className={classNames('form-control',
-                                        `${this.state.errors.email ? 'error' : ''}`)}
-                                    name='email'
-                                    placeholder='Email'
-                                    value={this.state.order.email}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.email}
-                                </div>
-                            </div>
-
-                            <div className='form-group'>
-                                <label htmlFor='phone'>+380</label>
-                                <input
-                                    className={classNames('form-control', 'phone',
-                                        `${this.state.errors.phone ? 'error' : ''}`)}
-                                    name='phone'
-                                    placeholder='Phone'
-                                    value={this.state.order.phone}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.phone}
-                                </div>
+        if (!this.state.success) {
+            return (<form className='order-form'>
+                {!localStorage.getItem('auth_token') ? (
+                    <div>
+                        <div className='form-group'>
+                            <input
+                                className={classNames('form-control',
+                                    `${this.state.errors.name ? 'error' : ''}`)}
+                                name='name'
+                                type='text'
+                                placeholder='Name'
+                                value={this.state.order.name}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.name}
                             </div>
                         </div>
-                    ) : ('')}
-                    <div className='form-group'>
+                        <div className='form-group'>
+                            <input
+                                className={classNames('form-control',
+                                    `${this.state.errors.email ? 'error' : ''}`)}
+                                name='email'
+                                placeholder='Email'
+                                value={this.state.order.email}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.email}
+                            </div>
+                        </div>
+
+                        <div className='form-group'>
+                            <label htmlFor='phone'>+380</label>
+                            <input
+                                className={classNames('form-control', 'phone',
+                                    `${this.state.errors.phone ? 'error' : ''}`)}
+                                name='phone'
+                                placeholder='Phone'
+                                value={this.state.order.phone}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.phone}
+                            </div>
+                        </div>
+                    </div>
+                ) : ('')}
+                <div className='form-group'>
                         <textarea
                             className={classNames('form-control',
                                 `${this.state.errors.address ? 'error' : ''}`)}
@@ -243,31 +242,28 @@ class CreateOrder extends Component {
                             value={this.state.order.address}
                             onChange={this.dataChange}
                         />
-                        <div className='text-danger'>
-                            {this.state.errors.address}
-                        </div>
-                        <div className='text-danger'>
-                            {this.state.errors.other_error}
-                        </div>
+                    <div className='text-danger'>
+                        {this.state.errors.address}
                     </div>
+                    <div className='text-danger'>
+                        {this.state.errors.other_error}
+                    </div>
+                </div>
 
-                    <div className='form-group text-center'>
-                        <input
-                            className='btn btn-primary'
-                            type='submit'
-                            value='Оформити замолення'
-                            onClick={this.handleSubmit}
-                        />
-                        <div className='text-success'>
-                            {this.state.success ?
-                                    'Замовлення оформлено, даталі на Вашому email!' :
-                                ''
-                            }
-                        </div>
-                    </div>
-                </form>
+                <div className='form-group text-center'>
+                    <input
+                        className='btn btn-primary'
+                        type='submit'
+                        value='Оформити замолення'
+                        onClick={this.handleSubmit}
+                    />
+                </div>
+            </form>)
+        } else {
+            return <div className='text-success'>
+                Замовлення оформлено, даталі на Вашому email!
             </div>
-        )
+        }
     }
 }
 
