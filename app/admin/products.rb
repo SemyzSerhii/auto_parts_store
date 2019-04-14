@@ -2,11 +2,11 @@ ActiveAdmin.register Product do
   permit_params :brand, :model, :price,
                 :short_description, :full_description, :in_stock,
                 :image, :company, :rating,
-                :name, :category_id
+                :name, :category_id, :wmi, :vds
 
   scope :all, default: true
-  scope :publish
-  scope :unpublish
+  scope :published
+  scope :unpublished
 
   action_item :show_shop, only: :show do
     link_to 'Show at the shop', show_shop_admin_product_path(product), method: :put unless product.in_stock
@@ -80,6 +80,8 @@ ActiveAdmin.register Product do
       f.input :brand
       f.input :model
       f.input :price
+      f.input :wmi
+      f.input :vds
       f.input :category_id, as: :select, collection: Category.all
       f.input :short_description, as: :trix_editor
       f.input :full_description, as: :trix_editor

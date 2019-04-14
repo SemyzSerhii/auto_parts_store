@@ -6,9 +6,12 @@ class Category < ApplicationRecord
   validates :title, presence: true, length: { minimum: 3 }, uniqueness: true
 
   def nested_products
-    category_ids = [id, children.ids].flatten.uniq.compact
-    Product.where(category_id: category_ids)
+    Product.where(category_id: nested_categories_ids)
   rescue Ancestry::AncestryException
     Product.none
+  end
+
+  def nested_categories_ids
+    [id, children.ids].flatten.uniq.compact
   end
 end
