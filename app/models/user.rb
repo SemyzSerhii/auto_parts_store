@@ -38,6 +38,10 @@ class User < ApplicationRecord
     UserMailer.password_reset(id).deliver_now
   end
 
+  def send_password_enter_email
+    UserMailer.enter_password(id).deliver_now
+  end
+
   private
   def generate_token_password
     SecureRandom.hex(10)

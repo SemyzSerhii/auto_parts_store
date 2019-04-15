@@ -85,9 +85,9 @@ ActiveRecord::Schema.define(version: 2019_04_15_090932) do
     t.string "company"
     t.float "rating", default: 0.0
     t.bigint "category_id"
-    t.string "year"
     t.string "wmi"
     t.string "vds"
+    t.string "year"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

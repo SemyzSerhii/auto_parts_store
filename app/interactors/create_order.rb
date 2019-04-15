@@ -12,6 +12,7 @@ class CreateOrder
       context.order.phone ||= context.user.phone
 
       context.order.reload
+      context.order.send_password_enter_email
     else
       context.fail!(errors: context.user.errors.messages)
     end
