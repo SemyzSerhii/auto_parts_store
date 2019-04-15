@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import update from 'immutability-helper'
 import $ from 'jquery'
 import {EMAIL_VALIDATION, PHONE_VALIDATION, URL_API} from '../constants'
+import API from '../api'
 
 class CreateOrder extends Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class CreateOrder extends Component {
                 address: '',
                 phone: ''
             },
+            user: {},
             success: false
         }
 
@@ -55,6 +57,27 @@ class CreateOrder extends Component {
         // check errors exist
         if (error_count === 0) {
             this.createOrder(order)
+        }
+    }
+
+    componentWillMount() {
+        if (localStorage.getItem('auth_token')) {
+            API.get(`users`, {
+                headers: {'Authorization': localStorage.getItem('auth_token')}
+            })
+                .then(function (response) {
+                    if (response.data) {
+                        this.setState({
+                            user: response.data
+                        })
+                    }
+                }.bind(this), function (error) {
+                    if (error.response.status === 404) {
+                        this.setState({
+                            user: {}
+                        })
+                    }
+                }.bind(this))
         }
     }
 
@@ -137,7 +160,8 @@ class CreateOrder extends Component {
         if (localStorage.getItem('auth_token')) {
             return {
                 order: {
-                    address: order.address
+                    address: order.address,
+                    phone: this.state.user.phone
                 }
             }
         } else {
