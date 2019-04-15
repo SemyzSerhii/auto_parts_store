@@ -2,24 +2,18 @@ class Api::V1::ProductsController < ApplicationController
   before_action :set_product, only: :show
 
   def index
-    @products = Product.publish
-    if params[:category_id]
-      @category = Category.find(params[:category_id])
-      @products = @category.nested_products
-      if params[:by]
-        sort_products
-      elsif params[:search]
-        search_products
-      end
-    elsif params[:by]
-      sort_products
-    elsif params[:search]
-      search_products
-    end
+    @products = Product.published
+
+    filter_by_category if params[:category_id]
+    filter_by_vin_code if params[:vin_code]
+    search_products if params[:search]
+    sort_products if params[:by]
   end
 
+  def show; end
+
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_product
     @product = Product.find(params[:id])
   end
@@ -30,6 +24,17 @@ class Api::V1::ProductsController < ApplicationController
 
   def search_products
     @products = @products.search(params[:search])
+  end
+
+  def filter_by_vin_code
+    render json: { error: 'Vin Code should be exactly 17 symbols long' } unless params[:vin_code].size == 17
+
+    @products = @products.by_vin_code(params[:vin_code])
+  end
+
+  def filter_by_category
+    category = Category.find(params[:category_id])
+    @products = @products.where(category_id: category.nested_categories_ids)
   end
 
   def order_by
