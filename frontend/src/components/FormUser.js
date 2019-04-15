@@ -240,10 +240,10 @@ class FormUser extends Component {
                         </div>
                     </div>
 
-                    <div className='form-group'>
+                    <div className='form-group phone'>
                         <label htmlFor='phone'>+380</label>
                         <input
-                            className={classNames('form-control', 'phone',
+                            className={classNames('form-control',
                                 `${this.state.errors.phone ? 'error' : ''}`)}
                             name='phone'
                             placeholder='Phone'

@@ -22,13 +22,15 @@ class Product extends Component {
         this.addProduct = this.addProduct.bind(this)
     }
 
+    headerCart() {
+        return localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
+    }
+
     addProduct() {
-        API.post('line_items', {
-            product_id: this.state.product.id,
-            cart_id: localStorage.getItem('cart_id')
-        })
+        API.post('line_items', {product_id: this.state.product.id}, {headers: this.headerCart()})
             .then(res => {
                 if(res.status === 201) {
+                    if (res.data.cart_token) localStorage.setItem('cart_token', res.data.cart_token)
                     this.setState({
                         buy: true
                     })
@@ -62,13 +64,10 @@ class Product extends Component {
                 }
             }.bind(this))
 
-        API.get('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+        API.get('cart', {headers: this.headerCart()})
             .then(function (response) {
                 if(response.data) {
-                    if (!response.data.id && response.data.find(
+                    if (response.data.line_items.find(
                         function (item) {
                             return item.product.id === parseInt(id)
                         })) {
@@ -76,7 +75,7 @@ class Product extends Component {
                             buy: true
                         })
                     }
-                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 }
             }.bind(this))
     }
@@ -106,6 +105,7 @@ class Product extends Component {
                                     </div>
                                     <div className='product-info'>
                                         <p className='price'>Ціна: {this.state.product.price} грн</p>
+                                        {this.state.product.year ? <p>Рік: {this.state.product.year}</p> : ''}
                                         <ul className="rating"
                                             data-index={this.state.product.rating ? rating : 0}>
                                             <li className={classNames('fa', 'fa-star',

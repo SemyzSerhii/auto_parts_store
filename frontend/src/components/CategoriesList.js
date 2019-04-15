@@ -9,9 +9,6 @@ class CategoriesList extends Component {
         this.state = {
             categories: []
         }
-        this.closeSidebar = this.closeSidebar.bind(this)
-        this.showSidebar = this.showSidebar.bind(this)
-        this.openSubMenu = this.openSubMenu.bind(this)
     }
 
     closeSidebar() {

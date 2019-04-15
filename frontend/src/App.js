@@ -16,6 +16,8 @@ import OrderShow from './components/OrderShow'
 import CreateOrder from './components/CreateOrder'
 import Menu from './components/Menu'
 import NotFound from './components/NotFound'
+import AdvancedSearch from './components/AdvancedSearch'
+import VinSearch from './components/VinSearch'
 
 class App extends Component {
        render() {
@@ -39,6 +41,8 @@ class App extends Component {
                                 <Route path='/orders' component={UserOrders}/>
                                 <Route path='/order/:id' component={OrderShow}/>
                                 <Route path='/order_create' component={CreateOrder}/>
+                                <Route path='/search' component={AdvancedSearch}/>
+                                <Route path='/vin' component={VinSearch}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </BrowserRouter>

@@ -5,13 +5,12 @@ class CreateOrder
     context.user ||= User.new(user_params)
 
     context.order = context.user.orders.build(context.order_params)
-
-    context.order.line_items << context.cart.line_items
-    context.order.calculate_total_price
-    context.order.line_items.each {|l| l.update(cart_id: nil)}
-    context.order.phone ||= context.user.phone
-
     if context.user.save
+      context.order.line_items << context.cart.line_items
+      context.order.calculate_total_price
+      context.order.line_items.each {|l| l.update(cart_id: nil)}
+      context.order.phone ||= context.user.phone
+
       context.order.reload
     else
       context.fail!(errors: context.user.errors.messages)

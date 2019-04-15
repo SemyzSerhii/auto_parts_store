@@ -22,11 +22,12 @@ class Cart extends Component {
         this.changeQuantity = this.changeQuantity.bind(this)
     }
 
+    headerCart() {
+        return localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
+    }
+
     deleteProduct(id) {
-        API.delete(`line_items/${id}`, {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+        API.delete(`line_items/${id}`, {headers: this.headerCart()})
             .then(function () {
                 window.location.reload()
             })
@@ -37,11 +38,7 @@ class Cart extends Component {
         if (new_quantity === 0) {
             this.deleteProduct(id)
         } else {
-            API.put(`line_items/${id}`,
-                {
-                    quantity: new_quantity,
-                    cart_id: localStorage.getItem('cart_id')
-                })
+            API.put(`line_items/${id}`, {quantity: new_quantity}, {headers: this.headerCart()})
                 .then(function () {
                     window.location.reload()
                 })
@@ -49,28 +46,22 @@ class Cart extends Component {
     }
 
     cleanCart() {
-        API.delete('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+        API.delete('cart', {headers: this.headerCart()})
             .then(function () {
-                localStorage.removeItem('cart_id')
+                localStorage.removeItem('cart_token')
                 window.location.reload()
             })
     }
 
     componentWillMount() {
-        API.get('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+        API.get('cart', {headers: this.headerCart()})
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        cart: response.data,
+                        cart: response.data.line_items,
                         responseStatus: 'true'
                     })
-                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 } else {
                     this.setState({ responseStatus: 'null' })
                 }
@@ -87,7 +78,7 @@ class Cart extends Component {
 
     render() {
         let sum = 0
-        let items = !this.state.cart.id ? this.state.cart.length : 0
+        let items = this.state.cart.length
         for (let i = 0; i < items; i++) {
             sum += this.state.cart[i.toString()].quantity * this.state.cart[i.toString()].product.price
         }
@@ -97,7 +88,7 @@ class Cart extends Component {
                     switch (this.state.responseStatus) {
                         case 'true':
                             return <div className='cart'><ReactTable
-                                data={!this.state.cart.id ? this.state.cart : []}
+                                data={this.state.cart}
                                 columns={[
                                     {
                                         Header: 'Назва',

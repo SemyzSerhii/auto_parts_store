@@ -4,7 +4,6 @@ import classNames from 'classnames/bind'
 import update from 'immutability-helper'
 import $ from 'jquery'
 import {EMAIL_VALIDATION, PHONE_VALIDATION, URL_API} from '../constants'
-import API from "../api";
 
 class CreateOrder extends Component {
     constructor(props) {
@@ -22,7 +21,6 @@ class CreateOrder extends Component {
                 address: '',
                 phone: ''
             },
-            user: {},
             success: false
         }
 
@@ -32,28 +30,6 @@ class CreateOrder extends Component {
         this.createOrder = this.createOrder.bind(this)
         this.resetData = this.resetData.bind(this)
         this.validationForm = this.validationForm.bind(this)
-        this.getReq = this.getReq.bind(this)
-    }
-
-    componentWillMount() {
-        if (localStorage.getItem('auth_token')) {
-            API.get(`users`, {
-                headers: {'Authorization': localStorage.getItem('auth_token')}
-            })
-                .then(function (response) {
-                    if (response.data) {
-                        this.setState({
-                            user: response.data
-                        })
-                    }
-                }.bind(this), function (error) {
-                    if (error.response.status === 404) {
-                        this.setState({
-                            user: {}
-                        })
-                    }
-                }.bind(this))
-        }
     }
 
     dataChange({target: {value, name}}) {
@@ -112,7 +88,7 @@ class CreateOrder extends Component {
         if (this.state.order.address.length >= 6) {
             error_address = ''
         } else {
-            error_address = 'Введіть буль ласка повну адресу доставки.'
+            error_address = 'Введіть будь ласка повну адресу доставки.'
             error++
         }
 
@@ -130,9 +106,7 @@ class CreateOrder extends Component {
 
     createOrder(order) {
         const request = this.getReq(order)
-
-        const headers = this.state.user.name ? {'Authorization': localStorage.getItem('auth_token')} : {}
-
+        const headers = this.getHeaders()
         $.ajax({
             url: `${URL_API}/orders`,
             type: 'POST',
@@ -152,14 +126,19 @@ class CreateOrder extends Component {
         })
     }
 
+    getHeaders() {
+        let headers = {}
+        if (localStorage.getItem('auth_token')) headers['Authorization'] = localStorage.getItem('auth_token')
+        if (localStorage.getItem('cart_token')) headers['Cart'] = localStorage.getItem('cart_token')
+        return headers
+    }
+
     getReq(order) {
         if (localStorage.getItem('auth_token')) {
             return {
                 order: {
-                    address: order.address,
-                    phone: this.state.user.phone
-                },
-                cart_id: localStorage.getItem('cart_id')
+                    address: order.address
+                }
             }
         } else {
             return {
@@ -170,20 +149,22 @@ class CreateOrder extends Component {
                 user: {
                     name: order.name,
                     email: order.email
-                },
-                cart_id: localStorage.getItem('cart_id')
+                }
             }
         }
     }
 
     validationForm(error) {
+        let auth_error = error.responseJSON.messages.exception ? 'Ввійдіть будь ласка в свій акуан і повторіть спробу' : ''
+        let address_error = error.responseJSON.messages.orders ? 'Введіть будь ласка повну адресу доставки.' : ''
         if(error.responseJSON) {
             this.setState({
                 errors: {
-                    name: error.responseJSON.name,
-                    email: error.responseJSON.email,
-                    phone:  error.responseJSON.phone,
-                    address: error.responseJSON.address
+                    name: error.responseJSON.messages.name,
+                    email: error.responseJSON.messages.email,
+                    phone:  error.responseJSON.messages.phone,
+                    address: error.responseJSON.messages.address || address_error,
+                    other_error: auth_error
                 }
             })
         } else {
@@ -209,56 +190,55 @@ class CreateOrder extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <form className='order-form'>
-                    {!localStorage.getItem('auth_token') ? (
-                        <div>
-                            <div className='form-group'>
-                                <input
-                                    className={classNames('form-control',
-                                        `${this.state.errors.name ? 'error' : ''}`)}
-                                    name='name'
-                                    type='text'
-                                    placeholder='Name'
-                                    value={this.state.order.name}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.name}
-                                </div>
-                            </div>
-                            <div className='form-group'>
-                                <input
-                                    className={classNames('form-control',
-                                        `${this.state.errors.email ? 'error' : ''}`)}
-                                    name='email'
-                                    placeholder='Email'
-                                    value={this.state.order.email}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.email}
-                                </div>
-                            </div>
-
-                            <div className='form-group'>
-                                <label htmlFor='phone'>+380</label>
-                                <input
-                                    className={classNames('form-control', 'phone',
-                                        `${this.state.errors.phone ? 'error' : ''}`)}
-                                    name='phone'
-                                    placeholder='Phone'
-                                    value={this.state.order.phone}
-                                    onChange={this.dataChange}
-                                />
-                                <div className='text-danger'>
-                                    {this.state.errors.phone}
-                                </div>
+        if (!this.state.success) {
+            return (<form className='order-form'>
+                {!localStorage.getItem('auth_token') ? (
+                    <div>
+                        <div className='form-group'>
+                            <input
+                                className={classNames('form-control',
+                                    `${this.state.errors.name ? 'error' : ''}`)}
+                                name='name'
+                                type='text'
+                                placeholder='Name'
+                                value={this.state.order.name}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.name}
                             </div>
                         </div>
-                    ) : ('')}
-                    <div className='form-group'>
+                        <div className='form-group'>
+                            <input
+                                className={classNames('form-control',
+                                    `${this.state.errors.email ? 'error' : ''}`)}
+                                name='email'
+                                placeholder='Email'
+                                value={this.state.order.email}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.email}
+                            </div>
+                        </div>
+
+                        <div className='form-group phone'>
+                            <label htmlFor='phone'>+380</label>
+                            <input
+                                className={classNames('form-control',
+                                    `${this.state.errors.phone ? 'error' : ''}`)}
+                                name='phone'
+                                placeholder='Phone'
+                                value={this.state.order.phone}
+                                onChange={this.dataChange}
+                            />
+                            <div className='text-danger'>
+                                {this.state.errors.phone}
+                            </div>
+                        </div>
+                    </div>
+                ) : ('')}
+                <div className='form-group'>
                         <textarea
                             className={classNames('form-control',
                                 `${this.state.errors.address ? 'error' : ''}`)}
@@ -267,31 +247,26 @@ class CreateOrder extends Component {
                             value={this.state.order.address}
                             onChange={this.dataChange}
                         />
-                        <div className='text-danger'>
-                            {this.state.errors.address}
-                        </div>
-                        <div className='text-danger'>
-                            {this.state.errors.other_error}
-                        </div>
+                    <div className='text-danger'>
+                        {this.state.errors.address}
                     </div>
+                    <div className='text-danger'>
+                        {this.state.errors.other_error}
+                    </div>
+                </div>
 
-                    <div className='form-group text-center'>
-                        <input
-                            className='btn btn-primary'
-                            type='submit'
-                            value='Оформити замолення'
-                            onClick={this.handleSubmit}
-                        />
-                        <div className='text-success'>
-                            {this.state.success ?
-                                    'Замовлення оформлено, даталі на Вашому email!' :
-                                ''
-                            }
-                        </div>
-                    </div>
-                </form>
-            </div>
-        )
+                <div className='form-group text-center'>
+                    <input
+                        className='btn btn-primary'
+                        type='submit'
+                        value='Оформити замолення'
+                        onClick={this.handleSubmit}
+                    />
+                </div>
+            </form>)
+        } else {
+            return <div className='text-success'>Замовлення оформлено, даталі на Вашому email!</div>
+        }
     }
 }
 

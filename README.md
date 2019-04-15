@@ -27,6 +27,8 @@ NPM version 6.4.1
    * S3_REGION
    * S3_BUCKET
    * SECRET_KEY_BASE
+   * SMT_USERNAME
+   * SMTP_PASSWORD
    
 #### Database creation
 

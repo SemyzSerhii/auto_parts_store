@@ -17,9 +17,6 @@ class Menu extends Component {
             current_user: {},
             load_user: false
         }
-        this.showUserMenu = this.showUserMenu.bind(this)
-        this.showMainMenu = this.showMainMenu.bind(this)
-        this.logout = this.logout.bind(this)
     }
 
     logout() {
@@ -53,16 +50,15 @@ class Menu extends Component {
                     console.log('error ' + error)
                 }
             )
-        API.get('cart', {
-            params: {
-                cart_id: localStorage.getItem('cart_id')
-            }})
+
+        let headerCart = localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
+        API.get('cart', {headers: headerCart})
             .then(function (response) {
                 if(response.data) {
                     this.setState({
-                        cart: response.data
+                        cart: response.data.line_items
                     })
-                    if (response.data.id) localStorage.setItem('cart_id', response.data.id)
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
                 }
             }.bind(this), function () {
                 this.setState({
@@ -96,7 +92,7 @@ class Menu extends Component {
     render() {
         return (
             <div className='menu'>
-                <a href='/' title='Auto parts store' className='header-img logo'>
+                <a href='/' title='Auto parts store' className='logo'>
                     <img src={Logo} alt='logo'/>
                 </a>
                 <div className='main-nav'>
@@ -152,7 +148,7 @@ class Menu extends Component {
                 </div>
                 <a href='/cart' className='cart-link'>
                     <img src={Cart} alt='cart'/>
-                    <span>{!this.state.cart.id ? this.state.cart.reduce(function (sum, current) {
+                    <span>{this.state.cart ? this.state.cart.reduce(function (sum, current) {
                         return sum + current.quantity
                     }, 0) : 0}</span>
                 </a>

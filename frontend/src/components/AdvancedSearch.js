@@ -1,121 +1,45 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import classNames from 'classnames/bind'
-import paginate from 'paginate-array'
-import Parser from 'html-react-parser'
-
-import API from '../api'
 import {URL_API} from '../constants'
-import noPhoto from '../images/no_picture.gif'
-import Search from 'react-search'
+import { withRouter } from 'react-router-dom'
+import paginate from 'paginate-array'
+import API from '../api'
+import noPhoto from "../images/no_picture.gif";
+import classNames from "classnames/bind";
+import Parser from "html-react-parser";
 
-class ProductsList extends Component {
+class AdvancedSearch extends Component {
     constructor(props) {
         super(props)
         this.state = {
             products: [],
+            categories: [],
+            category: '',
+            mark: '',
+            model: '',
+            year: '',
+            company: '',
             size: 12,
             page: 1,
             currPage: null,
             in_cart:[],
-            cart: [],
-            sort: ''
+            cart: []
         }
+        this.handleChange = this.handleChange.bind(this)
+        this.request = this.request.bind(this)
         this.previousPage = this.previousPage.bind(this)
         this.nextPage = this.nextPage.bind(this)
-        this.handleChange = this.handleChange.bind(this)
         this.addProduct = this.addProduct.bind(this)
-        this.orderProducts = this.orderProducts.bind(this)
     }
 
     headerCart() {
         return localStorage.getItem('cart_token') ? {'Cart': localStorage.getItem('cart_token')} : {}
     }
 
-    componentWillMount() {
-        let path
-        if (this.props.location.pathname.includes('/categories/')) {
-            path = `${URL_API}/products/categories/${this.props.match.params.id}`
-        } else {
-            path = `${URL_API}/products`
-        }
-        fetch(path)
-            .then(response => response.json())
-            .then(products => {
-                const { page, size } = this.state
-
-                const currPage = paginate(products, page, size)
-
-                this.setState({
-                    ...this.state,
-                    products,
-                    currPage
-                })
-            })
-
-        API.get('cart', {headers: this.headerCart()})
-            .then(function (response) {
-                if(response.data) {
-                    this.setState({
-                        cart: response.data.line_items
-                    })
-                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
-                }
-            }.bind(this), function () {
-                this.setState({
-                    cart: []
-                })
-            }.bind(this))
-    }
-
-    orderProducts(sort){
+    handleChange(event) {
+        this.request(event)
         this.setState({
-            sort: sort.target.value
+            [event.target.name]: event.target.value
         })
-        let path
-        if (sort.target.value) {
-            if (this.props.location.pathname.includes('/categories/')) {
-                path = `${URL_API}/products/categories/${this.props.match.params.id}/sort/${sort.target.value}`
-            } else {
-                path = `${URL_API}/sort/${sort.target.value}`
-            }
-
-            fetch(path)
-                .then(response => response.json())
-                .then(products => {
-                    const { page, size } = this.state
-
-                    const currPage = paginate(products, page, size)
-
-                    this.setState({
-                        ...this.state,
-                        products,
-                        currPage
-                    })
-                })
-        }
-    }
-
-    getItemsAsync(searchValue) {
-        let path
-        if (this.props.location.pathname.includes('/categories/')) {
-            path = `${URL_API}/products/categories/${this.props.match.params.id}?search=${searchValue}`
-        } else {
-            path = `${URL_API}/products?search=${searchValue}`
-        }
-
-        fetch(path).then(response => response.json())
-            .then(products => {
-                const { page, size } = this.state
-
-                const currPage = paginate(products, page, size)
-
-                this.setState({
-                    ...this.state,
-                    products,
-                    currPage
-                })
-            })
     }
 
     previousPage() {
@@ -143,20 +67,53 @@ class ProductsList extends Component {
         }
     }
 
-    handleChange(e) {
-        const { value } = e.target
-        const { products } = this.state
+    request(event) {
+        let path
+        let search = event.target.name === 'category' ? '' : `?search=${event.target.value}`
+        let path_category = ((event.target.name === 'category' ? event.target.value : false) || this.state.category)
+        if (path_category) {
+            path = `${URL_API}/products/categories/${path_category}`
+        } else {
+            path = `${URL_API}/products`
+        }
+        fetch(`${path}${search} ${this.state.mark} ${this.state.company} ${this.state.model} ${this.state.year}`)
+            .then(response => response.json())
+            .then(products => {
+                const {page, size} = this.state
 
-        const newSize = +value
-        const newPage = 1
-        const newCurrPage = paginate(products, newPage, newSize)
+                const currPage = paginate(products, page, size)
 
-        this.setState({
-            ...this.state,
-            size: newSize,
-            page: newPage,
-            currPage: newCurrPage
-        })
+                this.setState({
+                    ...this.state,
+                    products,
+                    currPage
+                })
+            })
+    }
+
+    componentDidMount() {
+        API.get('categories')
+            .then(function (response) {
+                if(response.data) {
+                    this.setState({
+                        categories: response.data
+                    })
+                }
+            }.bind(this))
+
+        API.get('cart', {headers: this.headerCart()})
+            .then(function (response) {
+                if(response.data) {
+                    this.setState({
+                        cart: response.data.line_items
+                    })
+                    if (response.data.cart_token) localStorage.setItem('cart_token', response.data.cart_token)
+                }
+            }.bind(this), function () {
+                this.setState({
+                    cart: []
+                })
+            }.bind(this))
     }
 
     addProduct(id) {
@@ -180,48 +137,71 @@ class ProductsList extends Component {
     }
 
     render() {
+        const marks = [...new Set(this.state.products.map(item => item.brand))]
+        const models = [...new Set(this.state.products.map(item => item.model))]
+        const companies = [...new Set(this.state.products.map(item => item.company))]
+        const years = [...new Set(this.state.products.map(item => item.year))]
         const { page, size, currPage } = this.state
         var count = 0
-
+        let key = 0
         return (
-            <div className='products'>
-                <div className='row sort'>
-                    <div className='form-group col-auto'>
-                        <label htmlFor='order'>Сортувати: </label>
-                        <select className='form-control' id='order'
-                                value={this.state.sort} onChange={this.orderProducts}>
-                            <option value='hide'></option>
-                            <option value='price'>Ціна за зростанням</option>
-                            <option value='price_desc'>Ціна за спаданням</option>
-                            <option value='name'>За назвою: A->Z</option>
-                            <option value='name_desc'>За назвою: Z->A</option>
-                        </select>
-                    </div>
-
-                    <div className='form-group col-auto'>
-                        <label htmlFor='size'>Кількість: </label>
-                        <select className='form-control' name='size' id='size' onChange={this.handleChange}>
-                            <option value='12'>12</option>
-                            <option value='28'>28</option>
-                            <option value='40'>40</option>
-                        </select>
-                    </div>
+            <div>
+            <form>
+                <div className='form-group col-auto'>
+                    <label htmlFor='category'>Категорія: </label>
+                    <select value={this.state.category}
+                            className='form-control' name='category' id='category' onChange={this.handleChange}>
+                        <option></option>
+                        {this.state.categories.map(function (category) {
+                            return category.ancestry ? (
+                                <option value={category.id} key={category.id}>- {category.title}</option>
+                            ) : (
+                                <option value={category.id} key={category.id}>{category.title}</option>
+                            )
+                        })}
+                    </select>
                 </div>
-
-                <div className='row search'>
-                    <div className='form-group col-auto'>
-                        <div className='form-control sample-search'>
-                            <Search items={this.state.products}
-                                    multiple={true}
-                                    getItemsAsync={this.getItemsAsync.bind(this)}
-                                    placeholder='Пошук'/>
-                        </div>
-                    </div>
-                    <div className='form-group col-auto'>
-                        <a href='/search' className='search-link'>Розширений пошук</a>
-                    </div>
+                <div className='form-group col-auto'>
+                    <label htmlFor='mark'>Марка: </label>
+                    <select value={this.state.mark}
+                            className='form-control' name='mark' id='mark' onChange={this.handleChange}>
+                        <option value='hide'>{this.state.mark}</option>
+                        {marks.map(function (mark) {
+                            return <option value={mark} key={key++}>{mark}</option>
+                        })}
+                    </select>
                 </div>
-
+                <div className='form-group col-auto'>
+                    <label htmlFor='model'>Модель: </label>
+                    <select value={this.state.model}
+                            className='form-control' name='model' id='model' onChange={this.handleChange}>
+                        <option>{this.state.model}</option>
+                        {models.map(function (model) {
+                            return <option value={model} key={key++}>{model}</option>
+                        })}
+                    </select>
+                </div>
+                <div className='form-group col-auto'>
+                    <label htmlFor='year'>Рік: </label>
+                    <select value={this.state.year}
+                            className='form-control' name='year' id='year' onChange={this.handleChange}>
+                        <option>{this.state.year}</option>
+                        {years.map(function (year) {
+                            return <option value={year} key={key++}>{year}</option>
+                        })}
+                    </select>
+                </div>
+                <div className='form-group col-auto'>
+                    <label htmlFor='company'>Компанія: </label>
+                    <select value={this.state.company}
+                            className='form-control' name='company' id='company' onChange={this.handleChange}>
+                        <option>{this.state.company}</option>
+                        {companies.map(function (company) {
+                            return <option value={company} key={key++}>{company}</option>
+                        })}
+                    </select>
+                </div>
+            </form>
                 {currPage &&
                 <div className='row'>
                     {currPage.data.map(product => {
@@ -301,24 +281,23 @@ class ProductsList extends Component {
                         )
                     })}
                 </div>
-                } {currPage ?
+                }{currPage ?
                     (currPage.data.length === size || page !== 1 ? (
-                        <ul className='pagination justify-content-center'>
-                            <li className={classNames('page-item', `${page <= 1 ? 'disabled' : ''}`)}>
-                                <button className='page-link' onClick={this.previousPage}>Попередня</button>
-                            </li>
-                            <li className='page-item active'><p className='page-link'>{page}</p></li>
-                            <li className={classNames('page-item', `${count < size ? 'disabled' : ''}`)}>
-                                <button className='page-link' onClick={this.nextPage}>Наступна</button>
-                            </li>
-                        </ul>
+                            <ul className='pagination justify-content-center'>
+                                <li className={classNames('page-item', `${page <= 1 ? 'disabled' : ''}`)}>
+                                    <button className='page-link' onClick={this.previousPage}>Попередня</button>
+                                </li>
+                                <li className='page-item active'><p className='page-link'>{page}</p></li>
+                                <li className={classNames('page-item', `${count < size ? 'disabled' : ''}`)}>
+                                    <button className='page-link' onClick={this.nextPage}>Наступна</button>
+                                </li>
+                            </ul>
                         ) : ''
                     ) : ''
                 }
-
             </div>
         )
     }
 }
 
-export default withRouter(ProductsList)
+export default withRouter(AdvancedSearch)
