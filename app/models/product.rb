@@ -11,9 +11,11 @@ class Product < ApplicationRecord
   validates :price, presence: true, format: { with: /\A\d+(?:\.\d{0,2})?\z/ },
             numericality: { greater_than_or_equal_to: 0.01 }
   validates :in_stock, inclusion: { in: [ true, false ] }
+  validates :year, format: { with: /\A\d+\z/, message: 'Number only' }
 
   def self.search(search)
-    Product.publish.where('name ILIKE :search OR model ILIKE :search OR brand ILIKE :search OR company ILIKE :search',
+    Product.publish.where('name ILIKE :search OR model ILIKE :search OR brand ILIKE :search
+OR company ILIKE :search OR year LIKE :search',
                   search: "%#{search}%")
   end
 

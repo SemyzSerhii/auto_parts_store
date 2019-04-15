@@ -3,13 +3,11 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import paginate from 'paginate-array'
 import Parser from 'html-react-parser'
-import $ from 'jquery'
 
 import API from '../api'
 import {URL_API} from '../constants'
 import noPhoto from '../images/no_picture.gif'
 import Search from 'react-search'
-import AdvancedSearch from './AdvancedSearch'
 
 class ProductsList extends Component {
     constructor(props) {
@@ -181,12 +179,6 @@ class ProductsList extends Component {
                 })))
     }
 
-    showAdvancedSearch() {
-        $('.search').hide()
-        $('.sort').hide()
-        $('.advanced-search').show()
-    }
-
     render() {
         const { page, size, currPage } = this.state
         var count = 0
@@ -226,10 +218,9 @@ class ProductsList extends Component {
                         </div>
                     </div>
                     <div className='form-group col-auto'>
-                        <button onClick={this.showAdvancedSearch} className='btn btn-link'>Розширений пошук</button>
+                        <a href='/search' className='search-link'>Розширений пошук</a>
                     </div>
                 </div>
-                <div className='advanced-search'><AdvancedSearch/></div>
 
                 {currPage &&
                 <div className='row'>
