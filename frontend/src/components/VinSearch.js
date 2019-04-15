@@ -55,7 +55,6 @@ class VinSearch extends Component {
                 type: 'GET',
                 data:  {'vin_code': this.state.vin},
                 headers: {'Content-Type': 'multipart/form-data' },
-                vin_code: this.state.vin,
                 context: this,
                 success: function (res) {
                     this.setState({
@@ -81,7 +80,7 @@ class VinSearch extends Component {
     render() {
         return (
             <div>
-                <h1 className="h3 mb-3 font-weight-normal">Пошук vin коду</h1>
+                <h1 className="h3 mb-3 font-weight-normal">Пошук по VIN-коду</h1>
                 <form className='input-group mb-3'>
                     <input
                         className='required form-control'
