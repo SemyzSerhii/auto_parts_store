@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom'
 import classNames from "classnames/bind"
 import { URL_API } from '../constants'
 import $ from 'jquery'
-import noPhoto from "../images/no_picture.gif";
-import Parser from "html-react-parser";
+import noPhoto from '../images/no_picture.gif'
+import Parser from 'html-react-parser'
 
 class VinSearch extends Component {
     constructor(props) {
@@ -31,7 +31,7 @@ class VinSearch extends Component {
         if (this.state.vin.length === 17) {
             error_vin = ''
         } else {
-            error_vin = 'Довжина не менше 17 симовлів.'
+            error_vin = 'Довжина 17 симовлів.'
             error++
         }
 
@@ -53,17 +53,16 @@ class VinSearch extends Component {
             $.ajax({
                 url: `${URL_API}/products`,
                 type: 'GET',
-                data: {vin_code: this.state.vin},
-                dataType: 'json',
+                data:  {'vin_code': this.state.vin},
+                headers: {'Content-Type': 'multipart/form-data' },
+                vin_code: this.state.vin,
                 context: this,
                 success: function (res) {
-                    if (res.data) {
-                        this.setState({
-                            error: false,
-                            success: true,
-                            products: res.data
-                        })
-                    }
+                    this.setState({
+                        error: false,
+                        success: true,
+                        products: res
+                    })
                 },
                 error: function (error) {
                     this.setState({
@@ -82,22 +81,17 @@ class VinSearch extends Component {
     render() {
         return (
             <div>
-                <form>
-                    <div className='form-group col-auto'>
-                        <input
-                            className={classNames('required', 'form-control',
-                                `${this.state.error ? 'error' : ''}`)}
-                            name='vin'
-                            placeholder='vin-code'
-                            type='text'
-                            value={this.state.vin}
-                            onChange={this.dataChange}
-                        />
-                        <div className='text-danger'>
-                            {this.state.error}
-                        </div>
-                    </div>
-                    <div className='form-group text-center'>
+                <h1 className="h3 mb-3 font-weight-normal">Пошук vin коду</h1>
+                <form className='input-group mb-3'>
+                    <input
+                        className='required form-control'
+                        name='vin_code'
+                        placeholder='vin-code'
+                        type='text'
+                        value={this.state.vin}
+                        onChange={this.dataChange}
+                    />
+                    <div className='input-group-append'>
                         <input
                             className='btn btn-primary'
                             type='submit'
@@ -106,9 +100,12 @@ class VinSearch extends Component {
                         />
                     </div>
                 </form>
+                <div className='text-danger'>
+                    {this.state.error}
+                </div>
+                {!this.state.products.length ? 'Нічого не знайдено' : (
                 <div className='row'>
-                    {!this.state.products.length ? 'Нічого не знайдено' : (
-                    this.state.products.map(product => {
+                    {this.state.products.map(product => {
                         var rating = Math.round(product.rating)
                         return (
                             <div className='col-md-4 col-sm-6' key={product.id}>
@@ -165,8 +162,9 @@ class VinSearch extends Component {
                                 </div>
                             </div>
                         )
-                    }))}
+                    })}
                 </div>
+                )}
             </div>
         )
     }
