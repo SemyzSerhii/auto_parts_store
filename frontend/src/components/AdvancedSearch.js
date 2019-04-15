@@ -70,13 +70,18 @@ class AdvancedSearch extends Component {
     request(event) {
         let path
         let search = event.target.name === 'category' ? '' : `?search=${event.target.value}`
+        if(this.state.mark) search += `+${this.state.mark}`
+        if(this.state.model) search += `+${this.state.model}`
+        if(this.state.year) search += `+${this.state.year}`
+        if(this.state.company) search += `+${this.state.company}`
+
         let path_category = ((event.target.name === 'category' ? event.target.value : false) || this.state.category)
         if (path_category) {
             path = `${URL_API}/products/categories/${path_category}`
         } else {
             path = `${URL_API}/products`
         }
-        fetch(`${path}${search} ${this.state.mark} ${this.state.company} ${this.state.model} ${this.state.year}`)
+        fetch(`${path}${search}`)
             .then(response => response.json())
             .then(products => {
                 const {page, size} = this.state
