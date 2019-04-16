@@ -179,16 +179,15 @@ class CreateOrder extends Component {
     }
 
     validationForm(error) {
-        let auth_error = error.responseJSON.messages.exception ? 'Ввійдіть будь ласка в свій акуан і повторіть спробу' : ''
-        let address_error = error.responseJSON.messages.orders ? 'Введіть будь ласка повну адресу доставки.' : ''
         if(error.responseJSON) {
+            let address_error = error.responseJSON.orders ? 'Введіть будь ласка повну адресу доставки.' : ''
             this.setState({
                 errors: {
-                    name: error.responseJSON.messages.name,
-                    email: error.responseJSON.messages.email,
-                    phone:  error.responseJSON.messages.phone,
-                    address: error.responseJSON.messages.address || address_error,
-                    other_error: auth_error
+                    name: error.responseJSON.name,
+                    email: error.responseJSON.email,
+                    phone:  error.responseJSON.phone,
+                    address: error.responseJSON.address || address_error,
+                    other_error: error.responseJSON.messages || error.responseJSON.error
                 }
             })
         } else {
@@ -198,7 +197,6 @@ class CreateOrder extends Component {
                 }
             })
         }
-
     }
 
     resetData() {
@@ -256,9 +254,10 @@ class CreateOrder extends Component {
                                 value={this.state.order.phone}
                                 onChange={this.dataChange}
                             />
-                            <div className='text-danger'>
-                                {this.state.errors.phone}
-                            </div>
+
+                        </div>
+                        <div className='text-danger'>
+                            {this.state.errors.phone}
                         </div>
                     </div>
                 ) : ('')}
