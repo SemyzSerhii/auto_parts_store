@@ -3,9 +3,9 @@ import {URL_API} from '../constants'
 import { withRouter } from 'react-router-dom'
 import paginate from 'paginate-array'
 import API from '../api'
-import noPhoto from "../images/no_picture.gif";
-import classNames from "classnames/bind";
-import Parser from "html-react-parser";
+import noPhoto from '../images/no_picture.gif'
+import classNames from 'classnames/bind'
+import Parser from 'html-react-parser'
 
 class AdvancedSearch extends Component {
     constructor(props) {

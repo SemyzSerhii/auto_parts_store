@@ -1,0 +1,31 @@
+{
+  "presets": [
+    "@babel/env",
+    "@babel/preset-react"
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        [
+          "emotion",
+          {
+            "hoist": true
+          }
+        ]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "emotion",
+          {
+            "sourceMap": true,
+            "autoLabel": true
+          }
+        ],
+        "transform-class-properties",
+        "transform-react-jsx"
+      ]
+    }
+  }
+}

@@ -1,9 +1,16 @@
 {
-  "name": "frontend",
+  "name": "auto_parts_store_frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "^4.0.2",
     "axios": "^0.18.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-emotion": "^10.0.9",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
@@ -14,6 +21,8 @@
     "moment": "^2.24.0",
     "paginate-array": "^2.1.0",
     "popper.js": "^1.14.7",
+    "postcss-modules-extract-imports": "^2.0.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.2",
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.8.2",
@@ -24,24 +33,12 @@
     "react-scripts": "^2.1.8",
     "react-search": "^2.1.0",
     "react-table": "^6.9.2",
-    "ts-pnp": "^1.0.1"
+    "react_ujs": "^2.5.0",
+    "ts-pnp": "^1.0.1",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
-    "raw-loader": "^2.0.0"
+    "webpack-dev-server": "^3.3.1"
   }
 }

@@ -15,6 +15,8 @@ NPM version 6.4.1
   Clone repository. 
   
         $ bundle
+        $ npm install
+        $ yarn install
 
   Create .env with: 
    * DB_HOST=localhost
@@ -50,8 +52,8 @@ NPM version 6.4.1
 
 * Active admin http://localhost:3000/admin
 
-### Frontend
+### Frontend 
 
-        $ cd frontend
-        $ npm install
-        $ npm start
+        $ ./bin/webpack-dev-server
+
+http://localhost:3001

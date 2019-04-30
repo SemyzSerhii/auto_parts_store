@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import './style/App.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import '../node_modules/font-awesome/css/font-awesome.min.css'
+import 'font-awesome/css/font-awesome.min.css'
 
 import ProductsList from './components/ProductsList'
 import Page from './components/Page'
