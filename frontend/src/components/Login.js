@@ -30,24 +30,44 @@ class Login extends Component {
             },
             errors: {
                 email: '',
-                password: ''
+                password: '',
+                forgot: ''
             },
+            forgot: '',
             success: false,
-            modalIsOpen: false
+            success_forgot: false,
+            modalIsOpen: false,
+            modalForgotIsOpen: false
         }
         this.openModal = this.openModal.bind(this)
+        this.openForgot = this.openForgot.bind(this)
         this.closeModal = this.closeModal.bind(this)
         this.dataChange = this.dataChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.checkField = this.checkField.bind(this)
+        this.handleSubmitForgot = this.handleSubmitForgot.bind(this)
+        this.dataChangeForgot = this.dataChangeForgot.bind(this)
     }
 
     openModal() {
-        this.setState({modalIsOpen: true})
+        this.setState({
+            modalIsOpen: true,
+            modalForgotIsOpen: false
+        })
+    }
+
+    openForgot() {
+        this.setState({
+            modalForgotIsOpen: true,
+            modalIsOpen: false,
+        })
     }
 
     closeModal() {
-        this.setState({modalIsOpen: false})
+        this.setState({
+            modalIsOpen: false,
+            modalForgotIsOpen: false,
+        })
     }
 
     dataChange({target: {value, name}}) {
@@ -56,6 +76,10 @@ class Login extends Component {
                 [name]: {$set: value}
             })
         })
+    }
+
+    dataChangeForgot(event) {
+        this.setState({forgot: event.target.value})
     }
 
     checkField() {
@@ -143,6 +167,52 @@ class Login extends Component {
         }
     }
 
+    handleSubmitForgot(event) {
+        event.preventDefault()
+        this.setState({
+            forgot: this.state.forgot,
+            success_forgot: false
+        })
+        if (EMAIL_VALIDATION.test(this.state.forgot)) {
+            this.state.errors.forgot = ''
+        } else {
+            this.state.errors.forgot = 'Приклад, example@gmail.com'
+        }
+
+        if (!this.state.errors.forgot) {
+            $.ajax({
+                url: `${URL_API}/reset_passwords/forgot`,
+                type: 'POST',
+                data: {email: this.state.forgot},
+                dataType: 'json',
+                context: this,
+                success: function (res) {
+                    if (res) {
+                        localStorage.setItem('auth_token', res.token)
+                        this.setState({
+                            errors: {
+                                forgot: false
+                            },
+                            success_forgot: true
+                        })
+                    }
+                },
+                error: function (error) {
+                    this.setState({
+                        errors: {
+                            forgot: error.responseJSON.error || error.responseJSON.messages
+                        },
+                        success_forgot: false
+                    })
+                }
+            })
+            // resetting data
+            this.setState({
+                forgot: ''
+            })
+        }
+    }
+
     render() {
         return (
             <div>
@@ -204,6 +274,59 @@ class Login extends Component {
                             />
                         </div>
                     </form>
+                    <button className='btn btn-link' onClick={this.openForgot}>
+                        Забув(ла) пароль
+                    </button>
+
+                </Modal>
+
+                <Modal
+                    isOpen={this.state.modalForgotIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel='Reset password'
+                >
+                    <div className='modal-header'>
+                        <h2 className='modal-title'>Відновити пароль</h2>
+                        <button type='button' className='close'
+                                data-dismiss='modal' aria-label='Close'
+                                onClick={this.closeModal}>
+                            <span aria-hidden='true'>&times;</span>
+                        </button>
+                    </div>
+                    {(!this.state.success_forgot) ? (
+                        <form className='user-form'>
+                            <div className='form-group'>
+                                <input
+                                    className={classNames('required', 'form-control',
+                                        `${this.state.errors.forgot ? 'error' : ''}`)}
+                                    name='forgot'
+                                    placeholder='Email'
+                                    value={this.state.forgot}
+                                    onChange={this.dataChangeForgot}
+                                />
+                                <div className='text-danger'>
+                                    {this.state.errors.forgot}
+                                </div>
+                            </div>
+
+                            <div className='form-group text-center'>
+                                <input
+                                    className='btn btn-primary'
+                                    type='submit'
+                                    value='Відправити'
+                                    onClick={this.handleSubmitForgot}
+                                />
+                            </div>
+                            <button className='btn btn-link' onClick={this.openModal}>
+                                Назад
+                            </button>
+                        </form>
+                    ) : (
+                        <p className='text-success'>
+                            Інструкція по відновленню паролю відправлена на електронну скриньку!
+                        </p>
+                    )}
 
                 </Modal>
             </div>
